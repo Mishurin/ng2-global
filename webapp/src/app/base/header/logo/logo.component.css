@@ -1,0 +1,12 @@
+.logo {
+    text-decoration: none;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    float: left;
+}
+img {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    vertical-align: middle;
+}
