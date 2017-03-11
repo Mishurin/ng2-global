@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid darkslategray;
+    border-radius: 10px;
+    background: rgba(100, 100, 100, .1);
+}
+.attributes {
+    float: left;
+    width: calc(100%-150px);
+}
+.action-group {
+    width: 150px;
+    float: right;
+    text-align: right;
+}
+
+button {
+    width: 150px;
+}

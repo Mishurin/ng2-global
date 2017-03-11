@@ -9,7 +9,8 @@ import { BaseModule } from './base/index';
 import { LoginComponent } from './login/login.component';
 import { CoursesComponent } from './courses/courses.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
-import { ToolboxComponent } from './courses/toolbox.component'
+import { ToolboxComponent } from './courses/toolbox.component';
+import { CourseItemComponent } from './courses/course-item.component'
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { ToolboxComponent } from './courses/toolbox.component'
         LoginComponent,
         CoursesComponent,
         CourseDetailsComponent,
-        ToolboxComponent
+        ToolboxComponent,
+        CourseItemComponent
     ],
     imports: [
         BrowserModule,

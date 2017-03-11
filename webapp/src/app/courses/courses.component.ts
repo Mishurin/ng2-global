@@ -18,4 +18,9 @@ export class CoursesComponent implements OnInit {
         this.courses = COURSES;
     }
 
+    onDeleteCourse(course: CourseItem) {
+        let index = this.courses.indexOf(course);
+        this.courses.splice(index, 1);
+    }
+
 }

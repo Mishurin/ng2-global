@@ -1,4 +1,6 @@
 <app-toolbox></app-toolbox>
-<p>
-  courses works!
-</p>
+
+<div class="courses-container">
+    <app-course-item *ngFor="let course of courses" [course]="course" (deleteCourse)="onDeleteCourse($event)">
+    </app-course-item>
+</div>

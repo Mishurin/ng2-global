@@ -1,7 +1,7 @@
 :host {
   display: block;
-  background-color: cadetblue; 
-  border-radius: 100px;
+  background-color: rgba(100, 200, 100, 0.5);
+  border-radius: 20px;
 }
 .user-controls {
     float: right;

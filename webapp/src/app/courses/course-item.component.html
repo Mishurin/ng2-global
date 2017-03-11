@@ -1,0 +1,14 @@
+<div class="clearfix">
+    <div class="attributes">
+    <span class="type">Type: {{ course.type }}</span> |
+    <span class="duration">{{ course.duration }}</span> |
+    <span class="date">{{ course.dateFormatted }}</span>
+    <p>
+        {{ course.description }}
+    </p>
+    </div>
+    <div class="action-group">
+        <button type="button">Edit course</button>
+        <button type="button" (click)="delete()">Delete</button>
+    </div>
+</div>
