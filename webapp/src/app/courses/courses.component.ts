@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CourseItem } from '../common/entities/course-item.int';
-import { COURSES } from '../common/entities/course-list';
+import { CoursesListMock } from '../common/entities/course-list.mock';
+import { CoureItemMock }  from '../common/entities/course-item.mock';
 
 @Component({
     selector: 'app-courses',
@@ -15,12 +16,14 @@ export class CoursesComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        this.courses = COURSES;
+        this.courses = CoursesListMock;
     }
 
     onDeleteCourse(course: CourseItem) {
-        let index = this.courses.indexOf(course);
+        let index = this.courses.indexOf(CoureItemMock);
+        console.log(course.id);
         this.courses.splice(index, 1);
+
     }
 
 }

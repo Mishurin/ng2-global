@@ -6,15 +6,10 @@ import { CoursesComponent } from './courses.component';
 import { ToolboxComponent } from './toolbox.component';
 import { CourseItemComponent } from './course-item.component';
 
-import { CourseItem } from '../common/entities/course-item.int';
 
-let course: CourseItem = {
-    id: 1,
-    type: 'video',
-    date: new Date(),
-    duration: 10,
-    description: "Description..."
-};
+import { CourseItem } from '../common/entities/course-item.int';
+import { CoursesListMock } from '../common/entities/course-list.mock';
+
 
 @Component({
     selector: 'app-course-item'
@@ -51,4 +46,18 @@ describe('CoursesComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should create', () => {
+        let itemToDelete = CoursesListMock[0];
+        let itemNumberBefore = CoursesListMock.length;
+        let consoleLog = spyOn(console, 'log');
+        component.onDeleteCourse(itemToDelete);
+        let itemNumberAfter = CoursesListMock.length;
+
+        expect(itemNumberAfter).toBeTruthy(itemNumberBefore - 1);
+        expect(CoursesListMock.indexOf(itemToDelete)).toBe(0);
+        expect(consoleLog).toHaveBeenCalledWith(itemToDelete.id);
+        
+    });
+
 });

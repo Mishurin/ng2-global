@@ -4,18 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CourseItemComponent } from './course-item.component';
 import { ToolboxComponent } from './toolbox.component';
 
-import { CourseItem } from '../common/entities/course-item.int';
+import { CoureItemMock } from '../common/entities/course-item.mock';
 
 describe('CourseItemComponent', () => {
     let component: CourseItemComponent;
     let fixture: ComponentFixture<CourseItemComponent>;
-    let course: CourseItem = {
-        id: 1,
-        type: 'video',
-        date: new Date(),
-        duration: 10,
-        description: "Description..."
-    };
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
@@ -27,7 +21,7 @@ describe('CourseItemComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(CourseItemComponent);
         component = fixture.componentInstance;
-        component.course = course;
+        component.course = CoureItemMock;
         fixture.detectChanges();
     });
 
@@ -38,7 +32,7 @@ describe('CourseItemComponent', () => {
     it('should emit delete event', (done) => {
 
         component.deleteCourse.subscribe((event) => {
-            expect(event).toBe(course);
+            expect(event).toBe(component.course);
             done();
         });
 
