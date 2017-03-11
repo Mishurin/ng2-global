@@ -8,14 +8,16 @@ import { BaseModule } from './base/index';
 
 import { LoginComponent } from './login/login.component';
 import { CoursesComponent } from './courses/courses.component';
-import { CourseDetailsComponent } from './course-details/course-details.component'
+import { CourseDetailsComponent } from './course-details/course-details.component';
+import { ToolboxComponent } from './courses/toolbox.component'
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         CoursesComponent,
-        CourseDetailsComponent
+        CourseDetailsComponent,
+        ToolboxComponent
     ],
     imports: [
         BrowserModule,

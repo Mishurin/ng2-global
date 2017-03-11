@@ -1,0 +1,7 @@
+.container {
+    min-height: 500px;
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    background: rgba(100, 200, 100, 0.5)
+}

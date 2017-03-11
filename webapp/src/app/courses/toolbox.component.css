@@ -1,0 +1,11 @@
+:host {
+    display: block;
+    padding: 10px 20px;
+    background: white;
+}
+.add-course {
+    float: right;
+}
+.search-group {
+    float: left;
+}
