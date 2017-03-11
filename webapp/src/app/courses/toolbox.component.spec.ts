@@ -19,10 +19,18 @@ describe('ToolboxComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ToolboxComponent);
         component = fixture.componentInstance;
+        component.searchValue = 'TEST';
         fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('find method shoud log searchValue', () => {
+        let consoleLog = spyOn(console, 'log');
+        component.find();
+        expect(consoleLog).toHaveBeenCalledWith('TEST');
+    });
+
 });
