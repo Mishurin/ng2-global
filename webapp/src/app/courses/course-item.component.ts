@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
+import { CourseItem } from '../common/entities/course-item.int';
+
 @Component({
     selector: 'app-course-item',
     templateUrl: './course-item.component.html',
@@ -7,9 +9,9 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 })
 export class CourseItemComponent implements OnInit {
 
-    @Input() private course;
+    @Input() course: CourseItem;
 
-    @Output() private deleteCourse = new EventEmitter(true);
+    @Output() deleteCourse = new EventEmitter(true);
 
 
     constructor() { }
