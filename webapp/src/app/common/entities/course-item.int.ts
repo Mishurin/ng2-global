@@ -1,5 +1,5 @@
 export interface CourseItem {
-    id: number
+    id?: number
     type: string
     date: Date
     duration: number
