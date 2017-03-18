@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
-import { CourseItem } from '../common/entities/course-item.int';
-import { CoursesListMock } from '../common/entities/course-list.mock';
-import { CoureItemMock }  from '../common/entities/course-item.mock';
+import { CourseItem, CoursesListMock, CoureItemMock, CoursesService } from '../common/index'
 
 @Component({
     selector: 'app-courses',
@@ -11,19 +9,18 @@ import { CoureItemMock }  from '../common/entities/course-item.mock';
 })
 export class CoursesComponent implements OnInit {
 
-    private courses: CourseItem[];
+    private courses: CourseItem[]
 
-    constructor() { }
+    constructor(private coursesSrv: CoursesService) { }
 
     ngOnInit() {
-        this.courses = CoursesListMock;
+        this.courses = this.coursesSrv.getList()
     }
 
     onDeleteCourse(course: CourseItem) {
-        let index = this.courses.indexOf(CoureItemMock);
-        console.log(course.id);
-        this.courses.splice(index, 1);
-
+        let index = this.courses.indexOf(CoureItemMock)
+        console.log(course.id)
+        this.courses.splice(index, 1)
     }
 
 }

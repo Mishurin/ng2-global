@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
 
-import { Course, CourseItem } from './index'
+import { Course, CourseItem, CoursesListMock } from './index'
 
 @Injectable()
 export class CoursesService {
 
-    public courses: Course[] = []
+    public courses: Course[] = CoursesListMock
 
     constructor() { }
 
@@ -17,15 +17,30 @@ export class CoursesService {
     }
 
     getCourseById(id: number): Course {
-        return this.courses.find(course => course.id == id)
+        return this.courses[this.getIndexById(id)]
+    }
+
+    getIndexById(id: number): number {
+        let courseIndex = null
+
+        this.courses.forEach((course, index) => {
+            if (course.id === id) {
+                courseIndex = index
+                return
+            }
+        })
+
+        return courseIndex
     }
 
     getList(): Course[] {
         return this.courses
     }
 
+    
+
     updateItem(id: number, newFields: CourseItem) {
-        let course = this.courses.find(course => course.id == id)
+        let course = this.courses[this.getIndexById(id)]
         course.type = newFields.type
         course.date = newFields.date
         course.duration = newFields.duration
@@ -33,8 +48,7 @@ export class CoursesService {
     }
 
     removeIem(id: number) {
-        let index = this.courses.indexOf(this.courses.find(course => course.id == id))
-        delete this.courses[index]
+        delete this.courses[this.getIndexById(id)]
     }
 
 }

@@ -34,6 +34,17 @@ describe('CoursesService', () => {
         expect(service.getCourseById(9999)).toBe(course)
     }))
 
+    it('should return an index by id', inject([CoursesService], (service: CoursesService) => {
+        let course = new Course(9999, 'video', new Date(), 10, "Description...")
+        service.courses.push(course)
+        let courseId = service.getIndexById(9999)
+        
+        expect(service.courses[courseId]).toBe(course)
+        
+        let nonExistentId = service.getIndexById(Number.POSITIVE_INFINITY)
+        expect(nonExistentId).toBeNull()
+    }))
+
     it('should return list of courses', inject([CoursesService], (service: CoursesService) => {
         expect(service.getList()).toBe(service.courses)
     }))
