@@ -5,14 +5,14 @@ import { Course, CourseItem, CoursesListMock } from './index'
 @Injectable()
 export class CoursesService {
 
-    public courses: Course[] = CoursesListMock
+    public courses: Course[] = [ ...CoursesListMock ]
 
     constructor() { }
 
     createCourse(course: Course) {
         // Finds max id. Should be generated on backend
         let id = Math.max.apply(Math, this.courses.map(course => course.id))
-        course.id = id === null? 0 : id + 1
+        course.id = id === null ? 0 : id + 1
         this.courses.push(course)
     }
 
@@ -37,8 +37,6 @@ export class CoursesService {
         return this.courses
     }
 
-    
-
     updateItem(id: number, newFields: CourseItem) {
         let course = this.courses[this.getIndexById(id)]
         course.type = newFields.type
@@ -47,8 +45,8 @@ export class CoursesService {
         course.description = newFields.description
     }
 
-    removeIem(id: number) {
-        delete this.courses[this.getIndexById(id)]
+    removeItem(id: number) {
+        this.courses.splice(this.getIndexById(id), 1)
     }
 
 }

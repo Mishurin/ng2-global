@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 
-import { CourseItem, CoursesListMock, CoureItemMock, CoursesService } from '../common/index'
+import { CourseItem, CoureItemMock, CoursesService } from '../common/index'
 
 @Component({
     selector: 'app-courses',
@@ -9,7 +9,7 @@ import { CourseItem, CoursesListMock, CoureItemMock, CoursesService } from '../c
 })
 export class CoursesComponent implements OnInit {
 
-    private courses: CourseItem[]
+    public courses: CourseItem[]
 
     constructor(private coursesSrv: CoursesService) { }
 
@@ -18,9 +18,7 @@ export class CoursesComponent implements OnInit {
     }
 
     onDeleteCourse(course: CourseItem) {
-        let index = this.courses.indexOf(CoureItemMock)
-        console.log(course.id)
-        this.courses.splice(index, 1)
+        this.coursesSrv.removeItem(course.id)
     }
 
 }

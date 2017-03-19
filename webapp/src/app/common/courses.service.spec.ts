@@ -78,10 +78,12 @@ describe('CoursesService', () => {
         service.courses.push(course)
 
         expect(service.courses).toContain(course)
+        let numberOfCoursesBeforeDeletion = service.courses.length
 
-        service.removeIem(courseId)
+        service.removeItem(courseId)
 
         expect(service.courses).not.toContain(course)
+        expect(service.courses.length).toBe(numberOfCoursesBeforeDeletion - 1)
 
     }))
 

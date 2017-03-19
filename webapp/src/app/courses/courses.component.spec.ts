@@ -7,19 +7,20 @@ import { ToolboxComponent } from './toolbox.component'
 import { CourseItemComponent } from './course-item.component'
 
 
-import { CourseItem, CoursesListMock, CoursesService } from '../common/index'
+import { Course, CoursesService } from '../common/index'
 
 class MockCoursesService {
-    getList() { 
+    getList(): Course[] {
         return []
     }
+    removeItem(id: number) { }
 }
 
 @Component({
     selector: 'app-course-item'
 })
 class MockCourseItemComponent {
-    @Input() course: CourseItem
+    @Input() course: Course
 }
 
 @Component({
@@ -40,11 +41,13 @@ describe('CoursesComponent', () => {
             .overrideComponent(CourseItemComponent, MockCourseItemComponent)
             .overrideComponent(ToolboxComponent, MockToolboxComponent)
             .compileComponents()
+
     }))
 
     beforeEach(() => {
         fixture = TestBed.createComponent(CoursesComponent)
         component = fixture.componentInstance
+        coursesSrv = TestBed.get(CoursesService)
         fixture.detectChanges()
     })
 
@@ -52,16 +55,26 @@ describe('CoursesComponent', () => {
         expect(component).toBeTruthy()
     })
 
-    it('should create', () => {
-        let itemToDelete = CoursesListMock[0]
-        let itemNumberBefore = CoursesListMock.length
-        let consoleLog = spyOn(console, 'log')
-        component.onDeleteCourse(itemToDelete)
-        let itemNumberAfter = CoursesListMock.length
+    it('should get list of courses on init', () => {
+        let getList = spyOn(coursesSrv, 'getList')
+        component.ngOnInit()
 
-        expect(itemNumberAfter).toBeTruthy(itemNumberBefore - 1)
-        expect(CoursesListMock.indexOf(itemToDelete)).toBe(0)
-        expect(consoleLog).toHaveBeenCalledWith(itemToDelete.id)
+        expect(getList).toHaveBeenCalled()
+    })
+
+    it('should be initialized with list of courses', () => {
+        expect(component.courses).toBeTruthy()
+    })
+
+    it('should call delete method of service', () => {
+        let courseId = 9999
+        let course = new Course(courseId, 'video', new Date(), 10, "Description...")
+        let removeItem  = spyOn(coursesSrv, 'removeItem')
+        component.courses.push(course)
+        component.onDeleteCourse(course)
+        
+        expect(removeItem).toHaveBeenCalledWith(courseId)
+        
     })
 
 })
