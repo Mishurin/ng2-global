@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
+import { RouterModule } from '@angular/router';
 
 import { AppCommonModule } from './common/index'
 import { BaseModule } from './base/index'
@@ -13,6 +14,8 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 import { ToolboxComponent } from './courses/toolbox.component'
 import { CourseItemComponent } from './courses/course-item.component'
 
+import { routes } from './app.routes'
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -23,6 +26,7 @@ import { CourseItemComponent } from './courses/course-item.component'
         CourseItemComponent
     ],
     imports: [
+        RouterModule.forRoot(routes),
         BrowserModule,
         FormsModule,
         HttpModule,

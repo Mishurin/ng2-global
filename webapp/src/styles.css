@@ -1,5 +1,5 @@
 body {
-    background: url('/assets/grumpy.png');
+    background: url('/assets/grumpy.png') no-repeat;
 }
 
 .clearfix:after {
