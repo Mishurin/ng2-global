@@ -14,6 +14,7 @@ class MockCoursesService {
         return []
     }
     removeItem(id: number) { }
+    confirmWrapper(message: string) {}
 }
 
 @Component({
@@ -66,15 +67,28 @@ describe('CoursesComponent', () => {
         expect(component.courses).toBeTruthy()
     })
 
-    it('should call delete method of service', () => {
+    it('should call delete method of service on ok', () => {
         let courseId = 9999
         let course = new Course(courseId, 'video', new Date(), 10, "Description...")
-        let removeItem  = spyOn(coursesSrv, 'removeItem')
+        let removeItem = spyOn(coursesSrv, 'removeItem')
         component.courses.push(course)
+        spyOn(component, 'confirmWrapper').and.callFake(() => true)
         component.onDeleteCourse(course)
-        
+
         expect(removeItem).toHaveBeenCalledWith(courseId)
-        
+
+    })
+
+    it('should not call delete method of service on cancel', () => {
+        let courseId = 9999
+        let course = new Course(courseId, 'video', new Date(), 10, "Description...")
+        let removeItem = spyOn(coursesSrv, 'removeItem')
+        component.courses.push(course)
+        spyOn(component, 'confirmWrapper').and.callFake(() => false)
+        component.onDeleteCourse(course)
+
+        expect(removeItem).not.toHaveBeenCalled()
+
     })
 
 })
