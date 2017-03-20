@@ -16,7 +16,6 @@ describe('AuthGuard', () => {
 
     beforeEach(() => {
         auth = TestBed.get(AuthService)
-        auth.logout()
     })
 
     it('should be initialized', inject([AuthGuard], (guard: AuthGuard) => {
@@ -25,7 +24,7 @@ describe('AuthGuard', () => {
 
     it('should be activated', inject([AuthGuard, Router], (guard: AuthGuard, router: Router) => {
         spyOn(router, 'navigate')
-        auth.login('Dude')
+        spyOn(auth, 'isAuthenticated').and.callFake(() => true)
 
         expect(guard.canActivate(null, null)).toBeTruthy()
         expect(router.navigate).not.toHaveBeenCalled()
@@ -33,6 +32,7 @@ describe('AuthGuard', () => {
 
     it('should be not activated', inject([AuthGuard, Router], (guard: AuthGuard, router: Router) => {
         spyOn(router, 'navigate');
+        spyOn(auth, 'isAuthenticated').and.callFake(() => false)
         expect(guard.canActivate(null, null)).toBeFalsy()
         expect(router.navigate).toHaveBeenCalled()
     }))

@@ -1,6 +1,6 @@
 export class User {
 
-    static token: string = String(Math.random())
+    static token: string = 'user'
 
     static toObject(json: string): User {
         return <User>JSON.parse(json)

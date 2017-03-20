@@ -24,3 +24,10 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
+
+.logout-button {
+    display: inline-block;
+    text-decoration: underline;
+    color: lightslategray;
+    cursor: pointer;
+}

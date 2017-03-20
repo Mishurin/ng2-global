@@ -1,9 +1,9 @@
 <div class="clearfix">
     <app-logo></app-logo>
-    <div class="breadcrumbs">Courses</div>
-    <div class="user-controls">
-        <span class="user-controls__username">User</span>
+    <div class="breadcrumbs" *ngIf="isAuth()">Courses</div>
+    <div class="user-controls" *ngIf="isAuth()">
+        <span class="user-controls__username">{{ getUserInfo().name }}</span>
         <div class="user_photo"></div>
-        <a href="#">logout</a>
+        <span (click)="logout()" class="logout-button">logout</span>
     </div>
 </div>

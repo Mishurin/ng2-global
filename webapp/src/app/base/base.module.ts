@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent, LogoComponent, FooterComponent } from './index';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { HeaderComponent, LogoComponent, FooterComponent } from './index'
 
 @NgModule({
     imports: [
