@@ -1,4 +1,5 @@
 body {
+    position: relative;
     background: url('/assets/grumpy.png') no-repeat;
 }
 
