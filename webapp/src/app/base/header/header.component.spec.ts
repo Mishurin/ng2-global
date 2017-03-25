@@ -38,6 +38,12 @@ describe('HeaderComponent', () => {
         expect(component).toBeTruthy()
     })
 
+    it('shoud emit check if component is changed', () => {
+        let runCheck = spyOn(component, 'runCheck')
+        authService.logout()
+        expect(runCheck).toHaveBeenCalled()
+    }) 
+
     it('should return user info', () => {
         let result = 'user_data'
         spyOn(authService, 'getUserInfo').and.callFake(() => result)
