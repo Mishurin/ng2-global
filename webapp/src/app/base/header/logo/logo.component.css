@@ -1,12 +1,14 @@
 .logo {
+    float: left;
+    line-height: 100px;
+    padding-left: 20px;
     text-decoration: none;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: bold;
-    float: left;
 }
 img {
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
     vertical-align: middle;
 }

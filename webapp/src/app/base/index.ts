@@ -1,4 +1,6 @@
 export * from './footer/footer.component'
 export * from './header/header.component'
 export * from './header/logo/logo.component'
+export * from './loader/loader.component'
+export * from './loader/loader.service'
 export * from './base.module'
