@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { CourseItem, CoureItemMock, CoursesService } from '../common/index'
 
@@ -11,7 +11,8 @@ declare var window: Window;
 @Component({
     selector: 'app-courses',
     templateUrl: './courses.component.html',
-    styleUrls: ['./courses.component.css']
+    styleUrls: ['./courses.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesComponent implements OnInit {
 
