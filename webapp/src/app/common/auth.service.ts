@@ -19,10 +19,6 @@ export class AuthService {
 
     constructor() { }
 
-    isAuthenticated(): boolean {
-        return Boolean(this.getUserInfo())
-    }
-
     getAuthStream(): Observable<boolean> {
         return this.isAuthStream.asObservable()
     }
@@ -31,6 +27,9 @@ export class AuthService {
          return User.toObject(localStorage.getItem(User.token));
     }
 
+    isAuthenticated(): boolean {
+        return Boolean(this.getUserInfo())
+    }
 
     login(name: string) {
         localStorage.setItem(User.token, new User(name).toString())

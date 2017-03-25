@@ -1,4 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing'
+import { Observable } from 'rxjs/Rx'
 
 import { AuthService } from './auth.service'
 
@@ -20,6 +21,10 @@ describe('AuthService', () => {
 
     it('should be initialized', inject([AuthService], (service: AuthService) => {
         expect(service).toBeTruthy()
+    }))
+
+    it('should return observable stream', inject([AuthService], (service: AuthService) => {
+        expect(service.getAuthStream() instanceof Observable).toBeTruthy()
     }))
 
     it('should return user data', inject([AuthService], (service: AuthService) => {
