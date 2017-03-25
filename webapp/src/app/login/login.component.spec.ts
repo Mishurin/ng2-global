@@ -7,7 +7,7 @@ import { LoginComponent } from './login.component'
 import { AuthService } from '../common/index'
 
 class MockRouter {
-    navigate() {}
+    navigate() { }
 }
 
 describe('LoginComponent', () => {
