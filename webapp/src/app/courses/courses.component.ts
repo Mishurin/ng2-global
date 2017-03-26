@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { CourseItem, CoureItemMock, CoursesService } from '../common/index'
 
+import { LoaderService } from '../base/index'
+
 interface Window {
     confirm(message: string): boolean
 }
@@ -18,7 +20,7 @@ export class CoursesComponent implements OnInit {
 
     public courses: CourseItem[]
 
-    constructor(private coursesSrv: CoursesService) { }
+    constructor(private coursesSrv: CoursesService, private loader: LoaderService) { }
 
     ngOnInit() {
         this.courses = this.coursesSrv.getList()
@@ -29,7 +31,13 @@ export class CoursesComponent implements OnInit {
     }
 
     onDeleteCourse(course: CourseItem) {
-        if (this.confirmWrapper("Are you sure?")) this.coursesSrv.removeItem(course.id)
+        if (this.confirmWrapper("Are you sure?")) {
+            this.loader.show()
+            setTimeout(() => {
+                this.coursesSrv.removeItem(course.id)
+                this.loader.hide()
+            }, 1000)
+        }
     }
 
 }

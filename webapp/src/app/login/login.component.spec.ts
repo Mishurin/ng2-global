@@ -16,7 +16,6 @@ class MockLoaderService {
     hide() { }
 }
 
-
 describe('LoginComponent', () => {
     let component: LoginComponent
     let fixture: ComponentFixture<LoginComponent>

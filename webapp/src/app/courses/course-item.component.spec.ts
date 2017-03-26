@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CourseItemComponent } from './course-item.component';
 import { ToolboxComponent } from './toolbox.component';
 
-import { CoureItemMock } from '../common/entities/course-item.mock';
+import { CoureItemMock } from '../common/index';
 
 describe('CourseItemComponent', () => {
     let component: CourseItemComponent;

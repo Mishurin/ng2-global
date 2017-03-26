@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
-import { CourseItem } from '../common/entities/course-item.int';
+import { CourseItem } from '../common/index';
 
 @Component({
     selector: 'app-course-item',
