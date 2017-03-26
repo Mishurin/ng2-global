@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 
 import { LoaderService } from './loader.service'
 
@@ -12,10 +12,13 @@ export class LoaderComponent implements OnInit {
 
     public isLoaderHidden: boolean = true;
 
-    constructor(private loader: LoaderService) { }
+    constructor(private loader: LoaderService, private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
-        this.loader.getHideLoaderStream().subscribe((isHidden) => this.isLoaderHidden = isHidden)
+        this.loader.getHideLoaderStream().subscribe((isHidden) => {
+            this.isLoaderHidden = isHidden
+            this.cd.markForCheck()
+        })
     }
 
 }
