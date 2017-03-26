@@ -1,5 +1,7 @@
-<div class="loader-slot">
-    <div class="loader">
-        <img src="/assets/loading.gif" alt="Loading..."> Loading... Pleas wait...
+<div class="overlay" *ngIf="!isLoaderHidden">
+    <div class="loader-slot">
+        <div class="loader">
+            <img src="/assets/loading.gif" alt="Loading..."> Loading... Pleas wait...
+        </div>
     </div>
 </div>
