@@ -8,7 +8,7 @@ import { CourseItemComponent } from './course-item.component'
 
 
 import { Course, CoursesService } from '../common/index'
-import { LoaderService } from '../base/index'
+import { LoaderService, ProfilerComponent, BaseModule } from '../base/index'
 
 class MockCoursesService {
     getList(): Course[] {
@@ -35,6 +35,11 @@ class MockCourseItemComponent {
 })
 class MockToolboxComponent { }
 
+@Component({
+    selector: 'app-profiler'
+})
+class MockProfilerComponent { }
+
 describe('CoursesComponent', () => {
     let component: CoursesComponent
     let fixture: ComponentFixture<CoursesComponent>
@@ -43,7 +48,7 @@ describe('CoursesComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
+            imports: [FormsModule, BaseModule],
             declarations: [CoursesComponent, CourseItemComponent, ToolboxComponent],
             providers: [
                 { provide: CoursesService, useClass: MockCoursesService },
@@ -52,6 +57,7 @@ describe('CoursesComponent', () => {
         })
             .overrideComponent(CourseItemComponent, MockCourseItemComponent)
             .overrideComponent(ToolboxComponent, MockToolboxComponent)
+            .overrideComponent(ProfilerComponent, MockProfilerComponent)
             .compileComponents()
 
     }))
