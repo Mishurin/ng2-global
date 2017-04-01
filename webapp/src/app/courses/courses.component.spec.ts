@@ -89,21 +89,27 @@ describe('CoursesComponent', () => {
 
     it('should call delete method of service on ok', fakeAsync(() => {
         let courseId = 9999
-        let course = new Course(courseId, 'video', new Date(), 10, "Description...")
+        let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
         let removeItem = spyOn(coursesSrv, 'removeItem')
+        let showLoader = spyOn(loader, 'show')
+        let hideLoader = spyOn(loader, 'hide')
         component.courses.push(course)
         spyOn(component, 'confirmWrapper').and.callFake(() => true)
+
         component.onDeleteCourse(course)
+
+        expect(showLoader).toHaveBeenCalled()
 
         tick(1000)
 
         expect(removeItem).toHaveBeenCalledWith(courseId)
+        expect(hideLoader).toHaveBeenCalled()
 
     }))
 
     it('should not call delete method of service on cancel', () => {
         let courseId = 9999
-        let course = new Course(courseId, 'video', new Date(), 10, "Description...")
+        let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
         let removeItem = spyOn(coursesSrv, 'removeItem')
         component.courses.push(course)
         spyOn(component, 'confirmWrapper').and.callFake(() => false)

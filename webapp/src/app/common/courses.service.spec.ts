@@ -20,7 +20,7 @@ describe('CoursesService', () => {
     }))
 
     it('shoud append a new item within courses list', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(null, 'video', new Date(), 10, "Description...")
+        let course = new Course(null, 'video', new Date(), 10, "Description...", true)
         service.createCourse(course)
 
         expect(course.id).not.toBeNull()
@@ -28,14 +28,14 @@ describe('CoursesService', () => {
     }))
 
     it('should return a course by id', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(9999, 'video', new Date(), 10, "Description...")
+        let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
         service.courses.push(course)
 
         expect(service.getCourseById(9999)).toBe(course)
     }))
 
     it('should return an index by id', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(9999, 'video', new Date(), 10, "Description...")
+        let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
         service.courses.push(course)
         let courseId = service.getIndexById(9999)
         
@@ -51,7 +51,7 @@ describe('CoursesService', () => {
 
     it('should update course fields', inject([CoursesService], (service: CoursesService) => {
         let courseId = 9999
-        let course = new Course(courseId, 'video', new Date(), 10, "Description...")
+        let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
         service.courses.push(course)
         let newType = 'new type'
         let newDate = new Date()
@@ -74,7 +74,7 @@ describe('CoursesService', () => {
 
     it('should remove item from list', inject([CoursesService], (service: CoursesService) => {
         let courseId = 9999
-        let course = new Course(courseId, 'video', new Date(), 10, "Description...")
+        let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
         service.courses.push(course)
 
         expect(service.courses).toContain(course)

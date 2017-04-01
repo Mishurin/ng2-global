@@ -31,3 +31,7 @@ button {
 :host.archive {
     border: 1px solid orange;
 }
+
+:host.top-rated {
+    background: rgba(249, 187, 72, 0.6);
+}

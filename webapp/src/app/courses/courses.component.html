@@ -3,7 +3,11 @@
 <app-toolbox></app-toolbox>
 
 <div class="courses-container">
-    <app-course-item *ngFor="let course of courses" [course]="course" (deleteCourse)="onDeleteCourse($event)" [highlightByCreateDate]="course.date">
+    <app-course-item    *ngFor="let course of courses" 
+                        [course]="course" 
+                        (deleteCourse)="onDeleteCourse($event)" 
+                        [highlightByCreateDate]="course.date"
+                        [ngClass]="{'top-rated': course.topRated}">
     </app-course-item>
     <div *ngIf="!courses.length" class="no-courses-found">
         No data. Feel free to add a new course.

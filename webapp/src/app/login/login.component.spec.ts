@@ -21,6 +21,7 @@ describe('LoginComponent', () => {
     let fixture: ComponentFixture<LoginComponent>
     let auth: AuthService
     let router: Router
+    let loader: LoaderService
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -41,6 +42,7 @@ describe('LoginComponent', () => {
         component = fixture.componentInstance
         auth = TestBed.get(AuthService)
         router = TestBed.get(Router)
+        loader = TestBed.get(LoaderService)
         fixture.detectChanges()
     })
 
@@ -52,12 +54,17 @@ describe('LoginComponent', () => {
         let username = 'Dude'
         let login = spyOn(auth, 'login')
         let navigate = spyOn(router, 'navigate')
+        let showLoader = spyOn(loader, 'show')
+        let hideLoader = spyOn(loader, 'hide')
 
         component.login(username)
+
+        expect(showLoader).toHaveBeenCalled()
 
         tick(2000)
 
         expect(login).toHaveBeenCalledWith(username)
         expect(navigate).toHaveBeenCalledWith(['/'])
+        expect(hideLoader).toHaveBeenCalled()
     }))
 })
