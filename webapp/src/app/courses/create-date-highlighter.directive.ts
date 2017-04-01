@@ -6,11 +6,11 @@ export const HIGHLIGHTER_STATES = {
 }
 
 @Directive({
-    selector: '[highlightByCreateDate]',
+    selector: '[highlightByCreateDate]'
 })
 export class CreateDateHighlighterDirective {
 
-    @Input('highlightByCreateDate') createDate: Date;
+    @Input('highlightByCreateDate') createDate: Date
     constructor(private el: ElementRef) {
         //el.nativeElement.style
     }

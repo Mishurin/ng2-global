@@ -37,10 +37,10 @@ class MockCoursesComponent { }
 class MockToolboxComponent { }
 
 @Component({
-    selector: 'app-course-item',
-    template: ''
+    selector: 'app-course-item'
 })
 class MockCourseItemComponent { }
+
 
 describe('AppComponent', () => {
     beforeEach(async(() => {

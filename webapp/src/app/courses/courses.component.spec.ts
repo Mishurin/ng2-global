@@ -26,8 +26,7 @@ class MockLoaderService {
 }
 
 @Component({
-    selector: 'app-course-item',
-    template: ''
+    selector: 'app-course-item'
 })
 class MockCourseItemComponent {
     @Input() course: Course
