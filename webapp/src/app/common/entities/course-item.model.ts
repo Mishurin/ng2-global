@@ -9,7 +9,4 @@ export class Course implements CourseItem {
         public description: string,
         public topRated: boolean
     ) { }
-    get dateFormatted() {
-        return this.date.toString();
-    }
 }

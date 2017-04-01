@@ -2,7 +2,7 @@
     <div class="attributes">
     <span class="name">{{ course.name | uppercase }}</span> |
     <span class="duration">{{ course.duration | duration }}</span> |
-    <span class="date">{{ course.dateFormatted }}</span>
+    <span class="date">{{ course.date | date }}</span>
     <span *ngIf="course.topRated">&#9734;</span>
 
     <p>
