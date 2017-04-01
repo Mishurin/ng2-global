@@ -1,4 +1,4 @@
-import { CourseItem } from './course-item.int';
+import { CourseItem } from './course-item.int'
 
 export class Course implements CourseItem {
     constructor(
