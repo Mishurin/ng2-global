@@ -19,3 +19,15 @@
 button {
     width: 150px;
 }
+
+:host.recent {
+    border: 1px solid green;
+}
+
+:host.upcoming {
+    border: 1px solid blue;
+}
+
+:host.archive {
+    border: 1px solid orange;
+}
