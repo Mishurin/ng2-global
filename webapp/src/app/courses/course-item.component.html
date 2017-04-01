@@ -1,7 +1,7 @@
 <div class="clearfix">
     <div class="attributes">
     <span class="name">{{ course.name | uppercase }}</span> |
-    <span class="duration">{{ course.duration }}</span> |
+    <span class="duration">{{ course.duration | duration }}</span> |
     <span class="date">{{ course.dateFormatted }}</span>
     <span *ngIf="course.topRated">&#9734;</span>
 
