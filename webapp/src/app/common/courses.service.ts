@@ -39,7 +39,7 @@ export class CoursesService {
 
     updateItem(id: number, newFields: CourseItem) {
         let course = this.courses[this.getIndexById(id)]
-        course.type = newFields.type
+        course.name = newFields.name
         course.date = newFields.date
         course.duration = newFields.duration
         course.description = newFields.description

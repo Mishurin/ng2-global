@@ -1,6 +1,6 @@
 export interface CourseItem {
     id?: number
-    type: string
+    name: string
     date: Date
     duration: number
     description: string

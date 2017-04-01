@@ -8,8 +8,8 @@ let twoWeeksAgo = new Date(now.getTime() - twoWeeks)
 let moreThenTwoWeeks = new Date(now.getTime() - (twoWeeks + dayMiliseconds * 1))
 
 export const CoursesListMock = [
-    new Course(1, 'video', now, 20, "Angular Global 1", true),
-    new Course(2, 'video', tomorrow, 15, "Angular Global 2", false),
-    new Course(3, 'text', twoWeeksAgo, 20, "Angular Global 3", true),
-    new Course(4, 'video', moreThenTwoWeeks, 10, "Angular Global 4", false),
+    new Course(1, 'Angular in action', now, 20, "Angular Global 1", true),
+    new Course(2, 'Angular fundamentals', tomorrow, 15, "Angular Global 2", false),
+    new Course(3, 'Angular one more time', twoWeeksAgo, 20, "Angular Global 3", true),
+    new Course(4, 'How about angular?', moreThenTwoWeeks, 10, "Angular Global 4", false),
 ];

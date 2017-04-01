@@ -53,12 +53,12 @@ describe('CoursesService', () => {
         let courseId = 9999
         let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
         service.courses.push(course)
-        let newType = 'new type'
+        let newName = 'new name'
         let newDate = new Date()
         let newDuration = 9999
         let newDescription = 'new desc'
         let newFields: CourseItem = {
-            type: newType,
+            name: newName,
             date: newDate,
             duration: newDuration,
             description: newDescription
@@ -66,7 +66,7 @@ describe('CoursesService', () => {
         service.updateItem(course.id, newFields)
 
         expect(course.id).toBe(courseId)
-        expect(course.type).toBe(newType)
+        expect(course.name).toBe(newName)
         expect(course.date).toBe(newDate)
         expect(course.duration).toBe(newDuration)
         expect(course.description).toBe(newDescription)
