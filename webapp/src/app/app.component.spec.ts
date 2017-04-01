@@ -13,6 +13,8 @@ import { CoursesComponent } from './courses/courses.component'
 import { CourseItemComponent } from './courses/course-item.component'
 import { LoginComponent } from './login/login.component'
 
+import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
+
 import { routes } from './app.routes'
 
 
@@ -35,7 +37,8 @@ class MockCoursesComponent { }
 class MockToolboxComponent { }
 
 @Component({
-    selector: 'app-course-item'
+    selector: 'app-course-item',
+    template: ''
 })
 class MockCourseItemComponent { }
 
@@ -48,7 +51,8 @@ describe('AppComponent', () => {
                 CoursesComponent,
                 ToolboxComponent,
                 CourseItemComponent,
-                LoginComponent
+                LoginComponent,
+                CreateDateHighlighterDirective
             ],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
         })

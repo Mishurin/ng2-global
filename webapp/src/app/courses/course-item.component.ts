@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core'
 
-import { CourseItem } from '../common/index';
+import { CourseItem } from '../common/index'
 
 @Component({
     selector: 'app-course-item',
@@ -10,9 +10,9 @@ import { CourseItem } from '../common/index';
 })
 export class CourseItemComponent implements OnInit {
 
-    @Input() course: CourseItem;
+    @Input() course: CourseItem
 
-    @Output() deleteCourse = new EventEmitter(true);
+    @Output() deleteCourse = new EventEmitter(true)
 
 
     constructor() { }
@@ -21,7 +21,7 @@ export class CourseItemComponent implements OnInit {
     }
 
     delete() {
-        this.deleteCourse.emit(this.course);
+        this.deleteCourse.emit(this.course)
     }
 
 }

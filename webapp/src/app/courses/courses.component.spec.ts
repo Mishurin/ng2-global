@@ -6,6 +6,8 @@ import { CoursesComponent } from './courses.component'
 import { ToolboxComponent } from './toolbox.component'
 import { CourseItemComponent } from './course-item.component'
 
+import { CreateDateHighlighterDirective } from './create-date-highlighter.directive'
+
 
 import { Course, CoursesService } from '../common/index'
 import { LoaderService, ProfilerComponent, BaseModule } from '../base/index'
@@ -24,7 +26,8 @@ class MockLoaderService {
 }
 
 @Component({
-    selector: 'app-course-item'
+    selector: 'app-course-item',
+    template: ''
 })
 class MockCourseItemComponent {
     @Input() course: Course
@@ -49,7 +52,7 @@ describe('CoursesComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule, BaseModule],
-            declarations: [CoursesComponent, CourseItemComponent, ToolboxComponent],
+            declarations: [CoursesComponent, CourseItemComponent, ToolboxComponent, CreateDateHighlighterDirective],
             providers: [
                 { provide: CoursesService, useClass: MockCoursesService },
                 { provide: LoaderService, useClass: MockLoaderService }

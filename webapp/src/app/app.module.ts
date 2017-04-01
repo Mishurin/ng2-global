@@ -14,7 +14,9 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 import { ToolboxComponent } from './courses/toolbox.component'
 import { CourseItemComponent } from './courses/course-item.component'
 
-import { routes } from './app.routes'
+import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
+
+import { routes } from './app.routes';
 
 @NgModule({
     declarations: [
@@ -23,7 +25,8 @@ import { routes } from './app.routes'
         CoursesComponent,
         CourseDetailsComponent,
         ToolboxComponent,
-        CourseItemComponent
+        CourseItemComponent,
+        CreateDateHighlighterDirective
     ],
     imports: [
         RouterModule.forRoot(routes),
