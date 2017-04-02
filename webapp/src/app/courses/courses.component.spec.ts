@@ -9,7 +9,7 @@ import { CourseItemComponent } from './course-item.component'
 import { CreateDateHighlighterDirective } from './create-date-highlighter.directive'
 
 
-import { Course, CoursesService, DurationPipe } from '../common/index'
+import { Course, CoursesService, DurationPipe, OrderByPipe } from '../common/index'
 import { LoaderService, ProfilerComponent, BaseModule } from '../base/index'
 
 class MockCoursesService {
@@ -83,9 +83,8 @@ describe('CoursesComponent', () => {
     })
 
     it('should get list of courses on init', () => {
-        let getList = spyOn(coursesSrv, 'getList')
+        let getList = spyOn(coursesSrv, 'getList').and.callFake(() => [])
         component.ngOnInit()
-
         expect(getList).toHaveBeenCalled()
     })
 
@@ -123,6 +122,27 @@ describe('CoursesComponent', () => {
 
         expect(removeItem).not.toHaveBeenCalled()
 
+    })
+
+    it('should filter courses', () => {
+        let course1 = new Course(1, 'Course1', new Date(), 10, "Description...", true)
+        let course2 = new Course(2, 'Course2', new Date(), 10, "Description...", true)
+        let courses = [course1, course2]
+
+        expect(CoursesComponent.filterCourses(courses, 'Course1')).toEqual([course1])
+        expect(CoursesComponent.filterCourses(courses, 'Course2')).toEqual([course2])
+        expect(CoursesComponent.filterCourses(courses, '')).toEqual([course1, course2])
+    })
+
+    it('should update list of properties on find event', () => {
+        let course1 = new Course(1, 'Course1', new Date(), 10, "Description...", true)
+        let course2 = new Course(2, 'Course2', new Date(), 10, "Description...", true)
+        let courses = [course1, course2]
+        let filterCourses = spyOn(CoursesComponent, 'filterCourses').and.callFake(() => courses)
+        component.onFindCourses('Course1')
+
+        expect(filterCourses).toHaveBeenCalled()
+        expect(component.courses).toEqual(courses)
     })
 
 })

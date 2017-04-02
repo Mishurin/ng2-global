@@ -1,6 +1,6 @@
 <app-profiler></app-profiler>
 
-<app-toolbox></app-toolbox>
+<app-toolbox (findCourses)="onFindCourses($event)"></app-toolbox>
 
 <div class="courses-container">
     <app-course-item    *ngFor="let course of courses" 

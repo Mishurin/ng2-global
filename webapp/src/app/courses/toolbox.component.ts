@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-toolbox',
@@ -7,8 +7,11 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolboxComponent implements OnInit {
+    
+    @Output() findCourses = new EventEmitter(true)
 
     public searchValue: string;
+
 
     constructor() { }
 
@@ -16,7 +19,7 @@ export class ToolboxComponent implements OnInit {
     }
 
     find() {
-        console.log(this.searchValue);
+        this.findCourses.emit(this.searchValue)
     }
 
 }

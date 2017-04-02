@@ -27,10 +27,16 @@ describe('ToolboxComponent', () => {
         expect(component).toBeTruthy()
     })
 
-    it('find method shoud log searchValue', () => {
-        let consoleLog = spyOn(console, 'log')
+    it('should emit find event', (done) => {
+        let searchVale = 'TEST'
+        component.searchValue = searchVale
+        component.findCourses.subscribe((event) => {
+            expect(event).toBe(searchVale)
+            done()
+        })
+
         component.find()
-        expect(consoleLog).toHaveBeenCalledWith('TEST')
+
     })
 
 })

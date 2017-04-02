@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
-import { CourseItem, CoureItemMock, CoursesService } from '../common/index'
+import { CourseItem, CoureItemMock, CoursesService, OrderByPipe } from '../common/index'
 
 import { LoaderService } from '../base/index'
 
@@ -18,12 +18,14 @@ declare var window: Window;
 })
 export class CoursesComponent implements OnInit {
 
+    private _courses: CourseItem[]
     public courses: CourseItem[]
 
     constructor(private coursesSrv: CoursesService, private loader: LoaderService) { }
 
     ngOnInit() {
-        this.courses = this.coursesSrv.getList()
+        this._courses = new OrderByPipe().transform(this.coursesSrv.getList(), 'name')
+        this.courses = this._courses
     }
 
     confirmWrapper(message: string) {
@@ -38,6 +40,16 @@ export class CoursesComponent implements OnInit {
                 this.loader.hide()
             }, 1000)
         }
+    }
+
+    onFindCourses(searchVal: string) {
+        this.courses = CoursesComponent.filterCourses(this._courses, searchVal)
+    }
+
+    static filterCourses(courses: CourseItem[], searchVal: string): CourseItem[] {
+        return courses.filter((course: CourseItem) => {
+            return course.name.toLowerCase().includes(searchVal.toLowerCase()) || !!!searchVal
+        })
     }
 
 }
