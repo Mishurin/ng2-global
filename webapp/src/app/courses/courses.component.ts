@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
+import { Observable, Subscription } from 'rxjs/Rx'
 
 import { CourseItem, CoureItemMock, CoursesService, OrderByPipe } from '../common/index'
 
@@ -16,16 +17,23 @@ declare var window: Window;
     styleUrls: ['./courses.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
 
     private _courses: CourseItem[]
     public courses: CourseItem[]
+    public coursesSubscription: Subscription
 
     constructor(private coursesSrv: CoursesService, private loader: LoaderService) { }
 
     ngOnInit() {
-        this._courses = new OrderByPipe().transform(this.coursesSrv.getList(), 'name')
-        this.courses = this._courses
+        this.coursesSubscription = this.coursesSrv.getCoursesStream().subscribe(courses => {
+            this._courses = new OrderByPipe().transform(courses, 'name')
+            this.courses = this._courses
+        })
+    }
+
+    ngOnDestroy() {
+        this.coursesSubscription.unsubscribe()
     }
 
     confirmWrapper(message: string) {

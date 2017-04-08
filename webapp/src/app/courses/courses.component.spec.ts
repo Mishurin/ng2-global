@@ -1,6 +1,7 @@
 import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormsModule } from '@angular/forms'
 import { Component, Input } from '@angular/core'
+import { Observable } from 'rxjs/Rx'
 
 import { CoursesComponent } from './courses.component'
 import { ToolboxComponent } from './toolbox.component'
@@ -18,6 +19,7 @@ class MockCoursesService {
     }
     removeItem(id: number) { }
     confirmWrapper(message: string) { }
+    getCoursesStream() { return Observable.of([]) }
 }
 
 class MockLoaderService {
@@ -82,10 +84,16 @@ describe('CoursesComponent', () => {
         expect(component).toBeTruthy()
     })
 
-    it('should get list of courses on init', () => {
-        let getList = spyOn(coursesSrv, 'getList').and.callFake(() => [])
+    it('should subscribe component for courses', () => {
+        let getCoursesStream = spyOn(coursesSrv, 'getCoursesStream').and.callFake(() => Observable.of([]).map(i => i))
         component.ngOnInit()
-        expect(getList).toHaveBeenCalled()
+        expect(getCoursesStream).toHaveBeenCalled()
+    })
+
+    it('should unsubscribe component from courses', () => {
+        let unsubscribe = spyOn(component.coursesSubscription, 'unsubscribe');
+        component.ngOnDestroy()
+        expect(unsubscribe).toHaveBeenCalled()
     })
 
     it('should be initialized with list of courses', () => {

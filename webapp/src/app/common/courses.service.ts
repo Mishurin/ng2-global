@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Rx'
 
 import { Course, CourseItem, CoursesListMock } from './index'
 
@@ -6,6 +7,8 @@ import { Course, CourseItem, CoursesListMock } from './index'
 export class CoursesService {
 
     public courses: Course[] = [ ...CoursesListMock ]
+
+    private coursesStream: Observable<Course[]> = Observable.of(this.courses)
 
     constructor() { }
 
@@ -18,6 +21,12 @@ export class CoursesService {
 
     getCourseById(id: number): Course {
         return this.courses[this.getIndexById(id)]
+    }
+
+    getCoursesStream(): Observable<Course[]> {
+        return this.coursesStream.map(courses => {
+            return courses
+        })
     }
 
     getIndexById(id: number): number {

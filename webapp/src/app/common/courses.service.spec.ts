@@ -1,8 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing'
+import { Observable } from 'rxjs/Rx'
 
 import { CoursesService } from './courses.service'
 
 import { Course, CourseItem } from './index'
+
 
 describe('CoursesService', () => {
     beforeEach(() => {
@@ -34,13 +36,26 @@ describe('CoursesService', () => {
         expect(service.getCourseById(9999)).toBe(course)
     }))
 
+    it('should return observable stream', inject([CoursesService], (service: CoursesService) => {
+        let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
+        service.courses.length = 0
+        service.courses.push(course)
+        let coursesStream = service.getCoursesStream()
+        expect(coursesStream instanceof Observable).toBeTruthy()
+
+        coursesStream.subscribe((e) => {
+            expect(e).toEqual([course])
+        })
+        
+    }))
+
     it('should return an index by id', inject([CoursesService], (service: CoursesService) => {
         let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
         service.courses.push(course)
         let courseId = service.getIndexById(9999)
-        
+
         expect(service.courses[courseId]).toBe(course)
-        
+
         let nonExistentId = service.getIndexById(Number.POSITIVE_INFINITY)
         expect(nonExistentId).toBeNull()
     }))
