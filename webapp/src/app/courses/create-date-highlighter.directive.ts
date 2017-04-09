@@ -1,5 +1,7 @@
 import { Directive, Input, ElementRef, OnInit } from '@angular/core'
 
+import { getTimeSpanInDays } from '../utils/date.utils'
+
 export const HIGHLIGHTER_STATES = {
     RECENT: "recent",
     UPCOMPING: "upcoming",
@@ -20,7 +22,7 @@ export class CreateDateHighlighterDirective {
     }
 
     static getClassName(currentDate: Date, createDate: Date): string {
-        if(currentDate >= createDate && CreateDateHighlighterDirective.getTimeSpanInDays(currentDate, createDate) <= 14) {
+        if(currentDate >= createDate && getTimeSpanInDays(currentDate, createDate) <= 14) {
             return HIGHLIGHTER_STATES.RECENT
         } else if(currentDate < createDate) {
             return HIGHLIGHTER_STATES.UPCOMPING

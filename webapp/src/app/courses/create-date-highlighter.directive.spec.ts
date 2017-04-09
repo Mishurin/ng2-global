@@ -1,11 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
-import { Component, ElementRef } from '@angular/core'
+import { Component } from '@angular/core'
 import { CreateDateHighlighterDirective, HIGHLIGHTER_STATES } from './create-date-highlighter.directive'
 
-class MockElementRef {
-
-}
 
 @Component({
     selector: 'test-component',
@@ -25,7 +22,6 @@ describe('CreateDateHighlighterDirective', () => {
                 CreateDateHighlighterDirective,
                 TestComponent
             ],
-            //providers: [{ provide: ElementRef, useClass: MockElementRef }]
         }).compileComponents()
     })
 
@@ -38,14 +34,6 @@ describe('CreateDateHighlighterDirective', () => {
     it('should create an instance', () => {
         expect(directiveEl).not.toBeNull()
         expect(directive).toBeTruthy()
-    })
-
-    it('should provide time span for two dates in days', () => {
-        let now = new Date()
-        let dayMiliseconds = 24 * 60 * 60 * 1000
-        let tomorrow = new Date(now.getTime() + dayMiliseconds)
-        expect(CreateDateHighlighterDirective.getTimeSpanInDays(now, tomorrow)).toBe(-1)
-        expect(CreateDateHighlighterDirective.getTimeSpanInDays(tomorrow, now)).toBe(1)
     })
 
     it('should provide class name depending on timespan', () => {

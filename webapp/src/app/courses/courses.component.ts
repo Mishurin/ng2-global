@@ -5,6 +5,8 @@ import { CourseItem, CoureItemMock, CoursesService, OrderByPipe } from '../commo
 
 import { LoaderService } from '../base/index'
 
+import { getTimeSpanInDays } from '../utils/date.utils'
+
 interface Window {
     confirm(message: string): boolean
 }
@@ -27,7 +29,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.coursesSubscription = this.coursesSrv.getCoursesStream().subscribe(courses => {
-            this._courses = new OrderByPipe().transform(courses, 'name')
+            this._courses = new OrderByPipe().transform(CoursesComponent.filterOutOld(courses), 'name')
             this.courses = this._courses
         })
     }
@@ -57,6 +59,12 @@ export class CoursesComponent implements OnInit, OnDestroy {
     static filterCourses(courses: CourseItem[], searchVal: string): CourseItem[] {
         return courses.filter((course: CourseItem) => {
             return course.name.toLowerCase().includes(searchVal.toLowerCase()) || !!!searchVal
+        })
+    }
+
+    static filterOutOld(course: CourseItem[]): CourseItem[] {
+        return course.filter(item => {
+            return !(getTimeSpanInDays(new Date(), item.date) > 14)
         })
     }
 

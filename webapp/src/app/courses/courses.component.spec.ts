@@ -153,4 +153,24 @@ describe('CoursesComponent', () => {
         expect(component.courses).toEqual(courses)
     })
 
+    it('should filter out old courses', () => {
+        let now = new Date()
+        let dayMiliseconds = 24 * 60 * 60 * 1000
+        let twoWeeks = dayMiliseconds * 14
+        let tomorrow = new Date(now.getTime() + dayMiliseconds)
+        let twoWeeksAgo = new Date(now.getTime() - twoWeeks)
+        let moreThenTwoWeeks = new Date(now.getTime() - (twoWeeks + dayMiliseconds * 1))
+        let course1 = new Course(1, 'Course1', now, 10, "Description...", true)
+        let course2 = new Course(2, 'Course2', tomorrow, 10, "Description...", true)
+        let course3 = new Course(2, 'Course2', twoWeeksAgo, 10, "Description...", true)
+        let course4 = new Course(2, 'Course2', moreThenTwoWeeks, 10, "Description...", true)
+        let courses = [course1, course2, course3, course4]
+        let result = CoursesComponent.filterOutOld(courses)
+
+        expect(result.length).toEqual(3)
+        expect(result).toEqual([course1, course2, course3])
+        expect(result).not.toContain(course4)
+
+    })
+
 })
