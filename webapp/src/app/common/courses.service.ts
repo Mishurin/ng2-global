@@ -6,7 +6,7 @@ import { Course, CourseItem, CoursesListMock } from './index'
 @Injectable()
 export class CoursesService {
 
-    public courses: Course[] = [ ...CoursesListMock ]
+    courses: Course[] = [ ...CoursesListMock ]
 
     private coursesStream: Observable<Course[]> = Observable.of(this.courses)
 

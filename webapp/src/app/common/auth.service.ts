@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 
 import { User } from '../common/index'
 
-import { Observable, Subject } from 'rxjs/Rx'
+import { Observable, ReplaySubject } from 'rxjs/Rx'
 
 interface LocalStorage {
     getItem(token: string): string
@@ -15,7 +15,7 @@ declare var localStorage: LocalStorage
 @Injectable()
 export class AuthService {
 
-    private isAuthStream: Subject<boolean> = new Subject<boolean>()
+    private isAuthStream: ReplaySubject<boolean> = new ReplaySubject<boolean>()
 
     constructor() { }
 

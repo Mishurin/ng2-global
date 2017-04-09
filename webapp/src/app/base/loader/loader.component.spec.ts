@@ -39,4 +39,10 @@ describe('LoaderComponent', () => {
         loaderService.show()
         expect(component.isLoaderHidden).toBeFalsy()
     })
+
+    it('should unsubscribe component from loader events', () => {
+        let unsubscribe = spyOn(component.hideLoaderSubscription, 'unsubscribe')
+        component.ngOnDestroy()
+        expect(unsubscribe).toHaveBeenCalled()
+    })
 })

@@ -10,7 +10,7 @@ export class ToolboxComponent implements OnInit {
     
     @Output() findCourses = new EventEmitter(true)
 
-    public searchValue: string;
+    searchValue: string;
 
 
     constructor() { }

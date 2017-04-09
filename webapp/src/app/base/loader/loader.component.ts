@@ -1,4 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
+
+import { Subscription } from 'rxjs/Rx'
 
 import { LoaderService } from './loader.service'
 
@@ -8,17 +10,22 @@ import { LoaderService } from './loader.service'
     styleUrls: ['./loader.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
 
-    public isLoaderHidden: boolean = true;
+    isLoaderHidden: boolean = true
+    hideLoaderSubscription: Subscription
 
     constructor(private loader: LoaderService, private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
-        this.loader.getHideLoaderStream().subscribe((isHidden) => {
+        this.hideLoaderSubscription = this.loader.getHideLoaderStream().subscribe((isHidden) => {
             this.isLoaderHidden = isHidden
             this.cd.markForCheck()
         })
+    }
+
+    ngOnDestroy() {
+        this.hideLoaderSubscription.unsubscribe()
     }
 
 }

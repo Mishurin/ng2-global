@@ -65,4 +65,10 @@ describe('HeaderComponent', () => {
         expect(logout).toHaveBeenCalled()
         expect(navigate).toHaveBeenCalledWith(['/login'])
     })
+
+    it('should unsubscribe component from auth events', () => {
+        let unsubscribe = spyOn(component.authSubscription, 'unsubscribe')
+        component.ngOnDestroy()
+        expect(unsubscribe).toHaveBeenCalled()
+    })
 })

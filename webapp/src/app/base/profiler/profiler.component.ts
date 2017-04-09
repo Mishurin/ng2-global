@@ -7,9 +7,9 @@ import { Component, OnInit, ChangeDetectionStrategy, NgZone, ChangeDetectorRef }
 })
 export class ProfilerComponent implements OnInit {
 
-    public stable: Date = null
-    public unstable: Date = null
-    public mutable: Object = null;
+    stable: Date = null
+    unstable: Date = null
+    mutable: Object = null;
 
     constructor(private zone: NgZone, private cd: ChangeDetectorRef) {
 

@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 import { Router } from '@angular/router'
+import { Subscription } from 'rxjs/Rx'
 
 import { AuthService, User } from '../../common/index'
 
@@ -7,16 +8,23 @@ import { AuthService, User } from '../../common/index'
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+
+    authSubscription: Subscription
 
     constructor(private auth: AuthService, private router: Router, private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
-        this.auth.getAuthStream().subscribe(() => {
+        this.authSubscription = this.auth.getAuthStream().subscribe(() => {
             this.runCheck()
         })
+    }
+
+    ngOnDestroy() {
+        this.authSubscription.unsubscribe()
     }
 
     getUserInfo(): User {

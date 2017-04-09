@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
 
-import { Subject, Observable } from 'rxjs/Rx'
+import { ReplaySubject, Observable } from 'rxjs/Rx'
 
 @Injectable()
 export class LoaderService {
 
-    private hideLoaderStream: Subject<boolean>  = new Subject<boolean>()
+    private hideLoaderStream: ReplaySubject<boolean>  = new ReplaySubject<boolean>()
     private _isHidden = true;
 
     constructor() { }
