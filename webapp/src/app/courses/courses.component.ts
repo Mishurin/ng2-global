@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 import { Observable, Subscription } from 'rxjs/Rx'
 
 import { CourseItem, CoureItemMock, CoursesService, OrderByPipe } from '../common/index'
@@ -25,12 +25,13 @@ export class CoursesComponent implements OnInit, OnDestroy {
     courses: CourseItem[]
     coursesSubscription: Subscription
 
-    constructor(private coursesSrv: CoursesService, private loader: LoaderService) { }
+    constructor(private coursesSrv: CoursesService, private loader: LoaderService, private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.coursesSubscription = this.coursesSrv.getCoursesStream().subscribe(courses => {
             this._courses = new OrderByPipe().transform(CoursesComponent.filterOutOld(courses), 'name')
             this.courses = this._courses
+            this.cd.markForCheck()
         })
     }
 

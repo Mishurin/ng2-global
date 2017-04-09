@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs/Rx'
+import { Observable, ReplaySubject } from 'rxjs/Rx'
 
 import { Course, CourseItem, CoursesListMock } from './index'
 
 @Injectable()
 export class CoursesService {
 
-    courses: Course[] = [ ...CoursesListMock ]
 
-    private coursesStream: Observable<Course[]> = Observable.of(this.courses)
+    courses: Course[] = [...CoursesListMock]
 
-    constructor() { }
+    private coursesStream: ReplaySubject<Course[]> = new ReplaySubject<Course[]>()
+
+    constructor() {
+        this.coursesStream.next(this.courses)
+    }
 
     createCourse(course: Course) {
         // Finds max id. Should be generated on backend
@@ -24,7 +27,7 @@ export class CoursesService {
     }
 
     getCoursesStream(): Observable<Course[]> {
-        return this.coursesStream.map(courses => {
+        return this.coursesStream.asObservable().map(courses => {
             return courses
         })
     }
@@ -56,6 +59,7 @@ export class CoursesService {
 
     removeItem(id: number) {
         this.courses.splice(this.getIndexById(id), 1)
+        this.coursesStream.next(this.courses)
     }
 
 }
