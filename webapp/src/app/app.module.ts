@@ -9,6 +9,7 @@ import { BaseModule } from './base/index'
 
 import { AppComponent } from './app.component'
 import { LoginComponent } from './login/login.component'
+import { AddCourseComponent } from './add-course/add-course.component';
 import { CoursesComponent } from './courses/courses.component'
 import { CourseDetailsComponent } from './course-details/course-details.component'
 import { ToolboxComponent } from './courses/toolbox.component'
@@ -26,7 +27,8 @@ import { routes } from './app.routes';
         CourseDetailsComponent,
         ToolboxComponent,
         CourseItemComponent,
-        CreateDateHighlighterDirective
+        CreateDateHighlighterDirective,
+        AddCourseComponent
     ],
     imports: [
         RouterModule.forRoot(routes),

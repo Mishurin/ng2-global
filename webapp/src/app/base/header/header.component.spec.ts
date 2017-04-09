@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
-import { Router, RouterModule } from '@angular/router'
+import { Router } from '@angular/router'
 
 import { AppCommonModule } from '../../common/index'
 

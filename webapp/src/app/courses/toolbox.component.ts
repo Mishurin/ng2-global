@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router'
 
 @Component({
     selector: 'app-toolbox',
@@ -13,13 +14,17 @@ export class ToolboxComponent implements OnInit {
     searchValue: string;
 
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     ngOnInit() {
     }
 
     find() {
         this.findCourses.emit(this.searchValue)
+    }
+
+    goToAddPage() {
+        this.router.navigate(['/add'])
     }
 
 }

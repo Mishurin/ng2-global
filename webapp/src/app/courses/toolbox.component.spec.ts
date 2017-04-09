@@ -1,17 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { FormsModule } from '@angular/forms'
+import { Router } from '@angular/router'
 
 import { ToolboxComponent } from './toolbox.component'
+
+class MockRouter {
+    navigate() { }
+}
 
 describe('ToolboxComponent', () => {
     let component: ToolboxComponent
     let fixture: ComponentFixture<ToolboxComponent>
+    let router: Router
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
-            declarations: [ToolboxComponent]
+            declarations: [ToolboxComponent],
+            providers: [{ provide: Router, useClass: MockRouter }]
         })
             .compileComponents()
     }))
@@ -20,6 +27,7 @@ describe('ToolboxComponent', () => {
         fixture = TestBed.createComponent(ToolboxComponent)
         component = fixture.componentInstance
         component.searchValue = 'TEST'
+        router = TestBed.get(Router)
         fixture.detectChanges()
     })
 
@@ -37,6 +45,12 @@ describe('ToolboxComponent', () => {
 
         component.find()
 
+    })
+
+    it('should redirect to the "add" course page', () => {
+        let navigate = spyOn(router, 'navigate')
+        component.goToAddPage()
+        expect(navigate).toHaveBeenCalledWith(['/add'])
     })
 
 })

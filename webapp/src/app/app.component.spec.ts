@@ -12,6 +12,7 @@ import { ToolboxComponent } from './courses/toolbox.component'
 import { CoursesComponent } from './courses/courses.component'
 import { CourseItemComponent } from './courses/course-item.component'
 import { LoginComponent } from './login/login.component'
+import { AddCourseComponent } from './add-course/add-course.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
@@ -41,6 +42,11 @@ class MockToolboxComponent { }
 })
 class MockCourseItemComponent { }
 
+@Component({
+    selector: 'app-add-course'
+})
+class MockAddCourseComponent { }
+
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -52,6 +58,7 @@ describe('AppComponent', () => {
                 ToolboxComponent,
                 CourseItemComponent,
                 LoginComponent,
+                AddCourseComponent,
                 CreateDateHighlighterDirective
             ],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
@@ -61,6 +68,7 @@ describe('AppComponent', () => {
             .overrideComponent(CoursesComponent, MockCoursesComponent)
             .overrideComponent(ToolboxComponent, MockToolboxComponent)
             .overrideComponent(CourseItemComponent, MockCourseItemComponent)
+            .overrideComponent(AddCourseComponent, MockAddCourseComponent)
             .compileComponents()
     }))
 
