@@ -1,0 +1,16 @@
+:host {
+    display: block;
+    position: relative;
+}
+
+.input {
+    width: 50px;
+}
+
+.duration {
+    display: block;
+    float: left;
+    min-width: 100px;
+    max-width: 100px;
+    margin: 10px 0 0 5px;
+}
