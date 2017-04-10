@@ -13,11 +13,12 @@ import { CoursesComponent } from './courses/courses.component'
 import { CourseItemComponent } from './courses/course-item.component'
 import { LoginComponent } from './login/login.component'
 import { AddCourseComponent } from './add-course/add-course.component'
+import { DurationComponent } from './add-course/duration.component'
+import { DateComponent } from './add-course/date.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
 import { routes } from './app.routes'
-
 
 @NgModule({})
 class MockAppCommonModule { }
@@ -43,10 +44,19 @@ class MockToolboxComponent { }
 class MockCourseItemComponent { }
 
 @Component({
-    selector: 'app-add-course'
+    selector: 'app-add-course',
 })
 class MockAddCourseComponent { }
 
+@Component({
+    selector: 'course-duration',
+})
+class MockDurationComponent { }
+
+@Component({
+    selector: 'course-date',
+})
+class MockDateComponent { }
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -59,7 +69,9 @@ describe('AppComponent', () => {
                 CourseItemComponent,
                 LoginComponent,
                 AddCourseComponent,
-                CreateDateHighlighterDirective
+                DurationComponent,
+                CreateDateHighlighterDirective,
+                DateComponent
             ],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
         })
@@ -69,6 +81,8 @@ describe('AppComponent', () => {
             .overrideComponent(ToolboxComponent, MockToolboxComponent)
             .overrideComponent(CourseItemComponent, MockCourseItemComponent)
             .overrideComponent(AddCourseComponent, MockAddCourseComponent)
+            .overrideComponent(DurationComponent, MockDurationComponent)
+            .overrideComponent(DateComponent, MockDateComponent)
             .compileComponents()
     }))
 
