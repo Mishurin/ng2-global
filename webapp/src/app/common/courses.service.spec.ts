@@ -1,4 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing'
+import { HttpModule } from '@angular/http'
 import { Observable } from 'rxjs/Rx'
 
 import { CoursesService } from './courses.service'
@@ -9,6 +10,7 @@ import { Course, CourseItem } from './index'
 describe('CoursesService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [HttpModule],
             providers: [CoursesService]
         })
     })

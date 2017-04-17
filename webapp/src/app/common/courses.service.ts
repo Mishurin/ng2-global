@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
+import { Http } from '@angular/http'
 
 import { Course, CourseItem, CoursesListMock } from './index'
 
@@ -11,7 +12,7 @@ export class CoursesService {
 
     private coursesStream: ReplaySubject<Course[]> = new ReplaySubject<Course[]>()
 
-    constructor() {
+    constructor(private http: Http) {
         this.coursesStream.next(this.courses)
     }
 
