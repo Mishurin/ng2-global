@@ -53,18 +53,19 @@ describe('LoginComponent', () => {
 
     it('should log in', fakeAsync(() => {
         let username = 'Dude'
+        let password = '123'
         let login = spyOn(auth, 'login')
         let navigate = spyOn(router, 'navigate')
         let showLoader = spyOn(loader, 'show')
         let hideLoader = spyOn(loader, 'hide')
 
-        component.login(username)
+        component.login(username, password)
 
         expect(showLoader).toHaveBeenCalled()
 
         tick(2000)
 
-        expect(login).toHaveBeenCalledWith(username)
+        expect(login).toHaveBeenCalledWith(username, password)
         expect(navigate).toHaveBeenCalledWith(['/'])
         expect(hideLoader).toHaveBeenCalled()
     }))

@@ -49,15 +49,17 @@ describe('AuthService', () => {
 
     it('should login user', inject([AuthService], (service: AuthService) => {
         let userName = 'Dude'
+        let password = '123'
         expect(service.isAuthenticated()).toBeFalsy()
-        service.login(userName)
+        service.login(userName, password)
         expect(User.toObject(localStorage.getItem(User.token)).name).toBe(userName)
         expect(service.isAuthenticated()).toBeTruthy()
     }))
 
     it('should logout user', inject([AuthService], (service: AuthService) => {
         let userName = 'Dude'
-        service.login(userName)
+        let password = '123'
+        service.login(userName, password)
         expect(service.isAuthenticated()).toBeTruthy()
         service.logout()
         expect(service.isAuthenticated()).toBeFalsy()

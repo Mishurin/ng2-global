@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
     }
 
-    login(username: string) {
-        this.auth.login(username)
+    login(username: string, password: string) {
+        this.auth.login(username, password)
         this.loader.show();
         setTimeout(() => {
             this.router.navigate(['/'])

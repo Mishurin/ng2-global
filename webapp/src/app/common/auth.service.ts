@@ -32,7 +32,7 @@ export class AuthService {
         return Boolean(this.getUserInfo())
     }
 
-    login(name: string) {
+    login(name: string, password: string) {
         localStorage.setItem(User.token, new User(name).toString())
         this.isAuthStream.next(Boolean(this.getUserInfo()))
     }
