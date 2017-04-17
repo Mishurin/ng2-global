@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Http, Response, Headers, RequestOptions } from '@angular/http'
 
-import { User } from '../common/index'
+import { User, UserInfo } from '../common/index'
 
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 
@@ -31,8 +31,15 @@ export class AuthService {
         return this.isAuthStream.asObservable()
     }
 
-    getUserInfo(): User {
-        return User.toObject(localStorage.getItem(User.tokenKey));
+    getUserInfo(): Observable<UserInfo> {
+        let opts = new RequestOptions()
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        opts.headers = headers
+        return this.http.get(getEntry(ENTRY_POINTS.USER_INFO), opts)
+            .map((response: Response) => {
+                return <UserInfo>response.json()
+            }).catch(this.handleError)
     }
 
     isAuthenticated(): boolean {
@@ -43,7 +50,7 @@ export class AuthService {
         return <AppToken>JSON.parse(localStorage.getItem(User.tokenKey))
     }
 
-    login(name: string, password: string) {
+    login(name: string, password: string): Observable<AppToken> {
         let body = {
             user: name,
             password: password
@@ -56,11 +63,11 @@ export class AuthService {
             .map((response: Response) => {
                 let data = <AppToken>response.json()
                 localStorage.setItem(User.tokenKey, JSON.stringify(data))
-                this.isAuthStream.next(Boolean(this.getUserInfo()))
-            }).catch(this.handleLoginError)
+                this.isAuthStream.next(Boolean(this.getToken()))
+            }).catch(this.handleError)
     }
 
-    handleLoginError(err: any) {
+    handleError(err: any) {
         console.log('sever error:', err);
         if (err instanceof Response) {
             return Observable.throw(err.json().error || 'backend server error');

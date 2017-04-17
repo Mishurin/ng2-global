@@ -2,7 +2,7 @@
     <app-logo></app-logo>
     <div class="breadcrumbs" *ngIf="isAuth()">Courses</div>
     <div class="user-controls" *ngIf="isAuth()">
-        <span class="user-controls__username">{{ getUserInfo().name }}</span>
+        <span class="user-controls__username">{{ userInfo.user }}</span>
         <div class="user_photo"></div>
         <span (click)="logout()" class="logout-button">logout</span>
     </div>

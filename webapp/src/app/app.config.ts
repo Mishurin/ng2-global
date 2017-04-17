@@ -3,7 +3,8 @@ export const SERVER_CONFIG = {
 }
 
 export const ENTRY_POINTS = {
-    LOGIN: 'login'
+    LOGIN: 'login',
+    USER_INFO: 'userinfo'
 }
 
 export function getEntry(entry: string) {

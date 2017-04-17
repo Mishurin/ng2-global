@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs/Rx'
 
-import { AuthService, User } from '../../common/index'
+import { AuthService, User, UserInfo } from '../../common/index'
 
 @Component({
     selector: 'app-header',
@@ -14,21 +14,24 @@ import { AuthService, User } from '../../common/index'
 export class HeaderComponent implements OnInit, OnDestroy {
 
     authSubscription: Subscription
+    userInfo: UserInfo
 
     constructor(private auth: AuthService, private router: Router, private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.authSubscription = this.auth.getAuthStream().subscribe(() => {
+            if (this.isAuth()) {
+                return this.auth.getUserInfo().subscribe((data) => {
+                    this.userInfo = data
+                    this.runCheck()
+                })
+            }
             this.runCheck()
         })
     }
 
     ngOnDestroy() {
         this.authSubscription.unsubscribe()
-    }
-
-    getUserInfo(): User {
-        return this.auth.getUserInfo()
     }
 
     isAuth(): boolean {

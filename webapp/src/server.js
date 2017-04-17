@@ -25,6 +25,7 @@ server.post('/login', function (req, res) {
     }
 
 })
+
 server.use(function (req, res, next) {
     if (isAuthorized(req)) {
         next()
@@ -32,6 +33,11 @@ server.use(function (req, res, next) {
         res.sendStatus(401)
     }
 })
+
+server.get('/userinfo', function (req, res) {
+  res.jsonp({user: 'Dude'})
+})
+
 server.use(router)
 server.listen(3000, function () {
     console.log('JSON Server is running')
