@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     getUserInfo(): User {
-        return User.toObject(localStorage.getItem(User.token));
+        return User.toObject(localStorage.getItem(User.tokenKey));
     }
 
     isAuthenticated(): boolean {
@@ -48,18 +48,24 @@ export class AuthService {
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
         opts.headers = headers
-        this.http.post(getEntry(ENTRY_POINTS.LOGIN), body, opts)
-            .map((response: Response) => <AppToken>response.json())
-            .subscribe((data) => {
-                localStorage.setItem(User.token, data.token)
+        return this.http.post(getEntry(ENTRY_POINTS.LOGIN), body, opts)
+            .map((response: Response) => {
+                let data = <AppToken>response.json()
+                localStorage.setItem(User.tokenKey, JSON.stringify(data))
                 this.isAuthStream.next(Boolean(this.getUserInfo()))
-            }, (e) => {
-                console.log('Error:', e)
-            })
+            }).catch(this.handleLoginError)
+    }
+
+    handleLoginError(err: any) {
+        console.log('sever error:', err);
+        if (err instanceof Response) {
+            return Observable.throw(err.json().error || 'backend server error');
+        }
+        return Observable.throw(err || 'backend server error');
     }
 
     logout() {
-        localStorage.removeItem(User.token)
+        localStorage.removeItem(User.tokenKey)
         this.isAuthStream.next(Boolean(this.getUserInfo()))
     }
 }

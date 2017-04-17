@@ -1,6 +1,7 @@
-import { TestBed, inject } from '@angular/core/testing'
+import { TestBed, inject, async } from '@angular/core/testing'
 import { Observable } from 'rxjs/Rx'
-import { HttpModule } from '@angular/http'
+import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http'
+import { MockBackend, MockConnection } from '@angular/http/testing'
 
 import { AuthService } from './auth.service'
 
@@ -13,12 +14,22 @@ describe('AuthService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
-            providers: [AuthService]
+            providers: [
+                AuthService,
+                {
+                    provide: Http, useFactory: (backend, options) => {
+                        return new Http(backend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions
+            ]
         })
     })
 
     beforeEach(() => {
-        localStorage.removeItem(User.token)
+        localStorage.removeItem(User.tokenKey)
     })
 
     it('should be initialized', inject([AuthService], (service: AuthService) => {
@@ -31,8 +42,8 @@ describe('AuthService', () => {
 
     it('should return user data', inject([AuthService], (service: AuthService) => {
         let user = new User('Dude')
-        localStorage.setItem(User.token, user.toString())
-        expect(service.getUserInfo().name).toBe(user.name)
+        localStorage.setItem(User.tokenKey, user.toString())
+        expect(service.getUserInfo().token).toBe(user.token)
     }))
 
     it('should be authorized if user data exist', inject([AuthService], (service: AuthService) => {
@@ -47,22 +58,38 @@ describe('AuthService', () => {
         expect(getUserInfo).toHaveBeenCalled()
     }))
 
-    it('should login user', inject([AuthService], (service: AuthService) => {
-        let userName = 'Dude'
+    it('should login user', async(inject([MockBackend, AuthService], (backend: MockBackend, service: AuthService) => {
+        let userName = 'dude'
         let password = '123'
+        let token = 'dude_token'
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let ops = new ResponseOptions({ body: { token: token } });
+                connection.mockRespond(new Response(ops));
+            }
+        })
         expect(service.isAuthenticated()).toBeFalsy()
-        service.login(userName, password)
-        expect(User.toObject(localStorage.getItem(User.token)).name).toBe(userName)
-        expect(service.isAuthenticated()).toBeTruthy()
-    }))
+        service.login(userName, password).subscribe(response => {
+            expect(User.toObject(localStorage.getItem(User.tokenKey)).token).toBe(token)
+            expect(service.isAuthenticated()).toBeTruthy()
+        })
+    })))
 
-    it('should logout user', inject([AuthService], (service: AuthService) => {
-        let userName = 'Dude'
+    it('should logout user', async(inject([MockBackend, AuthService], (backend: MockBackend, service: AuthService) => {
+        let userName = 'dude'
         let password = '123'
-        service.login(userName, password)
-        expect(service.isAuthenticated()).toBeTruthy()
-        service.logout()
-        expect(service.isAuthenticated()).toBeFalsy()
-    }))
+        let token = 'dude_token'
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let ops = new ResponseOptions({ body: { token: token } });
+                connection.mockRespond(new Response(ops));
+            }
+        })
+        service.login(userName, password).subscribe(response => {
+            expect(service.isAuthenticated()).toBeTruthy()
+            service.logout()
+            expect(service.isAuthenticated()).toBeFalsy()
+        })
+    })))
 
 })

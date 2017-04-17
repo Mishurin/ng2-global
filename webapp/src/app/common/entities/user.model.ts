@@ -1,14 +1,14 @@
 export class User {
 
-    static token: string = 'user'
+    static tokenKey: string = 'user'
 
     static toObject(json: string): User {
         return <User>JSON.parse(json)
     }
 
-    constructor(public name: string) { }
+    constructor(public token: string) { }
 
-    toString() {
+    toString(): string {
         return JSON.stringify(this)
     }
 
