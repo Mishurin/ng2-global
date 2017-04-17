@@ -1,6 +1,7 @@
 import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
+import { HttpModule } from '@angular/http'
 
 import { LoginComponent } from './login.component'
 
@@ -25,7 +26,7 @@ describe('LoginComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
+            imports: [FormsModule, HttpModule],
             declarations: [LoginComponent],
             providers: [
                 AuthService,

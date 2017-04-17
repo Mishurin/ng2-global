@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { Router } from '@angular/router'
+import { HttpModule } from '@angular/http'
 
 import { AppCommonModule } from '../../common/index'
 
@@ -19,7 +20,7 @@ describe('HeaderComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [AppCommonModule],
+            imports: [AppCommonModule, HttpModule],
             declarations: [HeaderComponent, LogoComponent],
             providers: [{ provide: Router, useClass: MockRouter }]
         })

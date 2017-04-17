@@ -1,5 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing'
 import { Observable } from 'rxjs/Rx'
+import { HttpModule } from '@angular/http'
 
 import { AuthService } from './auth.service'
 
@@ -11,6 +12,7 @@ describe('AuthService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [HttpModule],
             providers: [AuthService]
         })
     })
