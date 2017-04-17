@@ -36,7 +36,11 @@ export class AuthService {
     }
 
     isAuthenticated(): boolean {
-        return Boolean(this.getUserInfo())
+        return Boolean(this.getToken())
+    }
+
+    getToken(): AppToken {
+        return <AppToken>JSON.parse(localStorage.getItem(User.tokenKey))
     }
 
     login(name: string, password: string) {
@@ -66,6 +70,6 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem(User.tokenKey)
-        this.isAuthStream.next(Boolean(this.getUserInfo()))
+        this.isAuthStream.next(Boolean(this.getToken()))
     }
 }

@@ -40,22 +40,22 @@ describe('AuthService', () => {
         expect(service.getAuthStream() instanceof Observable).toBeTruthy()
     }))
 
-    it('should return user data', inject([AuthService], (service: AuthService) => {
-        let user = new User('Dude')
+    it('should return token data', inject([AuthService], (service: AuthService) => {
+        let user = new User('dude_token')
         localStorage.setItem(User.tokenKey, user.toString())
-        expect(service.getUserInfo().token).toBe(user.token)
+        expect(service.getToken().token).toBe(user.token)
     }))
 
-    it('should be authorized if user data exist', inject([AuthService], (service: AuthService) => {
-        let getUserInfo = spyOn(service, 'getUserInfo').and.callFake(() => true)
+    it('should be authorized if token data exist', inject([AuthService], (service: AuthService) => {
+        let getToken = spyOn(service, 'getToken').and.callFake(() => true)
         expect(service.isAuthenticated()).toBeTruthy()
-        expect(getUserInfo).toHaveBeenCalled()
+        expect(getToken).toHaveBeenCalled()
     }))
 
-    it('should be not authorized if user data doesn\'t exist', inject([AuthService], (service: AuthService) => {
-        let getUserInfo = spyOn(service, 'getUserInfo').and.callFake(() => false)
+    it('should be not authorized if token data doesn\'t exist', inject([AuthService], (service: AuthService) => {
+        let getToken = spyOn(service, 'getToken').and.callFake(() => false)
         expect(service.isAuthenticated()).toBeFalsy()
-        expect(getUserInfo).toHaveBeenCalled()
+        expect(getToken).toHaveBeenCalled()
     }))
 
     it('should login user', async(inject([MockBackend, AuthService], (backend: MockBackend, service: AuthService) => {
