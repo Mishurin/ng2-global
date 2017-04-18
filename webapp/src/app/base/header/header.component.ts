@@ -14,28 +14,28 @@ import { AuthService, User, UserInfo } from '../../common/index'
 export class HeaderComponent implements OnInit, OnDestroy {
 
     authSubscription: Subscription
-    userInfo: UserInfo
+    userInfoSubscription: Subscription
+    userInfo: UserInfo = null
 
     constructor(private auth: AuthService, private router: Router, private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.authSubscription = this.auth.getAuthStream().subscribe(() => {
-            if (this.isAuth()) {
-                return this.auth.getUserInfo().subscribe((data) => {
-                    this.userInfo = data
-                    this.runCheck()
-                })
-            }
+            this.runCheck()
+        })
+        this.userInfoSubscription = this.auth.getUserInfo().subscribe((data) => {
+            this.userInfo = data
             this.runCheck()
         })
     }
 
     ngOnDestroy() {
         this.authSubscription.unsubscribe()
+        this.userInfoSubscription.unsubscribe()
     }
 
-    isAuth(): boolean {
-        return this.auth.isAuthenticated()
+    isUserInfoShoudBeShown(): boolean {
+        return this.auth.isAuthenticated() && !!this.userInfo
     }
 
     logout() {

@@ -26,6 +26,10 @@ class MockAuthService {
         return this
     }
 
+    getAuthStream() {
+        return this
+    }
+
     subscribe(next, error) {
         next()
         return this.loginSubscription
@@ -65,10 +69,13 @@ describe('HeaderComponent', () => {
         expect(runCheck).toHaveBeenCalled()
     })
 
-    it('should return auth status', () => {
+    it('should define whether info block should be shown', () => {
         let result = true
         spyOn(authService, 'isAuthenticated').and.callFake(() => result)
-        expect(component.isAuth()).toBeTruthy()
+        component.userInfo = { name: 'Dude ' }
+        expect(component.isUserInfoShoudBeShown()).toBeTruthy()
+        component.userInfo = null
+        expect(component.isUserInfoShoudBeShown()).toBeFalsy()
     })
 
     it('should logout', () => {
@@ -82,8 +89,10 @@ describe('HeaderComponent', () => {
     })
 
     it('should unsubscribe component from auth events', () => {
-        let unsubscribe = spyOn(component.authSubscription, 'unsubscribe')
+        let unsubscribe1 = spyOn(component.authSubscription, 'unsubscribe')
+        let unsubscribe2 = spyOn(component.userInfoSubscription, 'unsubscribe')
         component.ngOnDestroy()
-        expect(unsubscribe).toHaveBeenCalled()
+        expect(unsubscribe1).toHaveBeenCalled()
+        expect(unsubscribe1).toHaveBeenCalled()
     })
 })
