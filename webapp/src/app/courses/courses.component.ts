@@ -21,8 +21,8 @@ declare var window: Window;
 })
 export class CoursesComponent implements OnInit, OnDestroy {
 
-    private _courses: CourseItem[]
-    courses: CourseItem[]
+    private _courses: CourseItem[] = []
+    courses: CourseItem[] = []
     coursesSubscription: Subscription
 
     constructor(private coursesSrv: CoursesService, private loader: LoaderService, private cd: ChangeDetectorRef) { }

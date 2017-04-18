@@ -7,7 +7,7 @@
                         [course]="course" 
                         (deleteCourse)="onDeleteCourse($event)" 
                         [highlightByCreateDate]="course.date"
-                        [ngClass]="{'top-rated': course.topRated}">
+                        [ngClass]="{'top-rated': course.isTopRated}">
     </app-course-item>
     <div *ngIf="!courses.length" class="no-courses-found">
         No data. Feel free to add a new course.

@@ -1,17 +1,28 @@
 import { TestBed, inject } from '@angular/core/testing'
-import { HttpModule } from '@angular/http'
+import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http'
+import { MockBackend, MockConnection } from '@angular/http/testing'
 import { Observable } from 'rxjs/Rx'
 
 import { CoursesService } from './courses.service'
 
-import { Course, CourseItem } from './index'
+import { Course, CourseItem, CoursesListMock } from './index'
 
 
 describe('CoursesService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
-            providers: [CoursesService]
+            providers: [
+                CoursesService,
+                {
+                    provide: Http, useFactory: (backend, options) => {
+                        return new Http(backend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions
+            ]
         })
     })
 
@@ -48,7 +59,7 @@ describe('CoursesService', () => {
         coursesStream.subscribe((e) => {
             expect(e).toEqual([course])
         })
-        
+
     }))
 
     it('should return an index by id', inject([CoursesService], (service: CoursesService) => {
@@ -62,8 +73,16 @@ describe('CoursesService', () => {
         expect(nonExistentId).toBeNull()
     }))
 
-    it('should return list of courses', inject([CoursesService], (service: CoursesService) => {
-        expect(service.getList()).toBe(service.courses)
+    it('should return list of courses', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let ops = new ResponseOptions({ body: CoursesListMock });
+                connection.mockRespond(new Response(ops));
+            }
+        })
+        service.getList().subscribe(response => {
+            expect(response).toEqual(CoursesListMock)
+        })
     }))
 
     it('should update course fields', inject([CoursesService], (service: CoursesService) => {

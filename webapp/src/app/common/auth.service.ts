@@ -38,7 +38,8 @@ export class AuthService {
         opts.headers = headers
         return this.http.get(getEntry(ENTRY_POINTS.USER_INFO), opts)
             .map((response: Response) => {
-                return <UserInfo>response.json()
+                let data = response.json()
+                return new UserInfo(data.user)
             }).catch(this.handleError)
     }
 

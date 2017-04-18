@@ -4,5 +4,5 @@ export interface CourseItem {
     date: Date
     duration: number
     description: string
-    topRated?: boolean
+    isTopRated?: boolean
 }

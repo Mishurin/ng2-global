@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
-import { Http } from '@angular/http'
+import { Http, Response, RequestOptions, Headers } from '@angular/http'
 
 import { Course, CourseItem, CoursesListMock } from './index'
+import { getEntry, ENTRY_POINTS } from '../app.config'
 
 @Injectable()
 export class CoursesService {
@@ -12,9 +13,7 @@ export class CoursesService {
 
     private coursesStream: ReplaySubject<Course[]> = new ReplaySubject<Course[]>()
 
-    constructor(private http: Http) {
-        this.coursesStream.next(this.courses)
-    }
+    constructor(private http: Http) { }
 
     createCourse(course: Course) {
         // Finds max id. Should be generated on backend
@@ -28,8 +27,16 @@ export class CoursesService {
     }
 
     getCoursesStream(): Observable<Course[]> {
+        this.getList().subscribe()
         return this.coursesStream.asObservable().map(courses => {
-            return courses
+            return courses.map((course => {
+                return new Course(course.id,
+                    course.name,
+                    new Date(course.date),
+                    course.duration,
+                    course.description,
+                    course.isTopRated)
+            }));
         })
     }
 
@@ -46,8 +53,26 @@ export class CoursesService {
         return courseIndex
     }
 
-    getList(): Course[] {
-        return this.courses
+    getList(): Observable<any[]> {
+        let opts = new RequestOptions()
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        opts.headers = headers
+        return this.http.get(getEntry(ENTRY_POINTS.COURSES), opts)
+            .map((response: Response) => {
+                let data = <any[]>response.json()
+                this.coursesStream.next(data)
+                return data
+            }).catch(this.handleError)
+    }
+
+
+    handleError(err: any) {
+        console.log('sever error:', err);
+        if (err instanceof Response) {
+            return Observable.throw(err.json().error || 'backend server error');
+        }
+        return Observable.throw(err || 'backend server error');
     }
 
     updateItem(id: number, newFields: CourseItem) {
