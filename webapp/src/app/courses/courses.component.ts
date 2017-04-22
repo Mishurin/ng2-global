@@ -55,7 +55,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
 
     getPage(page: number) {
-        this.coursesSrv.getPage(page)
+        this.coursesSrv.getPage(page).subscribe()
     }
 
     confirmWrapper(message: string) {
