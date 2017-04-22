@@ -1,4 +1,4 @@
-import { async, fakeAsync, tick, ComponentFixture, TestBed} from '@angular/core/testing'
+import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing'
 import { RouterTestingModule } from '@angular/router/testing'
 import { FormsModule } from '@angular/forms'
 import { Component, Input } from '@angular/core'
@@ -12,7 +12,7 @@ import { CourseItemComponent } from './course-item.component'
 import { CreateDateHighlighterDirective } from './create-date-highlighter.directive'
 
 
-import { Course, CoursesService, DurationPipe, OrderByPipe } from '../common/index'
+import { Course, CoursesService, DurationPipe, OrderByPipe, CoursesListMock } from '../common/index'
 import { LoaderService, ProfilerComponent, BaseModule } from '../base/index'
 
 class MockCoursesService {
@@ -21,7 +21,13 @@ class MockCoursesService {
     }
     removeItem(id: number) { }
     confirmWrapper(message: string) { }
-    getCoursesStream() { return Observable.of([]) }
+    getCoursesStream(): Observable<any> {
+        return Observable.of({
+            items: CoursesListMock,
+            count: 10,
+            limit: 5
+        })
+    }
 }
 
 class MockLoaderService {
@@ -87,7 +93,7 @@ describe('CoursesComponent', () => {
     })
 
     it('should subscribe component for courses', () => {
-        let getCoursesStream = spyOn(coursesSrv, 'getCoursesStream').and.callFake(() => Observable.of([]).map(i => i))
+        let getCoursesStream = spyOn(coursesSrv, 'getCoursesStream').and.callThrough()
         component.ngOnInit()
         expect(getCoursesStream).toHaveBeenCalled()
     })

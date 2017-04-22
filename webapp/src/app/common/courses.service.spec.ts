@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing'
-import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http'
+import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions, Headers } from '@angular/http'
 import { MockBackend, MockConnection } from '@angular/http/testing'
 import { Observable } from 'rxjs/Rx'
 
@@ -73,15 +73,23 @@ describe('CoursesService', () => {
         expect(nonExistentId).toBeNull()
     }))
 
-    it('should return list of courses', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+    it('should return list of courses per page', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
         backend.connections.subscribe((connection: MockConnection) => {
             {
-                let ops = new ResponseOptions({ body: CoursesListMock });
-                connection.mockRespond(new Response(ops));
+                let opts = new ResponseOptions({ body: CoursesListMock });
+                let headers = new Headers()
+                headers.append('x-total-count', '10')
+                opts.headers = headers
+                connection.mockRespond(new Response(opts));
             }
         })
-        service.getList().subscribe(response => {
-            expect(response).toEqual(CoursesListMock)
+
+        service.getPage(0).subscribe(response => {
+            expect(response).toEqual({
+                items: CoursesListMock,
+                count: 10,
+                limit: 5
+            })
         })
     }))
 

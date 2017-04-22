@@ -1,4 +1,4 @@
-<app-profiler></app-profiler>
+<!--<app-profiler></app-profiler>-->
 
 <app-toolbox (findCourses)="onFindCourses($event)"></app-toolbox>
 
@@ -9,6 +9,9 @@
                         [highlightByCreateDate]="course.date"
                         [ngClass]="{'top-rated': course.isTopRated}">
     </app-course-item>
+    <div *ngIf="isPagesBlockShouldBeShown()">
+        <a href="#" *ngFor="let pageNumber of getPageNumbers()" (click)="getPage(pageNumber)">{{ pageNumber }}</a>
+    </div>
     <div *ngIf="!courses.length" class="no-courses-found">
         No data. Feel free to add a new course.
     </div>

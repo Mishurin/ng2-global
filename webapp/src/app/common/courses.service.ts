@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
-import { Http, Response, RequestOptions, Headers } from '@angular/http'
+import { Http, Response, RequestOptions, Headers, URLSearchParams } from '@angular/http'
 
 import { Course, CourseItem, CoursesListMock } from './index'
 import { getEntry, ENTRY_POINTS } from '../app.config'
+
+export interface Pages<T> {
+    items: T[]
+    count: number,
+    limit: number
+}
 
 @Injectable()
 export class CoursesService {
@@ -11,7 +17,7 @@ export class CoursesService {
 
     courses: Course[] = [...CoursesListMock]
 
-    private coursesStream: ReplaySubject<Course[]> = new ReplaySubject<Course[]>()
+    private coursesStream: ReplaySubject<Pages<Course>> = new ReplaySubject<Pages<Course>>()
 
     constructor(private http: Http) { }
 
@@ -26,17 +32,23 @@ export class CoursesService {
         return this.courses[this.getIndexById(id)]
     }
 
-    getCoursesStream(): Observable<Course[]> {
-        this.getList().subscribe()
-        return this.coursesStream.asObservable().map(courses => {
-            return courses.map((course => {
+    getCoursesStream(): Observable<Pages<Course>> {
+        this.getPage(0).subscribe()
+        return this.coursesStream.asObservable().map(data => {
+            let items: Course[] = data.items.map((course => {
                 return new Course(course.id,
                     course.name,
                     new Date(course.date),
                     course.duration,
                     course.description,
                     course.isTopRated)
-            }));
+            }))
+            
+            return <Pages<Course>>{
+                items: items,
+                count: data.count,
+                limit: data.limit
+            }
         })
     }
 
@@ -53,16 +65,25 @@ export class CoursesService {
         return courseIndex
     }
 
-    getList(): Observable<any[]> {
+    getPage(page: number): Observable<Pages<any>> {
+        let params: URLSearchParams = new URLSearchParams();
+        const limit = 5
+        params.set('_page', String(page));
+        params.set('_limit', String(limit))
         let opts = new RequestOptions()
+        opts.search = params
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
         opts.headers = headers
         return this.http.get(getEntry(ENTRY_POINTS.COURSES), opts)
             .map((response: Response) => {
-                let data = <any[]>response.json()
-                this.coursesStream.next(data)
-                return data
+                let result = <Pages<any>>{
+                    items: response.json(),
+                    count: Number(response.headers.get('x-total-count')),
+                    limit: limit
+                }
+                this.coursesStream.next(result)
+                return result;
             }).catch(this.handleError)
     }
 
@@ -85,7 +106,8 @@ export class CoursesService {
 
     removeItem(id: number) {
         this.courses.splice(this.getIndexById(id), 1)
-        this.coursesStream.next(this.courses)
+        // TODO: sync with the main pipe
+        //this.coursesStream.next(this.courses)
     }
 
 }
