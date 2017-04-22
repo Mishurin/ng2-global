@@ -56,7 +56,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
 
     getPage(page: number, query: string) {
-        this.coursesSrv.getPage(page).subscribe()
+        this.coursesSrv.getPage(page, query).subscribe()
     }
 
     confirmWrapper(message: string) {
@@ -76,12 +76,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
     onFindCourses(searchVal: string) {
         this.searchVal = searchVal
         this.coursesSrv.getPage(0, searchVal).subscribe()
-    }
-
-    static filterCourses(courses: CourseItem[], searchVal: string): CourseItem[] {
-        return courses.filter((course: CourseItem) => {
-            return course.name.toLowerCase().includes(searchVal.toLowerCase()) || !!!searchVal
-        })
     }
 
     static filterOutOld(course: CourseItem[]): CourseItem[] {

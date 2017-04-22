@@ -16,12 +16,16 @@ import { Course, CoursesService, DurationPipe, OrderByPipe, CoursesListMock } fr
 import { LoaderService, ProfilerComponent, BaseModule } from '../base/index'
 
 class MockCoursesService {
-    getList(): Course[] {
-        return []
-    }
     removeItem(id: number) { }
     confirmWrapper(message: string) { }
     getCoursesStream(): Observable<any> {
+        return Observable.of({
+            items: CoursesListMock,
+            count: 10,
+            limit: 5
+        })
+    }
+    getPage(page: number, query: string): Observable<any> {
         return Observable.of({
             items: CoursesListMock,
             count: 10,
@@ -140,24 +144,29 @@ describe('CoursesComponent', () => {
 
     })
 
-    it('should filter courses', () => {
-        let course1 = new Course(1, 'Course1', new Date(), 10, "Description...", true)
-        let course2 = new Course(2, 'Course2', new Date(), 10, "Description...", true)
-        let courses = [course1, course2]
-
-        expect(CoursesComponent.filterCourses(courses, 'Course1')).toEqual([course1])
-        expect(CoursesComponent.filterCourses(courses, 'Course2')).toEqual([course2])
-        expect(CoursesComponent.filterCourses(courses, '')).toEqual([course1, course2])
-    })
-
     it('should update list of properties on find event', () => {
         let course1 = new Course(1, 'Course1', new Date(), 10, "Description...", true)
         let course2 = new Course(2, 'Course2', new Date(), 10, "Description...", true)
         let courses = [course1, course2]
-        let filterCourses = spyOn(CoursesComponent, 'filterCourses').and.callFake(() => courses)
+
+        
+        let getPage = spyOn(coursesSrv, 'getPage').and.callThrough()
+
+        let getCoursesStream = spyOn(coursesSrv, 'getCoursesStream').and.callFake(() => {
+            return Observable.of({
+                items: courses,
+                count: 10,
+                limit: 5
+            })
+        })
+        
+        // Needed to reinitialize subscription
+        component.ngOnInit()
+
         component.onFindCourses('Course1')
 
-        expect(filterCourses).toHaveBeenCalled()
+        expect(getPage).toHaveBeenCalledWith(0, 'Course1')
+        expect(getCoursesStream).toHaveBeenCalled()
         expect(component.courses).toEqual(courses)
     })
 
