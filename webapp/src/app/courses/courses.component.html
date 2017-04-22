@@ -9,8 +9,8 @@
                         [highlightByCreateDate]="course.date"
                         [ngClass]="{'top-rated': course.isTopRated}">
     </app-course-item>
-    <div *ngIf="isPagesBlockShouldBeShown()">
-        <a href="#" *ngFor="let pageNumber of getPageNumbers()" (click)="getPage(pageNumber)">{{ pageNumber }}</a>
+    <div *ngIf="isPagesBlockShouldBeShown()" class="pages">
+        <button *ngFor="let pageNumber of getPageNumbers()" (click)="getPage(pageNumber)">{{ pageNumber }}</button>
     </div>
     <div *ngIf="!courses.length" class="no-courses-found">
         No data. Feel free to add a new course.
