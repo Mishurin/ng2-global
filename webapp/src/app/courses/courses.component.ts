@@ -25,6 +25,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     courses: CourseItem[] = []
     coursesSubscription: Subscription
     pages: Pages<CourseItem> = null
+    searchVal: string = null
 
     constructor(private coursesSrv: CoursesService, private loader: LoaderService, private cd: ChangeDetectorRef) { }
 
@@ -54,7 +55,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
         return result
     }
 
-    getPage(page: number) {
+    getPage(page: number, query: string) {
         this.coursesSrv.getPage(page).subscribe()
     }
 
@@ -73,7 +74,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
 
     onFindCourses(searchVal: string) {
-        this.courses = CoursesComponent.filterCourses(this._courses, searchVal)
+        this.searchVal = searchVal
+        this.coursesSrv.getPage(0, searchVal).subscribe()
     }
 
     static filterCourses(courses: CourseItem[], searchVal: string): CourseItem[] {

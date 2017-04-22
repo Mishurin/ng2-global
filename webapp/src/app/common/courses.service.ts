@@ -65,11 +65,12 @@ export class CoursesService {
         return courseIndex
     }
 
-    getPage(page: number): Observable<Pages<any>> {
+    getPage(page: number, query?: string): Observable<Pages<any>> {
         let params: URLSearchParams = new URLSearchParams();
         const limit = 5
         params.set('_page', String(page));
         params.set('_limit', String(limit))
+        if(query) params.set('q', query)
         let opts = new RequestOptions()
         opts.search = params
         let headers = new Headers()
