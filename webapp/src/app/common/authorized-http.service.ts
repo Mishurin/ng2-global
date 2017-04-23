@@ -14,7 +14,8 @@ export class AuthorizedHttpService extends Http {
     }
 
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        let token = localStorage.getItem(User.tokenKey)
+        let tokenStored = localStorage.getItem(User.tokenKey)
+        let token = tokenStored? JSON.parse(tokenStored).token : null
         if (typeof url === 'string') {
             if (!options) {
                 options = { headers: new Headers() }

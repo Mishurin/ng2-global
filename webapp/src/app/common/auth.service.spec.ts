@@ -5,7 +5,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing'
 
 import { AuthService } from './auth.service'
 
-import { User } from '../common/index'
+import { User, AuthorizedHttpService } from '../common/index'
 
 declare var localStorage: any
 
@@ -16,6 +16,12 @@ describe('AuthService', () => {
             imports: [HttpModule],
             providers: [
                 AuthService,
+                {
+                    provide: AuthorizedHttpService, useFactory: (backend, options) => {
+                        return new AuthorizedHttpService(backend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
                 {
                     provide: Http, useFactory: (backend, options) => {
                         return new Http(backend, options);

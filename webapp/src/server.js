@@ -4,7 +4,7 @@ var router = jsonServer.router('db.json')
 var middlewares = jsonServer.defaults()
 
 var isAuthorized = function (req) {
-    return true
+    return req.headers['authorization'] && req.headers['authorization'].includes('dude_token')
 }
 
 var doesExist = function (req) {
@@ -23,7 +23,6 @@ server.post('/login', function (req, res) {
     } else {
         res.sendStatus(403)
     }
-
 })
 
 server.use(function (req, res, next) {

@@ -6,12 +6,14 @@ import { HttpModule } from '@angular/http'
 import { AuthGuard } from './auth.guard'
 import { AuthService } from './auth.service'
 
+import { AuthorizedHttpService } from './authorized-http.service'
+
 describe('AuthGuard', () => {
     let auth: AuthService
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, HttpModule],
-            providers: [AuthService, AuthGuard]
+            providers: [AuthService, AuthGuard, AuthorizedHttpService]
         })
     })
 

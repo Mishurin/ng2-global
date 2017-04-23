@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core'
-import { Http, Response, Headers, RequestOptions } from '@angular/http'
+import { Http, Response, Headers, RequestOptions, Request, RequestMethod } from '@angular/http'
 
 import { User, UserInfo } from '../common/index'
 
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 
-import { } from '../../environments/'
 import { getEntry, ENTRY_POINTS } from '../app.config'
+
+import { AuthorizedHttpService } from './authorized-http.service'
 
 export interface AppToken {
     token: string
@@ -25,7 +26,7 @@ export class AuthService {
 
     private isAuthStream: ReplaySubject<boolean> = new ReplaySubject<boolean>()
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private aHttp: AuthorizedHttpService) { }
 
     getAuthStream(): Observable<boolean> {
         return this.isAuthStream.asObservable()
@@ -36,7 +37,10 @@ export class AuthService {
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
         opts.headers = headers
-        return this.http.get(getEntry(ENTRY_POINTS.USER_INFO), opts)
+        opts.url = getEntry(ENTRY_POINTS.USER_INFO)
+        opts.method = RequestMethod.Get
+        let request = new Request(opts)
+        return this.aHttp.request(request, opts)
             .map((response: Response) => {
                 let data = response.json()
                 return new UserInfo(data.user)
