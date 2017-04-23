@@ -6,6 +6,7 @@ import { CourseItem, CoureItemMock, CoursesService, OrderByPipe, Pages } from '.
 import { LoaderService } from '../base/index'
 
 import { getTimeSpanInDays } from '../utils/date.utils'
+import { getIndexById } from '../utils/collection.utils'
 
 interface Window {
     confirm(message: string): boolean
@@ -66,10 +67,11 @@ export class CoursesComponent implements OnInit, OnDestroy {
     onDeleteCourse(course: CourseItem) {
         if (this.confirmWrapper("Are you sure?")) {
             this.loader.show()
-            setTimeout(() => {
-                this.coursesSrv.removeItem(course.id)
+            this.coursesSrv.removeItem(course.id).subscribe((data) => {
+                this.courses.splice(getIndexById(course.id, this.courses), 1)
                 this.loader.hide()
-            }, 1000)
+                this.cd.markForCheck()
+            })
         }
     }
 

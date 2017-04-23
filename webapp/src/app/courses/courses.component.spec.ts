@@ -1,4 +1,4 @@
-import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing'
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { RouterTestingModule } from '@angular/router/testing'
 import { FormsModule } from '@angular/forms'
 import { Component, Input } from '@angular/core'
@@ -16,7 +16,6 @@ import { Course, CoursesService, DurationPipe, OrderByPipe, CoursesListMock } fr
 import { LoaderService, ProfilerComponent, BaseModule } from '../base/index'
 
 class MockCoursesService {
-    removeItem(id: number) { }
     confirmWrapper(message: string) { }
     getCoursesStream(): Observable<any> {
         return Observable.of({
@@ -31,6 +30,9 @@ class MockCoursesService {
             count: 10,
             limit: 5
         })
+    }
+    removeItem(id: number) {
+        return Observable.of({})
     }
 }
 
@@ -112,10 +114,10 @@ describe('CoursesComponent', () => {
         expect(component.courses).toBeTruthy()
     })
 
-    it('should call delete method of service on ok', fakeAsync(() => {
+    it('should call delete method of service on ok', () => {
         let courseId = 9999
         let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
-        let removeItem = spyOn(coursesSrv, 'removeItem')
+        let removeItem = spyOn(coursesSrv, 'removeItem').and.callThrough()
         let showLoader = spyOn(loader, 'show')
         let hideLoader = spyOn(loader, 'hide')
         component.courses.push(course)
@@ -125,12 +127,11 @@ describe('CoursesComponent', () => {
 
         expect(showLoader).toHaveBeenCalled()
 
-        tick(1000)
-
         expect(removeItem).toHaveBeenCalledWith(courseId)
+        expect(component.courses).not.toContain(course)
         expect(hideLoader).toHaveBeenCalled()
 
-    }))
+    })
 
     it('should not call delete method of service on cancel', () => {
         let courseId = 9999

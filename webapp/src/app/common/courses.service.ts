@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 import { Http, Response, RequestOptions, Headers, URLSearchParams } from '@angular/http'
 
-import { Course, CourseItem, CoursesListMock } from './index'
+import { Course, CourseItem } from './index'
 import { getEntry, ENTRY_POINTS } from '../app.config'
+
+import { getIndexById } from '../utils/collection.utils'
 
 export interface Pages<T> {
     items: T[]
@@ -13,9 +15,6 @@ export interface Pages<T> {
 
 @Injectable()
 export class CoursesService {
-
-
-    courses: CourseItem[] = [...CoursesListMock]
 
     private coursesStream: ReplaySubject<Pages<Course>> = new ReplaySubject<Pages<Course>>()
 
@@ -53,19 +52,6 @@ export class CoursesService {
         })
     }
 
-    getIndexById(id: number): number {
-        let courseIndex = null
-
-        this.courses.forEach((course, index) => {
-            if (course.id === id) {
-                courseIndex = index
-                return
-            }
-        })
-
-        return courseIndex
-    }
-
     getPage(page: number, query?: string): Observable<Pages<any>> {
         let params: URLSearchParams = new URLSearchParams();
         const limit = 5
@@ -99,15 +85,20 @@ export class CoursesService {
     }
 
     updateItem(id: number, newFields: CourseItem) {
-        let course = this.courses[this.getIndexById(id)]
-        course.name = newFields.name
-        course.date = newFields.date
-        course.duration = newFields.duration
-        course.description = newFields.description
+        // TODO: make it in line with other backend functionallity
+        // let course = this.courses[getIndexById(id, this.courses)]
+        // course.name = newFields.name
+        // course.date = newFields.date
+        // course.duration = newFields.duration
+        // course.description = newFields.description
     }
 
     removeItem(id: number) {
-        this.courses.splice(this.getIndexById(id), 1)
+        let opts = new RequestOptions()
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        opts.headers = headers
+        return this.http.delete(`${getEntry(ENTRY_POINTS.COURSES)}/${id}`, opts).catch(this.handleError)
         // TODO: sync with the main pipe
         //this.coursesStream.next(this.courses)
     }

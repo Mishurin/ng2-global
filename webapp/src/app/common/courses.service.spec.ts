@@ -30,10 +30,6 @@ describe('CoursesService', () => {
         expect(service).toBeTruthy()
     }))
 
-    it('should have initial courses list', inject([CoursesService], (service: CoursesService) => {
-        expect(service.courses).toBeTruthy()
-    }))
-
     it('shoud respond with new item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
         let id = 9999
         let name = 'video'
@@ -63,8 +59,6 @@ describe('CoursesService', () => {
 
     it('should return observable stream', inject([CoursesService], (service: CoursesService) => {
         let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
-        service.courses.length = 0
-        service.courses.push(course)
         let coursesStream = service.getCoursesStream()
         expect(coursesStream instanceof Observable).toBeTruthy()
 
@@ -72,17 +66,6 @@ describe('CoursesService', () => {
             expect(e).toEqual([course])
         })
 
-    }))
-
-    it('should return an index by id', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
-        service.courses.push(course)
-        let courseId = service.getIndexById(9999)
-
-        expect(service.courses[courseId]).toBe(course)
-
-        let nonExistentId = service.getIndexById(Number.POSITIVE_INFINITY)
-        expect(nonExistentId).toBeNull()
     }))
 
     it('should return list of courses per page', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
@@ -105,41 +88,23 @@ describe('CoursesService', () => {
         })
     }))
 
-    it('should update course fields', inject([CoursesService], (service: CoursesService) => {
+    it('should remove item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
         let courseId = 9999
         let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
-        service.courses.push(course)
-        let newName = 'new name'
-        let newDate = new Date()
-        let newDuration = 9999
-        let newDescription = 'new desc'
-        let newFields: CourseItem = {
-            name: newName,
-            date: newDate,
-            duration: newDuration,
-            description: newDescription
-        }
-        service.updateItem(course.id, newFields)
 
-        expect(course.id).toBe(courseId)
-        expect(course.name).toBe(newName)
-        expect(course.date).toBe(newDate)
-        expect(course.duration).toBe(newDuration)
-        expect(course.description).toBe(newDescription)
-    }))
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let opts = new ResponseOptions();
+                connection.mockRespond(new Response(opts));
+            }
+        })
 
-    it('should remove item from list', inject([CoursesService], (service: CoursesService) => {
-        let courseId = 9999
-        let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
-        service.courses.push(course)
+        let requestFinished = false
 
-        expect(service.courses).toContain(course)
-        let numberOfCoursesBeforeDeletion = service.courses.length
-
-        service.removeItem(courseId)
-
-        expect(service.courses).not.toContain(course)
-        expect(service.courses.length).toBe(numberOfCoursesBeforeDeletion - 1)
+        service.removeItem(courseId).subscribe(() => {
+            requestFinished = true
+            expect(requestFinished).toBeTruthy()
+        })
 
     }))
 
