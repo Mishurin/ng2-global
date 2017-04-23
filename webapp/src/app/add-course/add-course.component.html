@@ -1,16 +1,16 @@
 <form>
     <div class="clearfix row">
         <label for="title" class="label">Title</label>
-        <input type="text" id="title" name="title" class="input">
+        <input type="text" id="title" name="title" class="input" [(ngModel)]="title">
     </div>
     <div class="clearfix row">
         <label for="description" class="label">Description</label>
-        <textarea name="description" id="description" cols="30" rows="10" class="input"></textarea>
+        <textarea name="description" id="description" cols="30" rows="10" class="input" [(ngModel)]="description"></textarea>
     </div>
     <course-date></course-date>
     <course-duration></course-duration>
     <div class="clearfix row">
-        <button type="button" (click)="save()" class="save-btn">Save</button>
+        <button type="button" (click)="save({name: title, description: description})" class="save-btn">Save</button>
         <button type="button" (click)="cancel()" class="cancel-btn">Cancel</button>
     </div>
 </form>

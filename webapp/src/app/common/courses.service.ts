@@ -15,21 +15,22 @@ export interface Pages<T> {
 export class CoursesService {
 
 
-    courses: Course[] = [...CoursesListMock]
+    courses: CourseItem[] = [...CoursesListMock]
 
     private coursesStream: ReplaySubject<Pages<Course>> = new ReplaySubject<Pages<Course>>()
 
     constructor(private http: Http) { }
 
-    createCourse(course: Course) {
-        // Finds max id. Should be generated on backend
-        let id = Math.max.apply(Math, this.courses.map(course => course.id))
-        course.id = id === null ? 0 : id + 1
-        this.courses.push(course)
-    }
-
-    getCourseById(id: number): Course {
-        return this.courses[this.getIndexById(id)]
+    createCourse(course: CourseItem): Observable<any> {
+        let body = course
+        let opts = new RequestOptions()
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        opts.headers = headers
+        return this.http.post(getEntry(ENTRY_POINTS.COURSES), body, opts).map((res: Response) => {
+            this.getPage(0).subscribe()
+            return <Course>res.json()
+        }).catch(this.handleError)
     }
 
     getCoursesStream(): Observable<Pages<Course>> {
@@ -43,7 +44,7 @@ export class CoursesService {
                     course.description,
                     course.isTopRated)
             }))
-            
+
             return <Pages<Course>>{
                 items: items,
                 count: data.count,
@@ -70,7 +71,7 @@ export class CoursesService {
         const limit = 5
         params.set('_page', String(page));
         params.set('_limit', String(limit))
-        if(query) params.set('q', query)
+        if (query) params.set('q', query)
         let opts = new RequestOptions()
         opts.search = params
         let headers = new Headers()

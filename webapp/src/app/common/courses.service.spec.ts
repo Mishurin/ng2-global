@@ -34,20 +34,32 @@ describe('CoursesService', () => {
         expect(service.courses).toBeTruthy()
     }))
 
-    it('shoud append a new item within courses list', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(null, 'video', new Date(), 10, "Description...", true)
-        service.createCourse(course)
+    it('shoud respond with new item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+        let id = 9999
+        let name = 'video'
+        let date = new Date()
+        let duration = 30
+        let description = 'Description...'
+        let isTopRated = false
+        let course = new Course(null, name, date, duration, description, isTopRated)
 
-        expect(course.id).not.toBeNull()
-        expect(service.courses).toContain(course)
+        let getPage = spyOn(service, 'getPage').and.callFake(() => Observable.of([]))
+
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let opts = new ResponseOptions();
+                opts.body = new Course(id, name, date, duration, description, isTopRated)
+                connection.mockRespond(new Response(opts));
+            }
+        })
+
+        service.createCourse(course).subscribe(response => {
+            expect(response).toEqual(new Course(id, name, date, duration, description, isTopRated))
+            expect(getPage).toHaveBeenCalled()
+        })
+
     }))
 
-    it('should return a course by id', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
-        service.courses.push(course)
-
-        expect(service.getCourseById(9999)).toBe(course)
-    }))
 
     it('should return observable stream', inject([CoursesService], (service: CoursesService) => {
         let course = new Course(9999, 'video', new Date(), 10, "Description...", true)

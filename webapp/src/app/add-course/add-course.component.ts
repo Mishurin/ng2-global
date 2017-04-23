@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+
+import { CoursesService, CourseItem } from '../common/index'
 
 @Component({
     selector: 'app-add-course',
@@ -7,12 +10,20 @@ import { Component, OnInit } from '@angular/core'
 })
 export class AddCourseComponent implements OnInit {
 
-    constructor() { }
+    constructor(private courseSrv: CoursesService, private router: Router) { }
 
     ngOnInit() {
     }
 
-    save() {
+    save(course: CourseItem) {
+        this.courseSrv.createCourse({
+            name: course.name,
+            date: new Date(),
+            duration: 30,
+            description: course.description
+        }).subscribe(() => {
+            this.router.navigate(['/'])
+        })
     }
 
     cancel() {
