@@ -17,14 +17,9 @@ import { AuthorizedHttpService } from './authorized-http.service'
     declarations: [DurationPipe, OrderByPipe],
     providers: [
         CoursesService,
-        AuthService, AuthGuard,
-        {
-            provide: AuthorizedHttpService,
-            useFactory: (backend: XHRBackend, options: RequestOptions) => {
-                return new AuthorizedHttpService(backend, options);
-            },
-            deps: [XHRBackend, RequestOptions]
-        }
+        AuthService, 
+        AuthGuard,
+        AuthorizedHttpService
     ]
 })
 export class AppCommonModule { }

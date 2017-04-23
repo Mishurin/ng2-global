@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx'
 
 import { CoursesService } from './courses.service'
 
-import { Course, CourseItem, CoursesListMock } from './index'
+import { Course, CourseItem, CoursesListMock, AuthorizedHttpService } from './index'
 
 
 describe('CoursesService', () => {
@@ -15,13 +15,13 @@ describe('CoursesService', () => {
             providers: [
                 CoursesService,
                 {
-                    provide: Http, useFactory: (backend, options) => {
-                        return new Http(backend, options);
+                    provide: AuthorizedHttpService, useFactory: (backend, options) => {
+                        return new AuthorizedHttpService(backend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 },
                 MockBackend,
-                BaseRequestOptions
+                BaseRequestOptions,
             ]
         })
     })

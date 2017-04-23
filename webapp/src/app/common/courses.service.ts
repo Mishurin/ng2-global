@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
-import { Http, Response, RequestOptions, Headers, URLSearchParams } from '@angular/http'
+import { Http, Response, RequestOptions, Headers, URLSearchParams, RequestMethod, Request } from '@angular/http'
 
 import { Course, CourseItem } from './index'
+import { AuthorizedHttpService } from './authorized-http.service'
 import { getEntry, ENTRY_POINTS } from '../app.config'
 
 import { getIndexById } from '../utils/collection.utils'
@@ -18,15 +19,20 @@ export class CoursesService {
 
     private coursesStream: ReplaySubject<Pages<Course>> = new ReplaySubject<Pages<Course>>()
 
-    constructor(private http: Http) { }
+    constructor(private aHttp: AuthorizedHttpService) { }
 
     createCourse(course: CourseItem): Observable<any> {
-        let body = course
-        let opts = new RequestOptions()
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
-        opts.headers = headers
-        return this.http.post(getEntry(ENTRY_POINTS.COURSES), body, opts).map((res: Response) => {
+        let reqOptions = new RequestOptions()
+        reqOptions.body = course
+        reqOptions.url = getEntry(ENTRY_POINTS.COURSES)
+        reqOptions.headers = headers
+        reqOptions.method = RequestMethod.Post
+
+        let request = new Request(reqOptions)
+        
+        return this.aHttp.request(request).map((res: Response) => {
             this.getPage(0).subscribe()
             return <Course>res.json()
         }).catch(this.handleError)
@@ -58,12 +64,15 @@ export class CoursesService {
         params.set('_page', String(page));
         params.set('_limit', String(limit))
         if (query) params.set('q', query)
-        let opts = new RequestOptions()
-        opts.search = params
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
-        opts.headers = headers
-        return this.http.get(getEntry(ENTRY_POINTS.COURSES), opts)
+        let reqOptions = new RequestOptions()
+        reqOptions.url =  getEntry(ENTRY_POINTS.COURSES)
+        reqOptions.search = params
+        reqOptions.method =  RequestMethod.Get
+        reqOptions.headers = headers
+        let request = new Request(reqOptions)
+        return this.aHttp.request(request)
             .map((response: Response) => {
                 let result = <Pages<any>>{
                     items: response.json(),
@@ -94,11 +103,15 @@ export class CoursesService {
     }
 
     removeItem(id: number) {
-        let opts = new RequestOptions()
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
-        opts.headers = headers
-        return this.http.delete(`${getEntry(ENTRY_POINTS.COURSES)}/${id}`, opts).catch(this.handleError)
+        let reqOptions = new RequestOptions()
+        reqOptions.url = `${getEntry(ENTRY_POINTS.COURSES)}/${id}`
+        reqOptions.method = RequestMethod.Delete
+        reqOptions.headers = headers
+        let request = new Request(reqOptions)
+        
+        return this.aHttp.request(request).catch(this.handleError)
         // TODO: sync with the main pipe
         //this.coursesStream.next(this.courses)
     }

@@ -10,8 +10,6 @@ declare var localStorage: any
 export class AuthorizedHttpService extends Http {
 
     constructor(backend: XHRBackend, options: RequestOptions) {
-        let token = localStorage.getItem(User.tokenKey)
-        options.headers.set('Authorization', `Bearer ${token}`)
         super(backend, options)
     }
 

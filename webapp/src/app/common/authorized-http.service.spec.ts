@@ -8,13 +8,7 @@ describe('AuthorizedHttpService', () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
-                {
-                    provide: AuthorizedHttpService,
-                    useFactory: (backend: XHRBackend, options: RequestOptions) => {
-                        return new AuthorizedHttpService(backend, options);
-                    },
-                    deps: [XHRBackend, RequestOptions]
-                }
+                AuthorizedHttpService
             ]
         })
     })
