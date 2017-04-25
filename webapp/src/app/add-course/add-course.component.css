@@ -32,3 +32,21 @@
     position: relative;
     top: 60px;
 }
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+    border: 1px solid lightcoral;
+}
+
+.field {
+    position: relative;
+}
+
+.error-message {
+    position: absolute;
+    left: 100%;
+    min-width: 100px;
+    max-width: 100px;
+    margin: 0 0 0 5px;
+    color: lightcoral;
+}

@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core'
 import { TestBed, async } from '@angular/core/testing'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { APP_BASE_HREF } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { HttpModule } from '@angular/http'
@@ -62,7 +62,14 @@ class MockDateComponent { }
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterModule.forRoot(routes), FormsModule, AppCommonModule, BaseModule, HttpModule],
+            imports: [
+                RouterModule.forRoot(routes),
+                FormsModule,
+                AppCommonModule,
+                BaseModule,
+                HttpModule,
+                ReactiveFormsModule
+            ],
             declarations: [
                 AppComponent,
                 CoursesComponent,

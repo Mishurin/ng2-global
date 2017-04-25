@@ -1,16 +1,44 @@
-<form>
-    <div class="clearfix row">
-        <label for="title" class="label">Title</label>
-        <input type="text" id="title" name="title" class="input" [(ngModel)]="title">
+<form [formGroup]="createForm" (submit)="submit(createForm)">
+    <div class="clearfix row field">
+        <label for="name" class="label">Title</label>
+        <input type="text" 
+            id="name" 
+            name="name" 
+            class="input" 
+            formControlName="name">
+            <span class="error-message" 
+                *ngIf="isRequiredErrorShouldBeShown(createForm.controls.name)">
+                    Field is Required
+            </span>
+            <span class="error-message" 
+                *ngIf="isMaxLengthMessageShouldBeShown(createForm.controls.name)">
+                    Length is more then {{ createForm.controls.name.errors['maxlength'].requiredLength }}
+            </span>
     </div>
-    <div class="clearfix row">
+    <div class="clearfix row field">
         <label for="description" class="label">Description</label>
-        <textarea name="description" id="description" cols="30" rows="10" class="input" [(ngModel)]="description"></textarea>
+        <textarea name="description" 
+            id="description" 
+            cols="30" 
+            rows="10" 
+            class="input" 
+            formControlName="description"></textarea>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.description)">
+                Field is Required
+        </span>
+        <span class="error-message" 
+            *ngIf="isMaxLengthMessageShouldBeShown(createForm.controls.description)">
+                Length is more then {{ createForm.controls.description.errors['maxlength'].requiredLength }}
+        </span>
     </div>
     <course-date></course-date>
     <course-duration></course-duration>
     <div class="clearfix row">
-        <button type="button" (click)="save({name: title, description: description})" class="save-btn">Save</button>
+        <button type="button" 
+            (click)="save({name: title, description: description})" 
+            class="save-btn" 
+            [disabled]="isSubmitButtonDisabled()">Save</button>
         <button type="button" (click)="cancel()" class="cancel-btn">Cancel</button>
     </div>
 </form>

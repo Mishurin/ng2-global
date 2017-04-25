@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { Component } from '@angular/core'
-import { FormsModule } from '@angular/forms'
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 
 import { AddCourseComponent } from './add-course.component'
@@ -13,7 +13,7 @@ class MockRouter {
 }
 
 class MockCoursesService {
-    createCourse(course: Course) {}
+    createCourse(course: Course) { }
 }
 
 @Component({
@@ -32,9 +32,13 @@ describe('AddCourseComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
+            imports: [ReactiveFormsModule],
             declarations: [DurationComponent, AddCourseComponent, DurationPipe, DateComponent],
-            providers: [{ provide: CoursesService, useClass: MockCoursesService }, { provide: Router, useClass: MockRouter },]
+            providers: [
+                { provide: CoursesService, useClass: MockCoursesService },
+                { provide: Router, useClass: MockRouter },
+                FormBuilder
+            ]
         })
             .overrideComponent(DurationComponent, MockDurationComponent)
             .overrideComponent(DateComponent, MockDateComponent)
