@@ -32,8 +32,30 @@
                 Length is more then {{ createForm.controls.description.errors['maxlength'].requiredLength }}
         </span>
     </div>
-    <course-date></course-date>
-    <course-duration></course-duration>
+    <div class="field">
+        <course-date formControlName="date"></course-date>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.date)">
+                Field is Required
+        </span>
+        <span class="error-message" 
+            *ngIf="isPatternMessageShouldBeShown(createForm.controls.date)">
+                Should be in date format: 'dd/MM/yyyy'
+        </span>
+    </div>
+    
+    <div class="field">
+        <course-duration formControlName="duration"></course-duration>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.duration)">
+                Field is Required
+        </span>
+        <span class="error-message" 
+            *ngIf="isPatternMessageShouldBeShown(createForm.controls.duration)">
+                Should contain only digits
+        </span>
+    </div>
+    
     <div class="clearfix row">
         <button type="button" 
             (click)="save({name: title, description: description})" 

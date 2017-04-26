@@ -23,8 +23,8 @@ export class AddCourseComponent implements OnInit {
         this.createForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.maxLength(500)]],
-            date: ['', [Validators.required]],
-            duration: ['', [Validators.required]],
+            date: ['', [Validators.required, Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)]],
+            duration: ['', [Validators.required, Validators.pattern(/[0-9]/g)]],
             authors: ['', [Validators.required]]
         })
     }
@@ -53,6 +53,10 @@ export class AddCourseComponent implements OnInit {
 
     isMaxLengthMessageShouldBeShown(ctrl: FormControl): boolean {
         return ctrl.touched && ctrl.invalid && ctrl.errors['maxlength']
+    }
+
+    isPatternMessageShouldBeShown(ctrl: FormControl): boolean {
+        return ctrl.touched && ctrl.invalid && ctrl.errors['pattern']
     }
 
 }

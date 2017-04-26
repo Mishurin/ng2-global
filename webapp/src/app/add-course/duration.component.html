@@ -1,5 +1,11 @@
 <div class="clearfix row">
     <label for="duration" class="label">Duration</label>
-    <input type="text" id="duration" name="duration" class="input">
-    <span class="duration">{{ duration | duration }}</span>
+    <input type="text" 
+        id="duration" 
+        name="duration" 
+        class="input" 
+        [value]="innerValue" 
+        (blur)="onBlur()"
+        (change)="onInputValueChange($event)">
+    <span class="duration">{{ innerValue | duration }}</span>
 </div>

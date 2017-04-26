@@ -1,4 +1,10 @@
-<div class="clearfix row">
+<div class="clearfix row" >
     <label for="date" class="label">Date</label>
-    <input type="text" name="date" id="date" class="input">
+    <input type="text" 
+        name="date" 
+        id="date" 
+        class="input" 
+        [value]="innerValue" 
+        (blur)="onBlur()"
+        (change)="onInputValueChange($event)">
 </div>
