@@ -30,7 +30,6 @@ export class DurationComponent implements OnInit, ControlValueAccessor {
     }
 
     set value(value: string) {
-        console.log(value)
         if (value !== this.innerValue) {
             this.innerValue = value
             this.onChange(value)

@@ -30,7 +30,6 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
     }
 
     set value(value: any[]) {
-        console.log(value)
         if (value !== this.innerValue) {
             this.innerValue = value
             this.onChange(value)
