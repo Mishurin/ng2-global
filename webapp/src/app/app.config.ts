@@ -5,7 +5,8 @@ export const SERVER_CONFIG = {
 export const ENTRY_POINTS = {
     LOGIN: 'login',
     USER_INFO: 'userinfo',
-    COURSES: 'courses'
+    COURSES: 'courses',
+    AUTHORS: 'authors'
 }
 
 export function getEntry(entry: string) {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 import { Http, Response, RequestOptions, Headers, URLSearchParams, RequestMethod, Request } from '@angular/http'
 
-import { Course, CourseItem } from './index'
+import { Course, CourseItem, Author } from './index'
 import { AuthorizedHttpService } from './authorized-http.service'
 import { getEntry, ENTRY_POINTS } from '../app.config'
 
@@ -81,6 +81,20 @@ export class CoursesService {
                 }
                 this.coursesStream.next(result)
                 return result;
+            }).catch(this.handleError)
+    }
+
+    getAuthors(): Observable<Author[]> {
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        let reqOptions = new RequestOptions()
+        reqOptions.url =  getEntry(ENTRY_POINTS.AUTHORS)
+        reqOptions.method =  RequestMethod.Get
+        reqOptions.headers = headers
+        let request = new Request(reqOptions)
+        return this.aHttp.request(request)
+            .map((response: Response) => {
+               return response.json()
             }).catch(this.handleError)
     }
 

@@ -15,19 +15,6 @@ export class AddCourseComponent implements OnInit {
 
     createForm: FormGroup
 
-    authors: Author[] = [
-        {
-            name: 'Author1',
-            selected: false,
-            id: 'a1'
-        },
-        {
-            name: 'Author2',
-            selected: false,
-            id: 'a2'
-        }
-    ]
-
     constructor(
         private courseSrv: CoursesService,
         private router: Router,
@@ -40,13 +27,24 @@ export class AddCourseComponent implements OnInit {
             description: ['', [Validators.required, Validators.maxLength(500)]],
             date: ['', [Validators.required, Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)]],
             duration: ['', [Validators.required, Validators.pattern(/[0-9]/g)]],
-            authors: [this.authors, [authorsRequiredValidator]]
+            authors: [[], [authorsRequiredValidator]]
+        })
+
+        this.courseSrv.getAuthors().subscribe((items: Author[]) => {
+            let authors = items.map((item: Author) => {
+                return {
+                    name: item.name,
+                    id: item.id,
+                    selected: false
+                }
+            })
+            this.createForm.controls.authors.setValue(authors, { onlySelf: true })
         })
     }
 
     submit(e: any, createForm: FormGroup) {
         e.preventDefault();
-        
+
         let newCourse = {
             name: createForm.controls.name.value,
             date: new Date(createForm.controls.date.value),
@@ -61,6 +59,7 @@ export class AddCourseComponent implements OnInit {
     }
 
     cancel() {
+        this.createForm.reset()
     }
 
     isSubmitButtonDisabled(): boolean {

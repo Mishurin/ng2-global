@@ -6,7 +6,9 @@ import { Router } from '@angular/router'
 import { AddCourseComponent } from './add-course.component'
 import { DurationComponent } from './duration.component'
 import { DateComponent } from './date.component'
+import { AuthorsComponent } from './authors.component'
 import { DurationPipe, CoursesService, Course } from '../common/index'
+import { Observable } from 'rxjs/Rx'
 
 class MockRouter {
     navigate() { }
@@ -14,6 +16,9 @@ class MockRouter {
 
 class MockCoursesService {
     createCourse(course: Course) { }
+    getAuthors() {
+        return Observable.of([])
+    }
 }
 
 @Component({
@@ -26,6 +31,11 @@ class MockDurationComponent { }
 })
 class MockDateComponent { }
 
+@Component({
+    selector: 'course-authors',
+})
+class MockAuthorsComponent { }
+
 describe('AddCourseComponent', () => {
     let component: AddCourseComponent
     let fixture: ComponentFixture<AddCourseComponent>
@@ -33,7 +43,14 @@ describe('AddCourseComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [ReactiveFormsModule],
-            declarations: [DurationComponent, AddCourseComponent, DurationPipe, DateComponent],
+            declarations: [
+                DurationComponent,
+                AddCourseComponent,
+                DurationPipe,
+                DateComponent,
+                AddCourseComponent,
+                AuthorsComponent
+            ],
             providers: [
                 { provide: CoursesService, useClass: MockCoursesService },
                 { provide: Router, useClass: MockRouter },
@@ -42,6 +59,7 @@ describe('AddCourseComponent', () => {
         })
             .overrideComponent(DurationComponent, MockDurationComponent)
             .overrideComponent(DateComponent, MockDateComponent)
+            .overrideComponent(AuthorsComponent, MockAuthorsComponent)
             .compileComponents()
     }))
 

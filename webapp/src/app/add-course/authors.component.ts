@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef } from '@angular/core'
+import { Component, OnInit, forwardRef, ChangeDetectorRef } from '@angular/core'
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms'
 
 export const AUTHORS_COMPONENT_VALUE_ACCESSOR = {
@@ -19,10 +19,11 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
 
     innerValue: any[]
 
-    constructor() { }
+    constructor(private cd: ChangeDetectorRef) { }
 
     writeValue(value: any[]) {
         this.innerValue = value
+        this.cd.markForCheck()
     }
 
     get value(): any[] {
@@ -49,7 +50,6 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
     }
 
     onChange(value: any[]) {
-
     }
 
     onTouched() {
