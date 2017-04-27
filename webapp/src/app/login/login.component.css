@@ -18,3 +18,26 @@
     margin: 0;
     padding: 20px 0;
 }
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+    border: 1px solid lightcoral;
+}
+
+.field {
+    position: relative;
+}
+
+.error-message {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    min-width: 100px;
+    max-width: 100px;
+    margin: 0 0 0 5px;
+    color: lightcoral;
+}
+
+.login-error {
+    color: lightcoral;
+}

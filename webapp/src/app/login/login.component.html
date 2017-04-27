@@ -1,4 +1,22 @@
-<input type="text" name="username" id="username" class="username-input" [(ngModel)]="username">
-<input type="password" name="password" id="password" class="password-input" [(ngModel)]="password">
-
-<input type="button" name="login" value="Log In" class="login-button" (click)="login(username, password)">
+<form #loginForm="ngForm" (submit)="login($event, loginForm)">
+    <div class="field">
+        <label for="username">User Name</label>
+        <input type="text" name="username" id="username" class="username-input" ngModel required #username="ngModel">
+         <span class="error-message" 
+                *ngIf="isRequiredErrorShouldBeShown(username)">
+                    Field is Required
+        </span>
+    </div>
+    <div class="field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" class="password-input" ngModel required #password="ngModel">
+         <span class="error-message" 
+                *ngIf="isRequiredErrorShouldBeShown(password)">
+                    Field is Required
+        </span>
+    </div>
+    <input type="submit" name="login" value="Log In" class="login-button" [disabled]="isSubmitButtonDisabled(loginForm)">
+    <span *ngIf="isLoginError" class="login-error">
+        Login or/and password is/are incorrect. Try again
+    </span>
+</form>
