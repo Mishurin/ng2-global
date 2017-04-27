@@ -70,35 +70,5 @@ describe('LoginComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy()
     })
-
-    it('should log in', fakeAsync(() => {
-        let username = 'Dude'
-        let password = '123'
-        let login = spyOn(auth, 'login').and.callThrough()
-        let navigate = spyOn(router, 'navigate')
-        let showLoader = spyOn(loader, 'show')
-        let hideLoader = spyOn(loader, 'hide')
-        component.login(username, password)
-        expect(showLoader).toHaveBeenCalled()
-        expect(login).toHaveBeenCalledWith(username, password)
-
-        tick(1000)
-
-        expect(navigate).toHaveBeenCalledWith(['/'])
-        expect(hideLoader).toHaveBeenCalled()
-    }))
-
-    it('should unsubscribe component from login events', fakeAsync(() => {
-        let username = 'Dude'
-        let password = '123'
-        
-        // Should create a subscriber before
-        component.login(username, password)
-
-        tick(1000)
-        let unsubscribe = spyOn(component.loginSubscription, 'unsubscribe')
-
-        component.ngOnDestroy()
-        expect(unsubscribe).toHaveBeenCalled()
-    }))
+    
 })

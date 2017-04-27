@@ -1,4 +1,4 @@
-<form #loginForm="ngForm" (submit)="login($event, loginForm)">
+<form #loginForm="ngForm" (submit)="login($event)">
     <div class="field">
         <label for="username">User Name</label>
         <input type="text" name="username" id="username" class="username-input" ngModel required #username="ngModel">
@@ -15,7 +15,11 @@
                     Field is Required
         </span>
     </div>
-    <input type="submit" name="login" value="Log In" class="login-button" [disabled]="isSubmitButtonDisabled(loginForm)">
+    <input type="submit" 
+        name="login" 
+        value="Log In" 
+        class="login-button" 
+        [disabled]="isSubmitButtonDisabled(loginForm)">
     <span *ngIf="isLoginError" class="login-error">
         Login or/and password is/are incorrect. Try again
     </span>

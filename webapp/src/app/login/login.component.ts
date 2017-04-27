@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
+import { 
+    Component, 
+    OnInit, 
+    OnDestroy, 
+    ChangeDetectionStrategy, 
+    ChangeDetectorRef,
+    ViewChild 
+} from '@angular/core'
 import { Router } from '@angular/router'
 import { FormControl, NgForm } from '@angular/forms'
 import { Subscription } from 'rxjs/Rx'
@@ -14,8 +21,7 @@ import { LoaderService } from '../base/index'
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-    private username: string
-    private password: string
+    @ViewChild('loginForm') loginForm: NgForm
     public loginSubscription: Subscription
     public isLoginError: boolean = false
 
@@ -33,12 +39,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loginSubscription.unsubscribe()
     }
 
-    login(event: any, form: NgForm) {
+    login(event: any) {
         event.preventDefault()
         this.loader.show()
         this.loginSubscription = this.auth.login(
-            form.controls['username'].value, 
-            form.controls['password'].value).subscribe(() => {
+            this.loginForm.controls['username'].value, 
+            this.loginForm.controls['password'].value).subscribe(() => {
             this.router.navigate(['/'])
             this.loader.hide()
             this.isLoginError = false
