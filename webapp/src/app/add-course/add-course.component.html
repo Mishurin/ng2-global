@@ -55,6 +55,14 @@
                 Should contain only digits
         </span>
     </div>
+
+    <div class="field">
+        <course-authors formControlName="authors"></course-authors>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.authors)">
+                Select at least one item fomr least
+        </span>
+    </div>
     
     <div class="clearfix row">
         <button type="button" 

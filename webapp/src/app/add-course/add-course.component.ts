@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
-import { CoursesService, CourseItem } from '../common/index'
+import { CoursesService, CourseItem, Author, authorsRequiredValidator } from '../common/index'
+
+
 
 @Component({
     selector: 'app-add-course',
@@ -12,6 +14,17 @@ import { CoursesService, CourseItem } from '../common/index'
 export class AddCourseComponent implements OnInit {
 
     createForm: FormGroup
+
+    authors: Author[] = [
+        {
+            name: 'Author1',
+            selected: false
+        },
+        {
+            name: 'Author2',
+            selected: false
+        }
+    ]
 
     constructor(
         private courseSrv: CoursesService,
@@ -25,7 +38,7 @@ export class AddCourseComponent implements OnInit {
             description: ['', [Validators.required, Validators.maxLength(500)]],
             date: ['', [Validators.required, Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)]],
             duration: ['', [Validators.required, Validators.pattern(/[0-9]/g)]],
-            authors: ['', [Validators.required]]
+            authors: [this.authors, [authorsRequiredValidator]]
         })
     }
 
@@ -58,5 +71,4 @@ export class AddCourseComponent implements OnInit {
     isPatternMessageShouldBeShown(ctrl: FormControl): boolean {
         return ctrl.touched && ctrl.invalid && ctrl.errors['pattern']
     }
-
 }

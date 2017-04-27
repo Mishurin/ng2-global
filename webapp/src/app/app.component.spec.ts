@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component'
 import { AddCourseComponent } from './add-course/add-course.component'
 import { DurationComponent } from './add-course/duration.component'
 import { DateComponent } from './add-course/date.component'
+import { AuthorsComponent } from './add-course/authors.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
@@ -59,6 +60,11 @@ class MockDurationComponent { }
 })
 class MockDateComponent { }
 
+@Component({
+    selector: 'course-authors',
+})
+class MockAuthorsComponent { }
+
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -79,7 +85,8 @@ describe('AppComponent', () => {
                 AddCourseComponent,
                 DurationComponent,
                 CreateDateHighlighterDirective,
-                DateComponent
+                DateComponent,
+                AuthorsComponent
             ],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
         })
@@ -91,6 +98,7 @@ describe('AppComponent', () => {
             .overrideComponent(AddCourseComponent, MockAddCourseComponent)
             .overrideComponent(DurationComponent, MockDurationComponent)
             .overrideComponent(DateComponent, MockDateComponent)
+            .overrideComponent(AuthorsComponent, MockAuthorsComponent)
             .compileComponents()
     }))
 

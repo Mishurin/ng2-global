@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
-import { RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router'
 
 import { AppCommonModule } from './common/index'
 import { BaseModule } from './base/index'
@@ -16,6 +16,7 @@ import { ToolboxComponent } from './courses/toolbox.component'
 import { CourseItemComponent } from './courses/course-item.component'
 import { DurationComponent } from './add-course/duration.component'
 import { DateComponent } from './add-course/date.component'
+import { AuthorsComponent } from './add-course/authors.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
@@ -32,7 +33,8 @@ import { routes } from './app.routes';
         CreateDateHighlighterDirective,
         AddCourseComponent,
         DurationComponent,
-        DateComponent
+        DateComponent,
+        AuthorsComponent
     ],
     imports: [
         RouterModule.forRoot(routes),

@@ -1,35 +1,35 @@
 import { Component, OnInit, forwardRef } from '@angular/core'
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms'
 
-export const DATE_COMPONENT_VALUE_ACCESSOR = {
+export const AUTHORS_COMPONENT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => DateComponent),
+    useExisting: forwardRef(() => AuthorsComponent),
     multi: true
 }
 
 @Component({
-    selector: 'course-date',
-    templateUrl: './date.component.html',
-    styleUrls: ['./date.component.css'],
+    selector: 'course-authors',
+    templateUrl: './authors.component.html',
+    styleUrls: ['./authors.component.css'],
     providers: [
-        DATE_COMPONENT_VALUE_ACCESSOR
+        AUTHORS_COMPONENT_VALUE_ACCESSOR
     ]
 })
-export class DateComponent implements OnInit, ControlValueAccessor {
+export class AuthorsComponent implements OnInit, ControlValueAccessor {
 
-    innerValue: string
+    innerValue: any[]
 
     constructor() { }
 
-    writeValue(value: string) {
+    writeValue(value: any[]) {
         this.innerValue = value
     }
 
-    get value(): string {
+    get value(): any[] {
         return this.innerValue
     }
 
-    set value(value: string) {
+    set value(value: any[]) {
         console.log(value)
         if (value !== this.innerValue) {
             this.innerValue = value
@@ -49,7 +49,7 @@ export class DateComponent implements OnInit, ControlValueAccessor {
 
     }
 
-    onChange(value: string) {
+    onChange(value: any[]) {
 
     }
 

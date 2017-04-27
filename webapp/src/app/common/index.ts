@@ -1,4 +1,5 @@
 export * from './entities/index'
+export * from './validators/index'
 export * from './courses.service'
 export * from './common.module'
 export * from './auth.service'
