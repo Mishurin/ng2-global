@@ -44,13 +44,18 @@ export class AddCourseComponent implements OnInit {
         })
     }
 
-    save(course: CourseItem) {
-        this.courseSrv.createCourse({
-            name: course.name,
-            date: new Date(),
-            duration: 30,
-            description: course.description
-        }).subscribe(() => {
+    submit(e: any, createForm: FormGroup) {
+        e.preventDefault();
+        
+        let newCourse = {
+            name: createForm.controls.name.value,
+            date: new Date(createForm.controls.date.value),
+            duration: +createForm.controls.duration.value,
+            description: createForm.controls.description.value,
+            authors: createForm.controls.authors.value.filter((item: Author) => item.selected).map((item: Author) => item.name),
+        }
+
+        this.courseSrv.createCourse(newCourse).subscribe(() => {
             this.router.navigate(['/'])
         })
     }

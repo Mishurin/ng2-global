@@ -1,4 +1,4 @@
-<form [formGroup]="createForm" (submit)="submit(createForm)">
+<form [formGroup]="createForm" (submit)="submit($event, createForm)">
     <div class="clearfix row field">
         <label for="name" class="label">Title</label>
         <input type="text" 
@@ -65,8 +65,7 @@
     </div>
     
     <div class="clearfix row">
-        <button type="button" 
-            (click)="save({name: title, description: description})" 
+        <button type="submit" 
             class="save-btn" 
             [disabled]="isSubmitButtonDisabled()">Save</button>
         <button type="button" (click)="cancel()" class="cancel-btn">Cancel</button>

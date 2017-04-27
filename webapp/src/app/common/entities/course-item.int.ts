@@ -3,6 +3,7 @@ export interface CourseItem {
     name: string
     date: Date
     duration: number
-    description: string
+    description: string,
+    authors?: string[]
     isTopRated?: boolean
 }
