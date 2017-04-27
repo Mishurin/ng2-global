@@ -56,8 +56,9 @@ export class AuthorsComponent implements OnInit, ControlValueAccessor {
 
     }
 
-    onInputValueChange(event) {
-        this.value = event.target.value
+    onInputValueChange(item: any) {
+        item.selected = !item.selected
+        this.value = [...this.innerValue]
     }
 
     onBlur() {

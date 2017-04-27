@@ -1,12 +1,16 @@
-<div *ngFor="let item of innerValue">
-
-    <input type="checkbox" 
-        [name]="item.name" 
-        [id]="item.id" 
-        [value]="item.value" 
-        [checked]="item.selected"
-        (change)="onInputValueChange($event)">
-    
-    <label [for]="item.name">{{ item.name }}</label>
-
+<label class="label">Authors</label>
+<div class="authors-list">
+    <div *ngFor="let item of innerValue">
+        <div class="author">
+            <input type="checkbox" 
+            [name]="item.id" 
+            [id]="item.id" 
+            [value]="item.name" 
+            [checked]="item.selected"
+            (change)="onInputValueChange(item)"
+            (blur)="onBlur()">
+        
+            <label [for]="item.id">{{ item.name }}</label>
+        </div>
+    </div>
 </div>

@@ -18,11 +18,13 @@ export class AddCourseComponent implements OnInit {
     authors: Author[] = [
         {
             name: 'Author1',
-            selected: false
+            selected: false,
+            id: 'a1'
         },
         {
             name: 'Author2',
-            selected: false
+            selected: false,
+            id: 'a2'
         }
     ]
 

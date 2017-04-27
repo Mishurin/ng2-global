@@ -1,4 +1,5 @@
 export interface Author {
     name: string,
-    selected: boolean
+    selected: boolean,
+    id: string
 }
