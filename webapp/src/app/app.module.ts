@@ -21,6 +21,7 @@ import { AuthorsComponent } from './add-course/authors.component'
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
 import { routes } from './app.routes';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { routes } from './app.routes';
         AddCourseComponent,
         DurationComponent,
         DateComponent,
-        AuthorsComponent
+        AuthorsComponent,
+        NotFoundComponent
     ],
     imports: [
         RouterModule.forRoot(routes),

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 
 import { ToolboxComponent } from './toolbox.component'
+import { ROUTES } from '../app.config'
 
 class MockRouter {
     navigate() { }
@@ -50,7 +51,7 @@ describe('ToolboxComponent', () => {
     it('should redirect to the "add" course page', () => {
         let navigate = spyOn(router, 'navigate')
         component.goToAddPage()
-        expect(navigate).toHaveBeenCalledWith(['/add'])
+        expect(navigate).toHaveBeenCalledWith([ROUTES.NEW])
     })
 
 })

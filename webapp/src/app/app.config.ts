@@ -12,3 +12,7 @@ export const ENTRY_POINTS = {
 export function getEntry(entry: string) {
     return `${SERVER_CONFIG.HOST}/${entry}`
 }
+
+export const ROUTES = {
+    NEW: '/new'
+}

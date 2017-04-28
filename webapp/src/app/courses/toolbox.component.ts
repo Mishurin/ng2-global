@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router'
 
+import { ROUTES } from '../app.config'
+
 @Component({
     selector: 'app-toolbox',
     templateUrl: './toolbox.component.html',
@@ -24,7 +26,7 @@ export class ToolboxComponent implements OnInit {
     }
 
     goToAddPage() {
-        this.router.navigate(['/add'])
+        this.router.navigate([ROUTES.NEW])
     }
 
 }

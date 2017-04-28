@@ -17,6 +17,7 @@ import { AddCourseComponent } from './add-course/add-course.component'
 import { DurationComponent } from './add-course/duration.component'
 import { DateComponent } from './add-course/date.component'
 import { AuthorsComponent } from './add-course/authors.component'
+import { NotFoundComponent } from './not-found/not-found.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
@@ -65,6 +66,11 @@ class MockDateComponent { }
 })
 class MockAuthorsComponent { }
 
+@Component({
+    selector: 'not-found',
+})
+class MockNotFoundsComponent { }
+
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -86,7 +92,8 @@ describe('AppComponent', () => {
                 DurationComponent,
                 CreateDateHighlighterDirective,
                 DateComponent,
-                AuthorsComponent
+                AuthorsComponent,
+                NotFoundComponent
             ],
             providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
         })
@@ -99,6 +106,7 @@ describe('AppComponent', () => {
             .overrideComponent(DurationComponent, MockDurationComponent)
             .overrideComponent(DateComponent, MockDateComponent)
             .overrideComponent(AuthorsComponent, MockAuthorsComponent)
+            .overrideComponent(NotFoundComponent, MockNotFoundsComponent)
             .compileComponents()
     }))
 
