@@ -11,7 +11,7 @@ import { DetailsComponent, CoursesService } from '../common/index'
     templateUrl: '../common/components/details/details.component.html',
     styleUrls: ['../common/components/details/details.component.css']
 })
-export class AddCourseComponent extends DetailsComponent implements OnInit {
+export class AddCourseComponent extends DetailsComponent {
 
     constructor(
         protected courseSrv: CoursesService,
