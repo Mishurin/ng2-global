@@ -14,9 +14,6 @@ import { CoursesComponent } from './courses/courses.component'
 import { CourseDetailsComponent } from './course-details/course-details.component'
 import { ToolboxComponent } from './courses/toolbox.component'
 import { CourseItemComponent } from './courses/course-item.component'
-import { DurationComponent } from './add-course/duration.component'
-import { DateComponent } from './add-course/date.component'
-import { AuthorsComponent } from './add-course/authors.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
@@ -33,9 +30,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
         CourseItemComponent,
         CreateDateHighlighterDirective,
         AddCourseComponent,
-        DurationComponent,
-        DateComponent,
-        AuthorsComponent,
         NotFoundComponent
     ],
     imports: [

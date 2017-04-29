@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
+import { FormBuilder } from '@angular/forms'
+import { AddCourseComponent } from '../add-course/add-course.component'
+
+import { CoursesService } from '../common/index'
 
 @Component({
     selector: 'course-details',
-    templateUrl: './course-details.component.html',
-    styleUrls: ['./course-details.component.css']
+    templateUrl: '../common/components/details/details.component.html',
+    styleUrls: ['../common/components/details/details.component.css']
 })
-export class CourseDetailsComponent implements OnInit {
+export class CourseDetailsComponent extends AddCourseComponent {
 
-    constructor() { }
-
-    ngOnInit() {
+    constructor(courseSrv: CoursesService, router: Router, fb: FormBuilder) { 
+        super(courseSrv, router, fb)
     }
+
 
 }

@@ -14,9 +14,6 @@ import { CoursesComponent } from './courses/courses.component'
 import { CourseItemComponent } from './courses/course-item.component'
 import { LoginComponent } from './login/login.component'
 import { AddCourseComponent } from './add-course/add-course.component'
-import { DurationComponent } from './add-course/duration.component'
-import { DateComponent } from './add-course/date.component'
-import { AuthorsComponent } from './add-course/authors.component'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { CourseDetailsComponent } from './course-details/course-details.component'
 
@@ -52,20 +49,6 @@ class MockCourseItemComponent { }
 })
 class MockAddCourseComponent { }
 
-@Component({
-    selector: 'course-duration',
-})
-class MockDurationComponent { }
-
-@Component({
-    selector: 'course-date',
-})
-class MockDateComponent { }
-
-@Component({
-    selector: 'course-authors',
-})
-class MockAuthorsComponent { }
 
 @Component({
     selector: 'not-found',
@@ -96,10 +79,7 @@ describe('AppComponent', () => {
                 CourseItemComponent,
                 LoginComponent,
                 AddCourseComponent,
-                DurationComponent,
                 CreateDateHighlighterDirective,
-                DateComponent,
-                AuthorsComponent,
                 NotFoundComponent,
                 CourseDetailsComponent
             ],
@@ -111,9 +91,6 @@ describe('AppComponent', () => {
             .overrideComponent(ToolboxComponent, MockToolboxComponent)
             .overrideComponent(CourseItemComponent, MockCourseItemComponent)
             .overrideComponent(AddCourseComponent, MockAddCourseComponent)
-            .overrideComponent(DurationComponent, MockDurationComponent)
-            .overrideComponent(DateComponent, MockDateComponent)
-            .overrideComponent(AuthorsComponent, MockAuthorsComponent)
             .overrideComponent(NotFoundComponent, MockNotFoundsComponent)
             .overrideComponent(CourseDetailsComponent, MockCourseDetailsComponent)
             .compileComponents()

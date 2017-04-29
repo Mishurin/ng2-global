@@ -1,0 +1,73 @@
+<form [formGroup]="createForm" (submit)="submit($event, createForm)">
+    <div class="clearfix row field">
+        <label for="name" class="label">Title</label>
+        <input type="text" 
+            id="name" 
+            name="name" 
+            class="input" 
+            formControlName="name">
+            <span class="error-message" 
+                *ngIf="isRequiredErrorShouldBeShown(createForm.controls.name)">
+                    Field is Required
+            </span>
+            <span class="error-message" 
+                *ngIf="isMaxLengthMessageShouldBeShown(createForm.controls.name)">
+                    Length is more then {{ createForm.controls.name.errors['maxlength'].requiredLength }}
+            </span>
+    </div>
+    <div class="clearfix row field">
+        <label for="description" class="label">Description</label>
+        <textarea name="description" 
+            id="description" 
+            cols="30" 
+            rows="10" 
+            class="input" 
+            formControlName="description"></textarea>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.description)">
+                Field is Required
+        </span>
+        <span class="error-message" 
+            *ngIf="isMaxLengthMessageShouldBeShown(createForm.controls.description)">
+                Length is more then {{ createForm.controls.description.errors['maxlength'].requiredLength }}
+        </span>
+    </div>
+    <div class="field">
+        <course-date formControlName="date"></course-date>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.date)">
+                Field is Required
+        </span>
+        <span class="error-message" 
+            *ngIf="isPatternMessageShouldBeShown(createForm.controls.date)">
+                Should be in date format: 'dd/MM/yyyy'
+        </span>
+    </div>
+    
+    <div class="field">
+        <course-duration formControlName="duration"></course-duration>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.duration)">
+                Field is Required
+        </span>
+        <span class="error-message" 
+            *ngIf="isPatternMessageShouldBeShown(createForm.controls.duration)">
+                Should contain only digits
+        </span>
+    </div>
+
+    <div class="field clearfix row">
+        <course-authors formControlName="authors"></course-authors>
+        <span class="error-message" 
+            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.authors)">
+                Select at least one item from list
+        </span>
+    </div>
+    
+    <div class="clearfix row">
+        <button type="submit" 
+            class="save-btn" 
+            [disabled]="isSubmitButtonDisabled()">Save</button>
+        <button type="button" (click)="cancel()" class="cancel-btn">Cancel</button>
+    </div>
+</form>
