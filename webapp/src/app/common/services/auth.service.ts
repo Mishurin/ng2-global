@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core'
 import { Http, Response, Headers, RequestOptions, Request, RequestMethod } from '@angular/http'
-
-import { User, UserInfo } from '../common/index'
-
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 
-import { getEntry, ENTRY_POINTS } from '../app.config'
+import { User, UserInfo } from '../entities/index'
+import { AuthorizedHttpService } from '../services/authorized-http.service'
+import { getEntry, ENTRY_POINTS } from '../../app.config'
 
-import { AuthorizedHttpService } from './authorized-http.service'
 
 export interface AppToken {
     token: string

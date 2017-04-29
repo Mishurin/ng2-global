@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy
 import { Router } from '@angular/router'
 
 import { CourseItem } from '../common/index'
+import { ROUTES } from '../app.config'
 
 @Component({
     selector: 'app-course-item',
@@ -26,7 +27,7 @@ export class CourseItemComponent implements OnInit {
     }
 
     goToDetails(id: number) {
-        this.router.navigate(['/courses', id])
+        this.router.navigate([ROUTES.COURSES, id])
     }
 
 }

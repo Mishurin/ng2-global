@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Http, XHRBackend, RequestOptions, Request, RequestOptionsArgs, Response, Headers } from '@angular/http'
 import { Observable } from 'rxjs/Rx'
 
-import { User } from './index'
+import { User } from '../entities/user.model'
 
 declare var localStorage: any
 

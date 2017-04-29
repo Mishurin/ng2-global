@@ -14,5 +14,6 @@ export function getEntry(entry: string) {
 }
 
 export const ROUTES = {
-    NEW: '/new'
+    NEW: '/new',
+    COURSES: '/courses'
 }

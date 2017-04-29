@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormsModule } from '@angular/forms'
-import { DurationPipe } from '../common/duration.pipe'
+import { DurationPipe } from '../common/index'
 
 import { DurationComponent } from './duration.component'
 

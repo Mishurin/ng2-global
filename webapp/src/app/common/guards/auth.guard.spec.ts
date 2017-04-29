@@ -4,9 +4,8 @@ import { Router } from '@angular/router'
 import { HttpModule } from '@angular/http'
 
 import { AuthGuard } from './auth.guard'
-import { AuthService } from './auth.service'
-
-import { AuthorizedHttpService } from './authorized-http.service'
+import { AuthService } from '../services/auth.service'
+import { AuthorizedHttpService} from '../services/authorized-http.service'
 
 describe('AuthGuard', () => {
     let auth: AuthService

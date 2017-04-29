@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/Rx'
 import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http'
 import { MockBackend, MockConnection } from '@angular/http/testing'
 
-import { AuthService } from './auth.service'
-
-import { User, AuthorizedHttpService } from '../common/index'
+import { AuthService } from '../services/auth.service'
+import { AuthorizedHttpService } from '../services/authorized-http.service'
+import { User } from '../entities/user.model'
 
 declare var localStorage: any
 

@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { XHRBackend, RequestOptions } from '@angular/http'
 
-import { CoursesService } from './courses.service'
-import { AuthService } from './auth.service'
-import { AuthGuard } from './auth.guard'
-import { DurationPipe } from './duration.pipe'
-import { OrderByPipe } from './order-by.pipe'
-import { AuthorizedHttpService } from './authorized-http.service'
+import { CoursesService } from './services/courses.service'
+import { AuthService } from './services/auth.service'
+import { AuthGuard } from './guards/auth.guard'
+import { DurationPipe } from './pipes/duration.pipe'
+import { OrderByPipe } from './pipes/order-by.pipe'
+import { AuthorizedHttpService } from './services/authorized-http.service'
 
 @NgModule({
     imports: [

@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 import { Http, Response, RequestOptions, Headers, URLSearchParams, RequestMethod, Request } from '@angular/http'
 
-import { Course, CourseItem, Author } from './index'
-import { AuthorizedHttpService } from './authorized-http.service'
-import { getEntry, ENTRY_POINTS } from '../app.config'
-
-import { getIndexById } from '../utils/collection.utils'
+import { Course, CourseItem, Author} from '../entities/index'
+import { AuthorizedHttpService } from '../services/index'
+import { getEntry, ENTRY_POINTS } from '../../app.config'
+import { getIndexById } from '../../utils/collection.utils'
 
 export interface Pages<T> {
     items: T[]

@@ -3,9 +3,8 @@ import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions, Header
 import { MockBackend, MockConnection } from '@angular/http/testing'
 import { Observable } from 'rxjs/Rx'
 
-import { CoursesService } from './courses.service'
-
-import { Course, CourseItem, CoursesListMock, AuthorizedHttpService } from './index'
+import { Course, CourseItem, CoursesListMock } from '../entities/index'
+import { AuthorizedHttpService, CoursesService } from '../services/index'
 
 
 describe('CoursesService', () => {
