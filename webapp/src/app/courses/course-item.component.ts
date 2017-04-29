@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core'
+import { Router } from '@angular/router'
 
 import { CourseItem } from '../common/index'
 
@@ -15,13 +16,17 @@ export class CourseItemComponent implements OnInit {
     @Output() deleteCourse = new EventEmitter(true)
 
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     ngOnInit() {
     }
 
     delete() {
         this.deleteCourse.emit(this.course)
+    }
+
+    goToDetails(id: number) {
+        this.router.navigate(['/courses', id])
     }
 
 }

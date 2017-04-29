@@ -1,10 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormsModule } from '@angular/forms'
+import { Router } from '@angular/router'
 
 import { CourseItemComponent } from './course-item.component'
 import { ToolboxComponent } from './toolbox.component'
 
 import { CoureItemMock, DurationPipe } from '../common/index'
+
+class MockRouter {
+
+}
 
 describe('CourseItemComponent', () => {
     let component: CourseItemComponent
@@ -13,7 +18,8 @@ describe('CourseItemComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
-            declarations: [CourseItemComponent, ToolboxComponent, DurationPipe]
+            declarations: [CourseItemComponent, ToolboxComponent, DurationPipe],
+            providers: [{ provide: Router, useClass: MockRouter }]
         })
             .compileComponents()
     }))
