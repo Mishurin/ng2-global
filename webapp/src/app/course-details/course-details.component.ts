@@ -12,7 +12,11 @@ import { CoursesService } from '../common/index'
 })
 export class CourseDetailsComponent extends AddCourseComponent {
 
-    constructor(courseSrv: CoursesService, router: Router, fb: FormBuilder) { 
+    constructor(
+        protected courseSrv: CoursesService,
+        protected router: Router,
+        protected fb: FormBuilder
+    ) {
         super(courseSrv, router, fb)
     }
 

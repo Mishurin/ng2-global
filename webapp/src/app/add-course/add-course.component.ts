@@ -11,11 +11,13 @@ import { DetailsComponent, CoursesService } from '../common/index'
     templateUrl: '../common/components/details/details.component.html',
     styleUrls: ['../common/components/details/details.component.css']
 })
-export class AddCourseComponent extends DetailsComponent {
+export class AddCourseComponent extends DetailsComponent implements OnInit {
 
-    createForm: FormGroup
-
-    constructor(courseSrv: CoursesService, router: Router, fb: FormBuilder) { 
+    constructor(
+        protected courseSrv: CoursesService,
+        protected router: Router,
+        protected fb: FormBuilder
+    ) {
         super(courseSrv, router, fb)
     }
 }

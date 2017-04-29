@@ -5,18 +5,18 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { CoursesService, CourseItem, Author, authorsRequiredValidator } from '../../index'
 
 @Component({
-    selector: 'app-course-details',
+    selector: 'details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
 
-    createForm: FormGroup
+    protected createForm: FormGroup
 
     constructor(
-        private courseSrv: CoursesService,
-        private router: Router,
-        private fb: FormBuilder
+        protected courseSrv: CoursesService,
+        protected router: Router,
+        protected fb: FormBuilder
     ) { }
 
     ngOnInit() {
