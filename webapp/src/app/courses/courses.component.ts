@@ -32,7 +32,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.coursesSubscription = this.coursesSrv.getCoursesStream().subscribe(pages => {
-            this._courses = new OrderByPipe().transform(CoursesComponent.filterOutOld(pages.items), 'name')
+            this._courses = new OrderByPipe().transform(pages.items, 'name')
             this.courses = this._courses
             this.pages = pages
             this.cd.markForCheck()
@@ -78,12 +78,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
     onFindCourses(searchVal: string) {
         this.searchVal = searchVal
         this.coursesSrv.getPage(0, searchVal).subscribe()
-    }
-
-    static filterOutOld(course: CourseItem[]): CourseItem[] {
-        return course.filter(item => {
-            return !(getTimeSpanInDays(new Date(), item.date) > 14)
-        })
     }
 
 }
