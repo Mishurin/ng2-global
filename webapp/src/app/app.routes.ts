@@ -7,7 +7,7 @@ import { NotFoundComponent } from './not-found/not-found.component'
 import { CourseDetailsComponent } from './course-details/course-details.component'
 import { DetailsResolverService } from './course-details/details-resolver.service'
 
-import { AuthGuard } from './common/index'
+import { AuthGuard, AuthorsResolverService } from './common/index'
 
 export const routes: Routes = [
     {
@@ -17,10 +17,10 @@ export const routes: Routes = [
         path: 'login', component: LoginComponent
     },
     {
-        path: 'new', component: AddCourseComponent, canActivate: [AuthGuard]
+        path: 'new', component: AddCourseComponent, canActivate: [AuthGuard], resolve: [AuthorsResolverService]
     },
     {
-        path: 'courses/:id', component: CourseDetailsComponent, canActivate: [AuthGuard], resolve: [DetailsResolverService]
+        path: 'courses/:id', component: CourseDetailsComponent, canActivate: [AuthGuard], resolve: [AuthorsResolverService, DetailsResolverService]
     },
     {
         path: '**', component: NotFoundComponent

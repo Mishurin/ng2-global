@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
-import { DetailsComponent, CoursesService } from '../common/index'
+import { DetailsComponent, CoursesService, Author } from '../common/index'
 
 
 @Component({
@@ -15,8 +15,17 @@ export class AddCourseComponent extends DetailsComponent {
     constructor(
         protected courseSrv: CoursesService,
         protected router: Router,
-        protected fb: FormBuilder
+        protected fb: FormBuilder,
+        private aRoute: ActivatedRoute
     ) {
         super(courseSrv, router, fb)
+    }
+
+    ngOnInit() {
+        super.ngOnInit()
+        this.aRoute.data.subscribe((data) => {
+            let authors = <Author[]>data[0]
+            this.createForm.controls.authors.setValue(authors, { onlySelf: true })
+        })
     }
 }

@@ -3,8 +3,8 @@ import { Router } from '@angular/router'
 import { Observable } from 'rxjs/Rx'
 
 
-import { DetailsResolverService } from './details-resolver.service'
-import { CoursesService } from '../common/index'
+import { AuthorsResolverService } from './authors-resolver.service'
+import { CoursesService } from '../../index'
 
 class MockRouter {
     navigate() { }
@@ -16,18 +16,18 @@ class MockCoursesService {
     }
 }
 
-describe('DetailsResolverService', () => {
+describe('AuthorsResolverService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                DetailsResolverService,
+                AuthorsResolverService,
                 { provide: CoursesService, useClass: MockCoursesService },
                 { provide: Router, useClass: MockRouter }
             ]
         })
     })
 
-    it('should ...', inject([DetailsResolverService], (service: DetailsResolverService) => {
+    it('should ...', inject([AuthorsResolverService], (service: AuthorsResolverService) => {
         expect(service).toBeTruthy()
     }))
 })

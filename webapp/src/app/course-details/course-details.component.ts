@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'
 import { FormBuilder } from '@angular/forms'
-import { AddCourseComponent } from '../add-course/add-course.component'
 
-import { CoursesService, CourseItem } from '../common/index'
+import { CoursesService, CourseItem, DetailsComponent, Author } from '../common/index'
 
 @Component({
     selector: 'course-details',
     templateUrl: '../common/components/details/details.component.html',
     styleUrls: ['../common/components/details/details.component.css']
 })
-export class CourseDetailsComponent extends AddCourseComponent {
+export class CourseDetailsComponent extends DetailsComponent {
 
     constructor(
         protected courseSrv: CoursesService,
@@ -24,7 +23,10 @@ export class CourseDetailsComponent extends AddCourseComponent {
     ngOnInit() {
         super.ngOnInit()
         this.aRoute.data.subscribe((data) => {
-            let course = <CourseItem>data[0]
+            // TODO: change interface of Author and merge with item authors array
+            let authors = <Author[]>data[0]
+            let course = <CourseItem>data[1]
+
             this.createForm.setValue({
                 name: course.name,
                 description: course.description,

@@ -32,9 +32,17 @@ let courseFull = {
     }],
     duration: 123
 }
+
+let authors = [{
+    name: 'Name 1',
+    id: 2,
+    selected: false
+}]
+
 class MockActivatedRoute {
     get data() {
         return Observable.of([
+            authors,
             courseFull
         ])
     }

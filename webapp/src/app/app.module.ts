@@ -20,6 +20,7 @@ import { CreateDateHighlighterDirective } from './courses/create-date-highlighte
 import { routes } from './app.routes'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { DetailsResolverService } from './course-details/details-resolver.service'
+import { AuthorsResolverService } from './common/components/details/authors-resolver.service'
 
 @NgModule({
     declarations: [
@@ -42,7 +43,7 @@ import { DetailsResolverService } from './course-details/details-resolver.servic
         BaseModule,
         ReactiveFormsModule
     ],
-    providers: [DetailsResolverService],
+    providers: [DetailsResolverService, AuthorsResolverService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { ReactiveFormsModule } from '@angular/forms'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { Observable } from 'rxjs/Rx'
 
 import { AddCourseComponent } from './add-course.component'
@@ -21,6 +21,33 @@ class MockCoursesService {
     }
 }
 
+let courseFull = {
+    name: 'Name',
+    date: new Date(),
+    description: 'Desc',
+    authors: [{
+        firstName: 'FNAme',
+        lastName: 'LName',
+        id: 1
+    }],
+    duration: 123
+}
+
+let authors = [{
+    name: 'Name 1',
+    id: 2,
+    selected: false
+}]
+
+class MockActivatedRoute {
+    get data() {
+        return Observable.of([
+            authors,
+            courseFull
+        ])
+    }
+}
+
 
 describe('AddCourseComponent', () => {
     let component: AddCourseComponent
@@ -38,7 +65,8 @@ describe('AddCourseComponent', () => {
             ],
             providers: [
                 { provide: CoursesService, useClass: MockCoursesService },
-                { provide: Router, useClass: MockRouter }
+                { provide: Router, useClass: MockRouter },
+                { provide: ActivatedRoute, useClass: MockActivatedRoute }
             ]
         })
             .compileComponents()

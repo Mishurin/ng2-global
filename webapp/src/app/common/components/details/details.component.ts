@@ -19,24 +19,13 @@ export class DetailsComponent implements OnInit {
         protected fb: FormBuilder
     ) { }
 
-    protected ngOnInit() {
+    ngOnInit() {
         this.createForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.maxLength(500)]],
             date: ['', [Validators.required, Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)]],
             duration: ['', [Validators.required, Validators.pattern(/[0-9]/g)]],
             authors: [[], [authorsRequiredValidator]]
-        })
-
-        this.courseSrv.getAuthors().subscribe((items: Author[]) => {
-            let authors = items.map((item: Author) => {
-                return {
-                    name: item.name,
-                    id: item.id,
-                    selected: false
-                }
-            })
-            this.createForm.controls.authors.setValue(authors, { onlySelf: true })
         })
     }
 
