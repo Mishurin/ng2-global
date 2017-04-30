@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component'
 import { AddCourseComponent } from './add-course/add-course.component'
 import { NotFoundComponent } from './not-found/not-found.component'
 import { CourseDetailsComponent } from './course-details/course-details.component'
+import { DetailsResolverService } from './course-details/details-resolver.service'
 
 import { AuthGuard } from './common/index'
 
@@ -19,7 +20,7 @@ export const routes: Routes = [
         path: 'new', component: AddCourseComponent, canActivate: [AuthGuard]
     },
     {
-        path: 'courses/:id', component: CourseDetailsComponent, canActivate: [AuthGuard]
+        path: 'courses/:id', component: CourseDetailsComponent, canActivate: [AuthGuard], resolve: [DetailsResolverService]
     },
     {
         path: '**', component: NotFoundComponent

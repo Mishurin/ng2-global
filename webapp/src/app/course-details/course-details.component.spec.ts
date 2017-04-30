@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { ReactiveFormsModule } from '@angular/forms'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { Observable } from 'rxjs/Rx'
 
 import { CourseDetailsComponent } from './course-details.component'
@@ -9,7 +9,7 @@ import { DurationComponent } from '../common/components/details/duration.compone
 import { DateComponent } from '../common/components/details/date.component'
 import { AuthorsComponent } from '../common/components/details/authors.component'
 import { DurationPipe } from '../common/pipes/duration.pipe'
-import { CoursesService, AuthorizedHttpService } from '../common/services/index'
+import { CoursesService, AuthorizedHttpService, CourseItem } from '../common/index'
 
 class MockRouter {
     navigate() { }
@@ -18,6 +18,25 @@ class MockRouter {
 class MockCoursesService {
     getAuthors() {
         return Observable.of([])
+    }
+}
+
+let courseFull = {
+    name: 'Name',
+    date: new Date(),
+    description: 'Desc',
+    authors: [{
+        firstName: 'FNAme',
+        lastName: 'LName',
+        id: 1
+    }],
+    duration: 123
+}
+class MockActivatedRoute {
+    get data() {
+        return Observable.of([
+            courseFull
+        ])
     }
 }
 
@@ -33,7 +52,8 @@ describe('CourseDetailsComponent', () => {
             declarations: [CourseDetailsComponent, DurationComponent, DateComponent, AuthorsComponent, DurationPipe],
             providers: [
                 { provide: CoursesService, useClass: MockCoursesService },
-                { provide: Router, useClass: MockRouter }
+                { provide: Router, useClass: MockRouter },
+                { provide: ActivatedRoute, useClass: MockActivatedRoute }
             ]
         })
             .compileComponents()

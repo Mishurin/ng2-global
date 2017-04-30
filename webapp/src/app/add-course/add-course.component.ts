@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { DetailsComponent, CoursesService } from '../common/index'
 
 
-
 @Component({
     selector: 'app-add-course',
     templateUrl: '../common/components/details/details.component.html',

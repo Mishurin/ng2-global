@@ -19,7 +19,7 @@ export class DetailsComponent implements OnInit {
         protected fb: FormBuilder
     ) { }
 
-    ngOnInit() {
+    protected ngOnInit() {
         this.createForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.maxLength(500)]],

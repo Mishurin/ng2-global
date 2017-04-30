@@ -17,8 +17,9 @@ import { CourseItemComponent } from './courses/course-item.component'
 
 import { CreateDateHighlighterDirective } from './courses/create-date-highlighter.directive'
 
-import { routes } from './app.routes';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { routes } from './app.routes'
+import { NotFoundComponent } from './not-found/not-found.component'
+import { DetailsResolverService } from './course-details/details-resolver.service'
 
 @NgModule({
     declarations: [
@@ -41,7 +42,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
         BaseModule,
         ReactiveFormsModule
     ],
-    providers: [],
+    providers: [DetailsResolverService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

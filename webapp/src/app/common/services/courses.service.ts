@@ -57,6 +57,20 @@ export class CoursesService {
         })
     }
 
+    getCourse(id: number): Observable<CourseItem> {
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        let reqOptions = new RequestOptions()
+        reqOptions.url =  `${getEntry(ENTRY_POINTS.COURSES)}/${id}`
+        reqOptions.method =  RequestMethod.Get
+        reqOptions.headers = headers
+        let request = new Request(reqOptions)
+        return this.aHttp.request(request)
+            .map((response: Response) => {
+                return response.json()
+            }).catch(this.handleError)
+    }
+
     getPage(page: number, query?: string): Observable<Pages<any>> {
         let params: URLSearchParams = new URLSearchParams();
         const limit = 5
@@ -96,7 +110,6 @@ export class CoursesService {
                return response.json()
             }).catch(this.handleError)
     }
-
 
     handleError(err: any) {
         console.log('sever error:', err);
