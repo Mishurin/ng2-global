@@ -1,6 +1,8 @@
 import { Component, OnInit, forwardRef, ChangeDetectorRef } from '@angular/core'
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms'
 
+import { AuthorVM } from '../../index'
+
 export const AUTHORS_COMPONENT_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => AuthorsComponent),
@@ -17,7 +19,7 @@ export const AUTHORS_COMPONENT_VALUE_ACCESSOR = {
 })
 export class AuthorsComponent implements OnInit, ControlValueAccessor {
 
-    innerValue: any[]
+    innerValue: AuthorVM[]
 
     constructor(private cd: ChangeDetectorRef) { }
 

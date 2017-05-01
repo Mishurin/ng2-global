@@ -1,4 +1,6 @@
 .authors-list {
     float: left;
     padding: 10px;
+    max-height: 300px;
+    overflow-y: scroll;
 }

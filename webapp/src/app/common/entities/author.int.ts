@@ -1,5 +1,9 @@
 export interface Author {
-    name: string,
-    selected: boolean,
-    id: string
+    id: number
+    firstName: string
+    lastName: string
+}
+
+export interface AuthorVM extends Author {
+    selected: boolean
 }

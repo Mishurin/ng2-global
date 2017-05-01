@@ -10,6 +10,7 @@ import { DateComponent } from '../common/components/details/date.component'
 import { AuthorsComponent } from '../common/components/details/authors.component'
 import { DurationPipe } from '../common/pipes/duration.pipe'
 import { CoursesService, AuthorizedHttpService } from '../common/services/index'
+import { Author, AuthorVM } from '../common/index'
 
 class MockRouter {
     navigate() { }
@@ -21,28 +22,31 @@ class MockCoursesService {
     }
 }
 
+let authorsModels: Author[] = [{
+    id: 1,
+    firstName: 'FNAme',
+    lastName: 'LName'
+}]
+
 let courseFull = {
     name: 'Name',
     date: new Date(),
     description: 'Desc',
-    authors: [{
-        firstName: 'FNAme',
-        lastName: 'LName',
-        id: 1
-    }],
+    authors: authorsModels,
     duration: 123
 }
 
-let authors = [{
-    name: 'Name 1',
-    id: 2,
-    selected: false
+let authorsVMs: AuthorVM[] = [{
+    id: 1,
+    firstName: 'FNAme',
+    lastName: 'LName',
+    selected: true
 }]
 
 class MockActivatedRoute {
     get data() {
         return Observable.of([
-            authors,
+            authorsVMs,
             courseFull
         ])
     }

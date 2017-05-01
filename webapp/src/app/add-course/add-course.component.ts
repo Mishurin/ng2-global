@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
-import { DetailsComponent, CoursesService, Author } from '../common/index'
+import { DetailsComponent, CoursesService, Author, AuthorVM, CourseItem } from '../common/index'
 
 
 @Component({
@@ -33,12 +33,18 @@ export class AddCourseComponent extends DetailsComponent {
         
         super.submit(e, createForm)
 
-        let newCourse = {
+        let newCourse: CourseItem = {
             name: createForm.controls.name.value,
             date: new Date(createForm.controls.date.value),
             duration: +createForm.controls.duration.value,
             description: createForm.controls.description.value,
-            authors: createForm.controls.authors.value.filter((item: Author) => item.selected).map((item: Author) => item.name),
+            authors: <Author[]>createForm.controls.authors.value.filter((item: AuthorVM) => item.selected).map((item: AuthorVM) => {
+                return <Author>{
+                    firstName: item.firstName,
+                    lastName: item.lastName,
+                    id: item.id
+                }
+            }),
         }
 
         this.courseSrv.createCourse(newCourse).subscribe(() => {

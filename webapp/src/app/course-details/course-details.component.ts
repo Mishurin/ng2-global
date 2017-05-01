@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { DatePipe } from '@angular/common'
 
-import { CoursesService, CourseItem, DetailsComponent, Author } from '../common/index'
+import { CoursesService, CourseItem, DetailsComponent, Author, AuthorVM } from '../common/index'
 
 @Component({
     selector: 'course-details',
@@ -51,16 +51,22 @@ export class CourseDetailsComponent extends DetailsComponent {
 
         super.submit(e, createForm)
 
-        let newCourse = {
+        let updatedItem: CourseItem = {
             id: this.course.id,
             name: createForm.controls.name.value,
             date: new Date(createForm.controls.date.value),
             duration: +createForm.controls.duration.value,
             description: createForm.controls.description.value,
-            authors: createForm.controls.authors.value.filter((item: Author) => item.selected).map((item: Author) => item.name),
+            authors: createForm.controls.authors.value.filter((item: AuthorVM) => item.selected).map((item: AuthorVM) => {
+                return <Author>{
+                    id: item.id,
+                    firstName: item.firstName,
+                    lastName: item.lastName
+                }
+            })
         }
 
-        this.courseSrv.updateItem(newCourse).subscribe(() => {
+        this.courseSrv.updateItem(updatedItem).subscribe(() => {
             this.goToHomePage()
         })
     }

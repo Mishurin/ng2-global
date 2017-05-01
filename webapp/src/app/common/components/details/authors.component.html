@@ -5,12 +5,12 @@
             <input type="checkbox" 
             [name]="item.id" 
             [id]="item.id" 
-            [value]="item.name" 
+            [value]="item.id" 
             [checked]="item.selected"
             (change)="onInputValueChange(item)"
             (blur)="onBlur()">
         
-            <label [for]="item.id">{{ item.name }}</label>
+            <label [for]="item.id">{{ item.firstName }} {{ item.lastName }}</label>
         </div>
     </div>
 </div>
