@@ -1,0 +1,12 @@
+:host {
+    display: inline-block;
+}
+
+ul {
+    list-style: none;
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+}

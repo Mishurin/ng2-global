@@ -1,39 +1,55 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { Router } from '@angular/router'
 import { HttpModule } from '@angular/http'
-import { Subscription } from 'rxjs/Rx'
+import { Component } from '@angular/core'
+import { Subscription, Observable } from 'rxjs/Rx'
+import { CommonModule } from '@angular/common'
+import { RouterTestingModule } from '@angular/router/testing'
 
 import { AppCommonModule } from '../../common/index'
 
 import { HeaderComponent } from './header.component'
 import { LogoComponent } from '../index'
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component'
 import { AuthService } from '../../common/index'
 
-class MockRouter {
-    navigate() { }
-}
-
 class MockAuthService {
-    loginSubscription: Subscription
+    subscr: Subscription
     content
     error
 
     constructor() {
-        this.loginSubscription = new Subscription()
+        this.subscr = new Subscription()
     }
 
     getUserInfo(username: string, password: string) {
-        return this
+        return Observable.of([])
     }
 
     getAuthStream() {
         return this
     }
 
+    isAuthenticated() {
+        return true
+    }
+
     subscribe(next, error) {
         next()
-        return this.loginSubscription
+        return this.subscr
     }
+
+    logout() {
+        return this.subscr
+    }
+}
+
+@Component({
+    selector: 'blank',
+    template: ''
+})
+class BlankComponent {
+    
 }
 
 describe('HeaderComponent', () => {
@@ -44,9 +60,11 @@ describe('HeaderComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [AppCommonModule, HttpModule],
-            declarations: [HeaderComponent, LogoComponent],
-            providers: [{ provide: Router, useClass: MockRouter }]
+            imports: [AppCommonModule, HttpModule, CommonModule, RouterTestingModule.withRoutes([{ path: '', component: BlankComponent }])],
+            declarations: [HeaderComponent, LogoComponent, BreadcrumbsComponent, BlankComponent],
+            providers: [
+                { provide: AuthService, useClass: MockAuthService }
+            ]
         })
             .compileComponents()
     }))
@@ -63,11 +81,6 @@ describe('HeaderComponent', () => {
         expect(component).toBeTruthy()
     })
 
-    it('shoud emit check if component is changed', () => {
-        let runCheck = spyOn(component, 'runCheck')
-        authService.logout()
-        expect(runCheck).toHaveBeenCalled()
-    })
 
     it('should define whether info block should be shown', () => {
         let result = true
