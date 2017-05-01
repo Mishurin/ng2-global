@@ -4,7 +4,7 @@
         name="date" 
         id="date" 
         class="input" 
-        [value]="innerValue" 
+        [value]="innerValue | date" 
         (blur)="onBlur()"
         (change)="onInputValueChange($event)">
 </div>
