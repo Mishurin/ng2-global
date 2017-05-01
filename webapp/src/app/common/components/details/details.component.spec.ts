@@ -10,6 +10,8 @@ import { AuthorsComponent } from './authors.component'
 import { DurationPipe, CoursesService, Course } from '../../index'
 import { Observable } from 'rxjs/Rx'
 
+import { ROUTES } from '../../../app.config'
+
 class MockRouter {
     navigate() { }
 }
@@ -39,6 +41,7 @@ class MockAuthorsComponent { }
 describe('DetailsComponent', () => {
     let component: DetailsComponent
     let fixture: ComponentFixture<DetailsComponent>
+    let router: Router
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -65,10 +68,17 @@ describe('DetailsComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(DetailsComponent)
         component = fixture.componentInstance
+        router = TestBed.get(Router)
         fixture.detectChanges()
     })
 
     it('should create', () => {
         expect(component).toBeTruthy()
+    })
+
+    it('should go to home page', () => {
+        let navigate = spyOn(router, 'navigate')
+        component.goToHomePage()
+        expect(navigate).toHaveBeenCalledWith([ROUTES.HOME])
     })
 })

@@ -55,6 +55,42 @@ describe('CoursesService', () => {
 
     }))
 
+    it('shoud respond with updated item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+        let id = 9999
+        let name = 'video'
+        let date = new Date()
+        let duration = 30
+        let description = 'Description...'
+        let isTopRated = false
+        let authors = []
+        let course: CourseItem = {
+            id: id,
+            name: name,
+            date: date,
+            duration: duration,
+            description: description,
+            isTopRated: isTopRated,
+            authors: authors
+        }
+        
+
+        let getPage = spyOn(service, 'getPage').and.callFake(() => Observable.of([]))
+
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let opts = new ResponseOptions();
+                opts.body = course
+                connection.mockRespond(new Response(opts));
+            }
+        })
+
+        service.updateItem(course).subscribe(response => {
+            expect(response).toEqual(course)
+            expect(getPage).toHaveBeenCalled()
+        })
+
+    }))
+
 
     it('should return observable stream', inject([CoursesService], (service: CoursesService) => {
         let course = new Course(9999, 'video', new Date(), 10, "Description...", true)

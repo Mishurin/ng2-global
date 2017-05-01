@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'
-import { FormBuilder } from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { DatePipe } from '@angular/common'
 
 import { CoursesService, CourseItem, DetailsComponent, Author } from '../common/index'
 
@@ -10,6 +11,8 @@ import { CoursesService, CourseItem, DetailsComponent, Author } from '../common/
     styleUrls: ['../common/components/details/details.component.css']
 })
 export class CourseDetailsComponent extends DetailsComponent {
+
+    course: CourseItem
 
     constructor(
         protected courseSrv: CoursesService,
@@ -26,11 +29,12 @@ export class CourseDetailsComponent extends DetailsComponent {
             // TODO: change interface of Author and merge with item authors array
             let authors = <Author[]>data[0]
             let course = <CourseItem>data[1]
+            this.course = course
 
             this.createForm.setValue({
                 name: course.name,
                 description: course.description,
-                date: new Date(course.date),
+                date: new DatePipe('en-US').transform(new Date(course.date), 'dd/MM/yyyy'),
                 duration: course.duration,
                 authors: course.authors.map((item) => {
                     return {
@@ -40,6 +44,24 @@ export class CourseDetailsComponent extends DetailsComponent {
                     }
                 })
             })
+        })
+    }
+
+    submit(e: any, createForm: FormGroup) {
+
+        super.submit(e, createForm)
+
+        let newCourse = {
+            id: this.course.id,
+            name: createForm.controls.name.value,
+            date: new Date(createForm.controls.date.value),
+            duration: +createForm.controls.duration.value,
+            description: createForm.controls.description.value,
+            authors: createForm.controls.authors.value.filter((item: Author) => item.selected).map((item: Author) => item.name),
+        }
+
+        this.courseSrv.updateItem(newCourse).subscribe(() => {
+            this.goToHomePage()
         })
     }
 

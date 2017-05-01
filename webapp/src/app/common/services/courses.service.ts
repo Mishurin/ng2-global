@@ -119,13 +119,21 @@ export class CoursesService {
         return Observable.throw(err || 'backend server error');
     }
 
-    updateItem(id: number, newFields: CourseItem) {
-        // TODO: make it in line with other backend functionallity
-        // let course = this.courses[getIndexById(id, this.courses)]
-        // course.name = newFields.name
-        // course.date = newFields.date
-        // course.duration = newFields.duration
-        // course.description = newFields.description
+    updateItem(course: CourseItem) {
+        let headers = new Headers()
+        headers.append('Content-Type', 'application/json')
+        let reqOptions = new RequestOptions()
+        reqOptions.body = course
+        reqOptions.url = `${getEntry(ENTRY_POINTS.COURSES)}/${course.id}`
+        reqOptions.headers = headers
+        reqOptions.method = RequestMethod.Put
+
+        let request = new Request(reqOptions)
+        
+        return this.aHttp.request(request).map((res: Response) => {
+            this.getPage(0).subscribe()
+            return <Course>res.json()
+        }).catch(this.handleError)
     }
 
     removeItem(id: number) {

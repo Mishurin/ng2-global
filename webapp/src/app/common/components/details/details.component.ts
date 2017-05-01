@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 import { CoursesService, CourseItem, Author, authorsRequiredValidator } from '../../index'
+import { ROUTES } from '../../../app.config'
 
 @Component({
     selector: 'details',
@@ -30,19 +31,7 @@ export class DetailsComponent implements OnInit {
     }
 
     submit(e: any, createForm: FormGroup) {
-        e.preventDefault();
-
-        let newCourse = {
-            name: createForm.controls.name.value,
-            date: new Date(createForm.controls.date.value),
-            duration: +createForm.controls.duration.value,
-            description: createForm.controls.description.value,
-            authors: createForm.controls.authors.value.filter((item: Author) => item.selected).map((item: Author) => item.name),
-        }
-
-        this.courseSrv.createCourse(newCourse).subscribe(() => {
-            this.router.navigate(['/'])
-        })
+       e.preventDefault()
     }
 
     cancel() {
@@ -63,5 +52,9 @@ export class DetailsComponent implements OnInit {
 
     isPatternMessageShouldBeShown(ctrl: FormControl): boolean {
         return ctrl.touched && ctrl.invalid && ctrl.errors['pattern']
+    }
+
+    goToHomePage() {
+        this.router.navigate([ROUTES.HOME])
     }
 }

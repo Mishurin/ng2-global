@@ -28,4 +28,21 @@ export class AddCourseComponent extends DetailsComponent {
             this.createForm.controls.authors.setValue(authors, { onlySelf: true })
         })
     }
+
+    submit(e: any, createForm: FormGroup) {
+        
+        super.submit(e, createForm)
+
+        let newCourse = {
+            name: createForm.controls.name.value,
+            date: new Date(createForm.controls.date.value),
+            duration: +createForm.controls.duration.value,
+            description: createForm.controls.description.value,
+            authors: createForm.controls.authors.value.filter((item: Author) => item.selected).map((item: Author) => item.name),
+        }
+
+        this.courseSrv.createCourse(newCourse).subscribe(() => {
+            this.goToHomePage()
+        })
+    }
 }
