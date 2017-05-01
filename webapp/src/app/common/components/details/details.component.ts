@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
-import { CoursesService, CourseItem, Author, authorsRequiredValidator } from '../../index'
+import { CoursesService, CourseItem, Author, AuthorVM, authorsRequiredValidator } from '../../index'
 import { ROUTES } from '../../../app.config'
 
 @Component({
@@ -12,7 +12,7 @@ import { ROUTES } from '../../../app.config'
 })
 export class DetailsComponent implements OnInit {
 
-    protected createForm: FormGroup
+    protected detailsForm: FormGroup
 
     constructor(
         protected courseSrv: CoursesService,
@@ -21,7 +21,7 @@ export class DetailsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.createForm = this.fb.group({
+        this.detailsForm = this.fb.group({
             name: ['', [Validators.required, Validators.maxLength(50)]],
             description: ['', [Validators.required, Validators.maxLength(500)]],
             date: ['', [Validators.required, Validators.pattern(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/)]],
@@ -30,16 +30,16 @@ export class DetailsComponent implements OnInit {
         })
     }
 
-    submit(e: any, createForm: FormGroup) {
-       e.preventDefault()
+    submit(e: any, detailsForm: FormGroup) {
+        e.preventDefault()
     }
 
     cancel() {
-        this.createForm.reset()
+        this.detailsForm.reset()
     }
 
     isSubmitButtonDisabled(): boolean {
-        return this.createForm.invalid
+        return this.detailsForm.invalid
     }
 
     isRequiredErrorShouldBeShown(ctrl: FormControl): boolean {
@@ -56,5 +56,16 @@ export class DetailsComponent implements OnInit {
 
     goToHomePage() {
         this.router.navigate([ROUTES.HOME])
+    }
+
+
+    static getAuthorsFromVms(authorsVMs: AuthorVM[]): Author[] {
+        return authorsVMs.filter((item: AuthorVM) => item.selected).map((item: AuthorVM) => {
+            return <Author>{
+                id: item.id,
+                firstName: item.firstName,
+                lastName: item.lastName
+            }
+        })
     }
 }

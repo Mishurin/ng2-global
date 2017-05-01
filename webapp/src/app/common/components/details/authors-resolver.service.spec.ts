@@ -27,7 +27,7 @@ describe('AuthorsResolverService', () => {
         })
     })
 
-    it('should ...', inject([AuthorsResolverService], (service: AuthorsResolverService) => {
+    it('should create', inject([AuthorsResolverService], (service: AuthorsResolverService) => {
         expect(service).toBeTruthy()
     }))
 })

@@ -13,7 +13,7 @@ describe('AuthorizedHttpService', () => {
         })
     })
 
-    it('should ...', inject([AuthorizedHttpService], (service: AuthorizedHttpService) => {
+    it('should create', inject([AuthorizedHttpService], (service: AuthorizedHttpService) => {
         expect(service).toBeTruthy()
     }))
 })

@@ -27,7 +27,7 @@ describe('DetailsResolverService', () => {
         })
     })
 
-    it('should ...', inject([DetailsResolverService], (service: DetailsResolverService) => {
+    it('should create', inject([DetailsResolverService], (service: DetailsResolverService) => {
         expect(service).toBeTruthy()
     }))
 })

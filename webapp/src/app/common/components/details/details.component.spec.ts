@@ -7,7 +7,7 @@ import { DetailsComponent } from './details.component'
 import { DurationComponent } from './duration.component'
 import { DateComponent } from './date.component'
 import { AuthorsComponent } from './authors.component'
-import { DurationPipe, CoursesService, Course } from '../../index'
+import { DurationPipe, CoursesService, Course, Author, AuthorVM } from '../../index'
 import { Observable } from 'rxjs/Rx'
 
 import { ROUTES } from '../../../app.config'
@@ -80,5 +80,16 @@ describe('DetailsComponent', () => {
         let navigate = spyOn(router, 'navigate')
         component.goToHomePage()
         expect(navigate).toHaveBeenCalledWith([ROUTES.HOME])
+    })
+
+    it('should return list of authors from vms list', () => {
+        let authorsVMs: AuthorVM[] = [
+            { firstName: 'Dude', lastName: 'Dude', id: 1, selected: true },
+            { firstName: 'Another', lastName: 'Guy', id: 2, selected: false }
+        ]
+        let authors: Author[] = [
+            { firstName: 'Dude', lastName: 'Dude', id: 1 }
+        ]
+        expect(DetailsComponent.getAuthorsFromVms(authorsVMs)).toEqual(authors)
     })
 })

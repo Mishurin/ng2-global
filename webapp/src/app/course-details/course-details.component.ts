@@ -26,44 +26,32 @@ export class CourseDetailsComponent extends DetailsComponent {
     ngOnInit() {
         super.ngOnInit()
         this.aRoute.data.subscribe((data) => {
-            // TODO: change interface of Author and merge with item authors array
             let authors = <Author[]>data[0]
             let course = <CourseItem>data[1]
             this.course = course
 
-            this.createForm.setValue({
+            this.detailsForm.setValue({
                 name: course.name,
                 description: course.description,
                 date: new DatePipe('en-US').transform(new Date(course.date), 'dd/MM/yyyy'),
                 duration: course.duration,
-                authors: course.authors.map((item) => {
-                    return {
-                        name: item['firstName'],
-                        id: item['id'],
-                        selected: true
-                    }
-                })
+                authors: CourseDetailsComponent.getAuthorsVMs(authors,course.authors)
             })
         })
     }
 
-    submit(e: any, createForm: FormGroup) {
 
-        super.submit(e, createForm)
+    submit(e: any, detailsForm: FormGroup) {
+
+        super.submit(e, detailsForm)
 
         let updatedItem: CourseItem = {
             id: this.course.id,
-            name: createForm.controls.name.value,
-            date: new Date(createForm.controls.date.value),
-            duration: +createForm.controls.duration.value,
-            description: createForm.controls.description.value,
-            authors: createForm.controls.authors.value.filter((item: AuthorVM) => item.selected).map((item: AuthorVM) => {
-                return <Author>{
-                    id: item.id,
-                    firstName: item.firstName,
-                    lastName: item.lastName
-                }
-            })
+            name: detailsForm.controls.name.value,
+            date: new Date(detailsForm.controls.date.value),
+            duration: +detailsForm.controls.duration.value,
+            description: detailsForm.controls.description.value,
+            authors: CourseDetailsComponent.getAuthorsFromVms(detailsForm.controls.authors.value)
         }
 
         this.courseSrv.updateItem(updatedItem).subscribe(() => {
@@ -71,5 +59,17 @@ export class CourseDetailsComponent extends DetailsComponent {
         })
     }
 
-
+    static getAuthorsVMs(allAuthors: Author[], courseAuthors: Author[]): AuthorVM[] {
+        return allAuthors.map((item) => {
+            let match: Author = courseAuthors.find((author) => {
+                return item.id === author.id
+            })
+            return <AuthorVM>{
+                id: item.id,
+                firstName: item.firstName,
+                lastName: item.lastName,
+                selected: !!match
+            }
+        })
+    }
 }

@@ -1,4 +1,4 @@
-<form [formGroup]="createForm" (submit)="submit($event, createForm)">
+<form [formGroup]="detailsForm" (submit)="submit($event, detailsForm)">
     <div class="clearfix row field">
         <label for="name" class="label">Title</label>
         <input type="text" 
@@ -7,12 +7,12 @@
             class="input" 
             formControlName="name">
             <span class="error-message" 
-                *ngIf="isRequiredErrorShouldBeShown(createForm.controls.name)">
+                *ngIf="isRequiredErrorShouldBeShown(detailsForm.controls.name)">
                     Field is Required
             </span>
             <span class="error-message" 
-                *ngIf="isMaxLengthMessageShouldBeShown(createForm.controls.name)">
-                    Length is more then {{ createForm.controls.name.errors['maxlength'].requiredLength }}
+                *ngIf="isMaxLengthMessageShouldBeShown(detailsForm.controls.name)">
+                    Length is more then {{ detailsForm.controls.name.errors['maxlength'].requiredLength }}
             </span>
     </div>
     <div class="clearfix row field">
@@ -24,22 +24,22 @@
             class="input" 
             formControlName="description"></textarea>
         <span class="error-message" 
-            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.description)">
+            *ngIf="isRequiredErrorShouldBeShown(detailsForm.controls.description)">
                 Field is Required
         </span>
         <span class="error-message" 
-            *ngIf="isMaxLengthMessageShouldBeShown(createForm.controls.description)">
-                Length is more then {{ createForm.controls.description.errors['maxlength'].requiredLength }}
+            *ngIf="isMaxLengthMessageShouldBeShown(detailsForm.controls.description)">
+                Length is more then {{ detailsForm.controls.description.errors['maxlength'].requiredLength }}
         </span>
     </div>
     <div class="field">
         <course-date formControlName="date"></course-date>
         <span class="error-message" 
-            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.date)">
+            *ngIf="isRequiredErrorShouldBeShown(detailsForm.controls.date)">
                 Field is Required
         </span>
         <span class="error-message" 
-            *ngIf="isPatternMessageShouldBeShown(createForm.controls.date)">
+            *ngIf="isPatternMessageShouldBeShown(detailsForm.controls.date)">
                 Should be in date format: 'dd/MM/yyyy'
         </span>
     </div>
@@ -47,11 +47,11 @@
     <div class="field">
         <course-duration formControlName="duration"></course-duration>
         <span class="error-message" 
-            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.duration)">
+            *ngIf="isRequiredErrorShouldBeShown(detailsForm.controls.duration)">
                 Field is Required
         </span>
         <span class="error-message" 
-            *ngIf="isPatternMessageShouldBeShown(createForm.controls.duration)">
+            *ngIf="isPatternMessageShouldBeShown(detailsForm.controls.duration)">
                 Should contain only digits
         </span>
     </div>
@@ -59,7 +59,7 @@
     <div class="field clearfix row">
         <course-authors formControlName="authors"></course-authors>
         <span class="error-message" 
-            *ngIf="isRequiredErrorShouldBeShown(createForm.controls.authors)">
+            *ngIf="isRequiredErrorShouldBeShown(detailsForm.controls.authors)">
                 Select at least one item from list
         </span>
     </div>

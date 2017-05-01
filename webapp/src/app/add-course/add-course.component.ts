@@ -25,26 +25,20 @@ export class AddCourseComponent extends DetailsComponent {
         super.ngOnInit()
         this.aRoute.data.subscribe((data) => {
             let authors = <Author[]>data[0]
-            this.createForm.controls.authors.setValue(authors, { onlySelf: true })
+            this.detailsForm.controls.authors.setValue(authors, { onlySelf: true })
         })
     }
 
-    submit(e: any, createForm: FormGroup) {
+    submit(e: any, detailsForm: FormGroup) {
         
-        super.submit(e, createForm)
+        super.submit(e, detailsForm)
 
         let newCourse: CourseItem = {
-            name: createForm.controls.name.value,
-            date: new Date(createForm.controls.date.value),
-            duration: +createForm.controls.duration.value,
-            description: createForm.controls.description.value,
-            authors: <Author[]>createForm.controls.authors.value.filter((item: AuthorVM) => item.selected).map((item: AuthorVM) => {
-                return <Author>{
-                    firstName: item.firstName,
-                    lastName: item.lastName,
-                    id: item.id
-                }
-            }),
+            name: detailsForm.controls.name.value,
+            date: new Date(detailsForm.controls.date.value),
+            duration: +detailsForm.controls.duration.value,
+            description: detailsForm.controls.description.value,
+            authors: AddCourseComponent.getAuthorsFromVms(detailsForm.controls.authors.value)
         }
 
         this.courseSrv.createCourse(newCourse).subscribe(() => {

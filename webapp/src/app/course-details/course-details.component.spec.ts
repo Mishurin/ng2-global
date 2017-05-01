@@ -9,7 +9,7 @@ import { DurationComponent } from '../common/components/details/duration.compone
 import { DateComponent } from '../common/components/details/date.component'
 import { AuthorsComponent } from '../common/components/details/authors.component'
 import { DurationPipe } from '../common/pipes/duration.pipe'
-import { CoursesService, AuthorizedHttpService, CourseItem } from '../common/index'
+import { CoursesService, AuthorizedHttpService, CourseItem, Author, AuthorVM } from '../common/index'
 
 class MockRouter {
     navigate() { }
@@ -75,5 +75,23 @@ describe('CourseDetailsComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy()
+    })
+
+    it('should return authors vms', () => {
+        let allAuthors: Author[] = [
+            { firstName: 'Dude', lastName: 'Dude', id: 1 },
+            { firstName: 'Another', lastName: 'Guy', id: 2 }
+        ]
+        let courseAuthors: Author[] = [
+            { firstName: 'Dude', lastName: 'Dude', id: 1 },
+        ]
+
+        let result: AuthorVM[] = [
+            { firstName: 'Dude', lastName: 'Dude', id: 1, selected: true },
+            { firstName: 'Another', lastName: 'Guy', id: 2, selected: false }
+        ]
+
+        expect(CourseDetailsComponent.getAuthorsVMs(allAuthors, courseAuthors)).toEqual(result)
+
     })
 })
