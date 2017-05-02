@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { AppCommonModule } from '../../common/index'
 
 import { HeaderComponent } from './header.component'
-import { LogoComponent } from '../index'
+import { LogoComponent, BreadcrumbsService } from '../index'
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component'
 import { AuthService } from '../../common/index'
 
@@ -49,7 +49,23 @@ class MockAuthService {
     template: ''
 })
 class BlankComponent {
-    
+
+}
+
+@Component({
+    selector: 'app-logo',
+    template: ''
+})
+class MockLogoComponent {
+
+}
+
+@Component({
+    selector: 'app-breadcrumbs',
+    template: ''
+})
+class MockBreadCrumbsComponent {
+
 }
 
 describe('HeaderComponent', () => {
@@ -63,9 +79,12 @@ describe('HeaderComponent', () => {
             imports: [AppCommonModule, HttpModule, CommonModule, RouterTestingModule.withRoutes([{ path: '', component: BlankComponent }])],
             declarations: [HeaderComponent, LogoComponent, BreadcrumbsComponent, BlankComponent],
             providers: [
-                { provide: AuthService, useClass: MockAuthService }
+                { provide: AuthService, useClass: MockAuthService },
+                BreadcrumbsService
             ]
         })
+            .overrideComponent(LogoComponent, MockLogoComponent)
+            .overrideComponent(BreadcrumbsComponent, MockBreadCrumbsComponent)
             .compileComponents()
     }))
 

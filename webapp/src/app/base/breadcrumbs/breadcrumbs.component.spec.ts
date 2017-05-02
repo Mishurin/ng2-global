@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { Component } from '@angular/core'
 
 import { BreadcrumbsComponent } from './breadcrumbs.component'
+import { BreadcrumbsService } from './breadcrumbs.service'
 
 @Component({
     selector: 'blank',
@@ -22,6 +23,9 @@ describe('BreadcrumbsComponent', () => {
         TestBed.configureTestingModule({
             imports: [CommonModule, RouterTestingModule.withRoutes([{ path: '', component: BlankComponent }])],
             declarations: [BreadcrumbsComponent, BlankComponent],
+            providers: [
+                BreadcrumbsService
+            ]
         })
             .compileComponents()
     }))

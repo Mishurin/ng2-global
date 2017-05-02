@@ -10,6 +10,7 @@ import { DateComponent } from '../common/components/details/date.component'
 import { AuthorsComponent } from '../common/components/details/authors.component'
 import { DurationPipe } from '../common/pipes/duration.pipe'
 import { CoursesService, AuthorizedHttpService, CourseItem, Author, AuthorVM } from '../common/index'
+import { BreadcrumbsService } from '../base/index'
 
 class MockRouter {
     navigate() { }
@@ -61,7 +62,8 @@ describe('CourseDetailsComponent', () => {
             providers: [
                 { provide: CoursesService, useClass: MockCoursesService },
                 { provide: Router, useClass: MockRouter },
-                { provide: ActivatedRoute, useClass: MockActivatedRoute }
+                { provide: ActivatedRoute, useClass: MockActivatedRoute },
+                BreadcrumbsService
             ]
         })
             .compileComponents()

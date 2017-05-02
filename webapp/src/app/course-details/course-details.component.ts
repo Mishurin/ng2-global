@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms'
 import { DatePipe } from '@angular/common'
 
 import { CoursesService, CourseItem, DetailsComponent, Author, AuthorVM } from '../common/index'
+import { BreadcrumbsService } from '../base/index'
 
 @Component({
     selector: 'course-details',
@@ -18,7 +19,8 @@ export class CourseDetailsComponent extends DetailsComponent {
         protected courseSrv: CoursesService,
         protected router: Router,
         protected fb: FormBuilder,
-        private aRoute: ActivatedRoute
+        private aRoute: ActivatedRoute,
+        private bcSrv: BreadcrumbsService
     ) {
         super(courseSrv, router, fb)
     }
@@ -37,6 +39,8 @@ export class CourseDetailsComponent extends DetailsComponent {
                 duration: course.duration,
                 authors: CourseDetailsComponent.getAuthorsVMs(authors,course.authors)
             })
+
+            this.bcSrv.setBreadCrumb(course.name)
         })
     }
 

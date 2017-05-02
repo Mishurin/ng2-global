@@ -17,10 +17,16 @@ export const routes: Routes = [
         path: 'login', component: LoginComponent
     },
     {
-        path: 'new', component: AddCourseComponent, canActivate: [AuthGuard], resolve: [AuthorsResolverService]
+        path: 'new', 
+        component: AddCourseComponent, 
+        canActivate: [AuthGuard], 
+        resolve: [AuthorsResolverService],
     },
     {
-        path: 'courses/:id', component: CourseDetailsComponent, canActivate: [AuthGuard], resolve: [AuthorsResolverService, DetailsResolverService]
+        path: 'courses/:id', 
+        component: CourseDetailsComponent, 
+        canActivate: [AuthGuard], 
+        resolve: [AuthorsResolverService, DetailsResolverService]
     },
     {
         path: '**', component: NotFoundComponent
