@@ -35,7 +35,7 @@ export class DetailsComponent implements OnInit {
     }
 
     cancel() {
-        this.detailsForm.reset()
+        this.router.navigate([ROUTES.HOME])
     }
 
     isSubmitButtonDisabled(): boolean {
