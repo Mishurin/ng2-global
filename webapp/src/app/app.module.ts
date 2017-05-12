@@ -3,8 +3,10 @@ import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpModule } from '@angular/http'
 import { RouterModule } from '@angular/router'
+import { StoreModule } from '@ngrx/store'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
-import { AppCommonModule } from './common/index'
+import { AppCommonModule, coursesReducer } from './common/index'
 import { BaseModule } from './base/index'
 
 import { AppComponent } from './app.component'
@@ -36,6 +38,12 @@ import { AuthorsResolverService } from './common/components/details/authors-reso
     ],
     imports: [
         RouterModule.forRoot(routes),
+        StoreModule.provideStore({
+            courses: coursesReducer
+        }),
+        StoreDevtoolsModule.instrumentOnlyWithExtension({
+            maxAge: 5
+        }),
         BrowserModule,
         FormsModule,
         HttpModule,
