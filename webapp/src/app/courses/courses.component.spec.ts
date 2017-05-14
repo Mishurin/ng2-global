@@ -19,17 +19,14 @@ import { AppStore } from '../common'
 class MockStore {
     dispatch() {}
     select() {
-        return {
-            subscribe: function() {
-                return Observable.of({
-                        items: CoursesListMock,
-                        count: 10,
-                        limit: 5
-                })
-            }
-        }
+        return Observable.of({
+            items: CoursesListMock,
+            count: 10,
+            limit: 5
+        })
     }
 }
+
 
 class MockCoursesService {
     getPage(page: number, query: string): Observable<any> {
