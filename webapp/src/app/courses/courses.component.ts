@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 import { Observable, Subscription } from 'rxjs/Rx'
+import { Store } from '@ngrx/store'
 
-import { CourseItem, CoureItemMock, CoursesService, OrderByPipe, Pages } from '../common/index'
+import { CourseItem, CoureItemMock, CoursesService, OrderByPipe, Page, AppStore } from '../common/index'
 
 import { LoaderService } from '../base/index'
 
@@ -25,30 +26,40 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private _courses: CourseItem[] = []
     courses: CourseItem[] = []
     coursesSubscription: Subscription
-    pages: Pages<CourseItem> = null
+    storeSubscription: Subscription
+    page: Page<CourseItem> = null
     searchVal: string = null
 
-    constructor(private coursesSrv: CoursesService, private loader: LoaderService, private cd: ChangeDetectorRef) { }
+    constructor(
+        private coursesSrv: CoursesService, 
+        private loader: LoaderService, 
+        private cd: ChangeDetectorRef,
+        private store: Store<AppStore>
+        ) { }
 
     ngOnInit() {
-        this.coursesSubscription = this.coursesSrv.getCoursesStream().subscribe(pages => {
-            this._courses = new OrderByPipe().transform(pages.items, 'name')
+
+        this.coursesSubscription = this.coursesSrv.getPage(0).subscribe()
+
+        this.storeSubscription = this.store.select<Page<CourseItem>>('page').subscribe((page) => {
+            this._courses = new OrderByPipe().transform(page.items, 'name')
             this.courses = this._courses
-            this.pages = pages
+            this.page = page
             this.cd.markForCheck()
         })
     }
 
     ngOnDestroy() {
         this.coursesSubscription.unsubscribe()
+        this.storeSubscription.unsubscribe()
     }
 
     isPagesBlockShouldBeShown() {
-        return !!this.pages
+        return !!this.page
     }
 
     getPageNumbers(): number[] {
-        let numberOfPages = Math.ceil(this.pages.count / this.pages.limit)
+        let numberOfPages = Math.ceil(this.page.count / this.page.limit)
         let result = []
         for(var i = 0; i < numberOfPages; i++) {
             result.push(i + 1)
@@ -57,7 +68,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
     }
 
     getPage(page: number, query: string) {
-        this.coursesSrv.getPage(page, query).subscribe()
+        this.coursesSubscription = this.coursesSrv.getPage(page, query).subscribe()
     }
 
     confirmWrapper(message: string) {
@@ -77,7 +88,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     onFindCourses(searchVal: string) {
         this.searchVal = searchVal
-        this.coursesSrv.getPage(0, searchVal).subscribe()
+        this.coursesSubscription = this.coursesSrv.getPage(0, searchVal).subscribe()
     }
 
 }

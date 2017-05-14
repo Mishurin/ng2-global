@@ -1,4 +1,4 @@
-import { CourseItem, CoursesActions } from '../index'
+import { CourseItem, CoursesActions, Page } from '../index'
 import {
     ADD_COURSE,
     ADD_COURSE_SUCCESS,
@@ -17,16 +17,24 @@ import {
     UPDATE_COURSE_FAIL
 } from '../index'
 
-export interface CoursesState {
-    items: CourseItem[]
+
+export const initialState: Page<CourseItem> = {
+    items: [],
+    count: null,
+    limit: null
 }
 
-export const initialState: CoursesState = {
-    items: []
-}
-
-export function coursesReducer(state = initialState, action: CoursesActions) {
+export function coursesReducer(state:Page<CourseItem> = initialState, action: CoursesActions): Page<CourseItem> {
     switch(action.type) {
-
+        case LOAD_COURSES_SUCCESS: {
+            return {
+                items: action.payload.items,
+                count: action.payload.count,
+                limit: action.payload.limit
+            }
+        }
+        default: {
+            return state;
+        }
     }
 }

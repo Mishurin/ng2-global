@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store'
 
-import { CourseItem } from '../index'
+import { CourseItem, Page } from '../index'
 
 export const ADD_COURSE = '[Collection] Add Course'
 export const ADD_COURSE_SUCCESS = '[Collection] Add Course Success'
@@ -40,7 +40,7 @@ export class LoadCoursesAction implements Action {
 
 export class LoadCoursesSuccessAction implements Action {
     readonly type = LOAD_COURSES_SUCCESS
-    constructor(public payload: CourseItem[]) {}
+    constructor(public payload: Page<CourseItem>) {}
 }
 
 export class LoadCoursesSuccessFailAction implements Action {

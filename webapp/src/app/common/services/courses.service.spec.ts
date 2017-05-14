@@ -2,10 +2,15 @@ import { TestBed, inject } from '@angular/core/testing'
 import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions, Headers } from '@angular/http'
 import { MockBackend, MockConnection } from '@angular/http/testing'
 import { Observable } from 'rxjs/Rx'
+import { Store } from '@ngrx/store'
 
 import { Course, CourseItem, CoursesListMock } from '../entities/index'
 import { AuthorizedHttpService, CoursesService } from '../services/index'
 
+
+class MockStore {
+    dispatch() {}
+}
 
 describe('CoursesService', () => {
     beforeEach(() => {
@@ -18,6 +23,9 @@ describe('CoursesService', () => {
                         return new AuthorizedHttpService(backend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
+                },
+                {
+                    provide: Store, useClass: MockStore
                 },
                 MockBackend,
                 BaseRequestOptions,

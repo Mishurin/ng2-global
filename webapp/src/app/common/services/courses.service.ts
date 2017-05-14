@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
 import { Http, Response, RequestOptions, Headers, URLSearchParams, RequestMethod, Request } from '@angular/http'
+import { Store } from '@ngrx/store'
 
 import { Course, CourseItem, Author} from '../entities/index'
 import { AuthorizedHttpService } from '../services/index'
 import { getEntry, ENTRY_POINTS } from '../../app.config'
 import { getIndexById } from '../../utils/collection.utils'
+import { AppStore } from '../reducers/index'
+import  *  as coursesActions from '../actions/index'
 
-export interface Pages<T> {
+export interface Page<T> {
     items: T[]
     count: number,
     limit: number
@@ -16,9 +19,9 @@ export interface Pages<T> {
 @Injectable()
 export class CoursesService {
 
-    private coursesStream: ReplaySubject<Pages<Course>> = new ReplaySubject<Pages<Course>>()
+    private coursesStream: ReplaySubject<Page<Course>> = new ReplaySubject<Page<Course>>()
 
-    constructor(private aHttp: AuthorizedHttpService) { }
+    constructor(private aHttp: AuthorizedHttpService, private store: Store<AppStore>) {}
 
     createCourse(course: CourseItem): Observable<any> {
         let headers = new Headers()
@@ -37,7 +40,7 @@ export class CoursesService {
         }).catch(this.handleError)
     }
 
-    getCoursesStream(): Observable<Pages<Course>> {
+    getCoursesStream(): Observable<Page<Course>> {
         this.getPage(0).subscribe()
         return this.coursesStream.asObservable().map(data => {
             let items: Course[] = data.items.map((course => {
@@ -49,7 +52,7 @@ export class CoursesService {
                     course.isTopRated)
             }))
 
-            return <Pages<Course>>{
+            return <Page<Course>>{
                 items: items,
                 count: data.count,
                 limit: data.limit
@@ -71,7 +74,7 @@ export class CoursesService {
             }).catch(this.handleError)
     }
 
-    getPage(page: number, query?: string): Observable<Pages<any>> {
+    getPage(page: number, query?: string): Observable<Page<any>> {
         let params: URLSearchParams = new URLSearchParams();
         const limit = 5
         params.set('_page', String(page));
@@ -87,12 +90,13 @@ export class CoursesService {
         let request = new Request(reqOptions)
         return this.aHttp.request(request)
             .map((response: Response) => {
-                let result = <Pages<any>>{
+                let result = <Page<any>>{
                     items: response.json(),
                     count: Number(response.headers.get('x-total-count')),
                     limit: limit
                 }
                 this.coursesStream.next(result)
+                this.store.dispatch(new coursesActions.LoadCoursesSuccessAction(result))
                 return result;
             }).catch(this.handleError)
     }

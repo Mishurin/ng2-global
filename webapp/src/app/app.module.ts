@@ -39,7 +39,7 @@ import { AuthorsResolverService } from './common/components/details/authors-reso
     imports: [
         RouterModule.forRoot(routes),
         StoreModule.provideStore({
-            courses: coursesReducer
+            page: coursesReducer
         }),
         StoreDevtoolsModule.instrumentOnlyWithExtension({
             maxAge: 5
