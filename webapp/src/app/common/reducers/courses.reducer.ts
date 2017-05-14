@@ -33,6 +33,13 @@ export function coursesReducer(state:Page<CourseItem> = initialState, action: Co
                 limit: action.payload.limit
             }
         }
+        case ADD_COURSE_SUCCESS: {
+            return {
+                items: [...state.items, action.payload],
+                count: state.count + 1,
+                limit: state.limit
+            }
+        }
         default: {
             return state;
         }

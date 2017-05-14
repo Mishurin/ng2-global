@@ -23,7 +23,7 @@ export class CoursesService {
 
     constructor(private aHttp: AuthorizedHttpService, private store: Store<AppStore>) {}
 
-    createCourse(course: CourseItem): Observable<any> {
+    createCourse(course: CourseItem): Observable<CourseItem> {
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
         let reqOptions = new RequestOptions()
@@ -33,10 +33,10 @@ export class CoursesService {
         reqOptions.method = RequestMethod.Post
 
         let request = new Request(reqOptions)
-        
         return this.aHttp.request(request).map((res: Response) => {
-            this.getPage(0).subscribe()
-            return <Course>res.json()
+            let courseData = <CourseItem>res.json()
+            this.store.dispatch(new coursesActions.AddCourseSuccessAction(courseData))
+            return courseData
         }).catch(this.handleError)
     }
 
