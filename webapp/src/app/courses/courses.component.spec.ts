@@ -149,7 +149,6 @@ describe('CoursesComponent', () => {
         expect(showLoader).toHaveBeenCalled()
 
         expect(removeItem).toHaveBeenCalledWith(courseId)
-        expect(component.courses).not.toContain(course)
         expect(hideLoader).toHaveBeenCalled()
 
     })

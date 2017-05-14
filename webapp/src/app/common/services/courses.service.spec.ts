@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store'
 
 import { Course, CourseItem, CoursesListMock } from '../entities/index'
 import { AuthorizedHttpService, CoursesService } from '../services/index'
-
+import { AppStore } from '../index'
 
 class MockStore {
     dispatch() {}
@@ -37,7 +37,8 @@ describe('CoursesService', () => {
         expect(service).toBeTruthy()
     }))
 
-    it('shoud respond with new item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+    it('shoud respond with new item', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
+        // TODO: probably CourseItem should be passed
         let id = 9999
         let name = 'video'
         let date = new Date()
@@ -46,7 +47,7 @@ describe('CoursesService', () => {
         let isTopRated = false
         let course = new Course(null, name, date, duration, description, isTopRated)
 
-        let getPage = spyOn(service, 'getPage').and.callFake(() => Observable.of([]))
+        let dispatch = spyOn(store, 'dispatch')
 
         backend.connections.subscribe((connection: MockConnection) => {
             {
@@ -58,12 +59,12 @@ describe('CoursesService', () => {
 
         service.createCourse(course).subscribe(response => {
             expect(response).toEqual(new Course(id, name, date, duration, description, isTopRated))
-            expect(getPage).toHaveBeenCalled()
+            expect(dispatch).toHaveBeenCalled()
         })
 
     }))
 
-    it('shoud respond with updated item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+    it('shoud respond with updated item', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
         let id = 9999
         let name = 'video'
         let date = new Date()
@@ -82,7 +83,7 @@ describe('CoursesService', () => {
         }
         
 
-        let getPage = spyOn(service, 'getPage').and.callFake(() => Observable.of([]))
+        let dispatch = spyOn(store, 'dispatch')
 
         backend.connections.subscribe((connection: MockConnection) => {
             {
@@ -94,7 +95,7 @@ describe('CoursesService', () => {
 
         service.updateItem(course).subscribe(response => {
             expect(response).toEqual(course)
-            expect(getPage).toHaveBeenCalled()
+            expect(dispatch).toHaveBeenCalled()
         })
 
     }))

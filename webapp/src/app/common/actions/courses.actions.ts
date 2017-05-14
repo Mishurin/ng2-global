@@ -55,7 +55,7 @@ export class RemoveCourseAction implements Action {
 
 export class RemoveCourseSuccessAction implements Action {
     readonly type = REMOVE_COURSE_SUCCESS
-    constructor(public payload: CourseItem) {}
+    constructor(public payload: number) {}
 }
 
 export class RemoveCourseFailAction implements Action {

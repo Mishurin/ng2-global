@@ -74,7 +74,7 @@ export class CoursesService {
             }).catch(this.handleError)
     }
 
-    getPage(page: number, query?: string): Observable<Page<any>> {
+    getPage(page: number, query?: string): Observable<Page<CourseItem>> {
         let params: URLSearchParams = new URLSearchParams();
         const limit = 5
         params.set('_page', String(page));
@@ -123,7 +123,7 @@ export class CoursesService {
         return Observable.throw(err || 'backend server error');
     }
 
-    updateItem(course: CourseItem) {
+    updateItem(course: CourseItem): Observable<CourseItem> {
         let headers = new Headers()
         headers.append('Content-Type', 'application/json')
         let reqOptions = new RequestOptions()
@@ -135,8 +135,9 @@ export class CoursesService {
         let request = new Request(reqOptions)
         
         return this.aHttp.request(request).map((res: Response) => {
-            this.getPage(0).subscribe()
-            return <Course>res.json()
+            let courseData = <CourseItem>res.json()
+            this.store.dispatch(new coursesActions.UpdateCourseActionSuccess(courseData))
+            return courseData
         }).catch(this.handleError)
     }
 
@@ -149,9 +150,10 @@ export class CoursesService {
         reqOptions.headers = headers
         let request = new Request(reqOptions)
         
-        return this.aHttp.request(request).catch(this.handleError)
-        // TODO: sync with the main pipe
-        //this.coursesStream.next(this.courses)
+        return this.aHttp.request(request).map((response: Response) => {
+            this.store.dispatch(new coursesActions.RemoveCourseSuccessAction(id))
+        }).catch(this.handleError)
+
     }
 
 }

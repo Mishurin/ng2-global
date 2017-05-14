@@ -1,4 +1,5 @@
 import { CourseItem, CoursesActions, Page } from '../index'
+import { getIndexById } from '../../utils/collection.utils'
 import {
     ADD_COURSE,
     ADD_COURSE_SUCCESS,
@@ -37,6 +38,25 @@ export function coursesReducer(state:Page<CourseItem> = initialState, action: Co
             return {
                 items: [...state.items, action.payload],
                 count: state.count + 1,
+                limit: state.limit
+            }
+        }
+        case REMOVE_COURSE_SUCCESS: {
+            let itemsCopy = [...state.items]
+            itemsCopy.splice(getIndexById(action.payload, itemsCopy), 1)
+            return {
+                items: itemsCopy,
+                count: state.count - 1,
+                limit: state.limit
+            }
+        }
+        case UPDATE_COURSE: {
+            let itemsCopy = [...state.items]
+            let updatedItemIndex = getIndexById(action.payload.id, itemsCopy)
+            itemsCopy[updatedItemIndex] = {... action.payload }
+            return {
+                items: itemsCopy,
+                count: state.count,
                 limit: state.limit
             }
         }

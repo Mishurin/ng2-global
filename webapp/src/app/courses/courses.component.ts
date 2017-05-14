@@ -7,7 +7,6 @@ import { CourseItem, CoureItemMock, CoursesService, OrderByPipe, Page, AppStore 
 import { LoaderService } from '../base/index'
 
 import { getTimeSpanInDays } from '../utils/date.utils'
-import { getIndexById } from '../utils/collection.utils'
 
 interface Window {
     confirm(message: string): boolean
@@ -79,7 +78,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
         if (this.confirmWrapper("Are you sure?")) {
             this.loader.show()
             this.coursesSrv.removeItem(course.id).subscribe((data) => {
-                this.courses.splice(getIndexById(course.id, this.courses), 1)
                 this.loader.hide()
                 this.cd.markForCheck()
             })
