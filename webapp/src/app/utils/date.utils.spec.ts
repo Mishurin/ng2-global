@@ -14,4 +14,12 @@ describe('date utils', () => {
         expect(utils.getTimeSpanInDays(tomorrow, now)).toBe(1)
     })
 
+    it('should convert formatted date to Date object', () => {
+        let result = utils.convertToDate('28/09/2017')
+        expect(result instanceof Date).toBeTruthy()
+        expect(result.getDate()).toBe(28)
+        expect(result.getMonth()).toBe(8)
+        expect(result.getFullYear()).toBe(2017)
+    })
+
 })

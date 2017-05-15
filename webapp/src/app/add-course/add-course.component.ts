@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 import { DetailsComponent, CoursesService, Author, AuthorVM, CourseItem } from '../common/index'
-
+import { convertToDate } from '../utils/date.utils'
 
 @Component({
     selector: 'app-add-course',
@@ -35,7 +35,7 @@ export class AddCourseComponent extends DetailsComponent {
 
         let newCourse: CourseItem = {
             name: detailsForm.controls.name.value,
-            date: new Date(detailsForm.controls.date.value),
+            date: convertToDate(detailsForm.controls.date.value),
             duration: +detailsForm.controls.duration.value,
             description: detailsForm.controls.description.value,
             authors: AddCourseComponent.getAuthorsFromVms(detailsForm.controls.authors.value)

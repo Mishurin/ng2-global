@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common'
 
 import { CoursesService, CourseItem, DetailsComponent, Author, AuthorVM } from '../common/index'
 import { BreadcrumbsService } from '../base/index'
+import { convertToDate } from '../utils/date.utils'
 
 @Component({
     selector: 'course-details',
@@ -52,7 +53,7 @@ export class CourseDetailsComponent extends DetailsComponent {
         let updatedItem: CourseItem = {
             id: this.course.id,
             name: detailsForm.controls.name.value,
-            date: new Date(detailsForm.controls.date.value),
+            date: convertToDate(detailsForm.controls.date.value),
             duration: +detailsForm.controls.duration.value,
             description: detailsForm.controls.description.value,
             authors: CourseDetailsComponent.getAuthorsFromVms(detailsForm.controls.authors.value)
