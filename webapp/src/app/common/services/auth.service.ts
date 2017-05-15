@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core'
 import { Http, Response, Headers, RequestOptions, Request, RequestMethod } from '@angular/http'
 import { Observable, ReplaySubject } from 'rxjs/Rx'
+import { Store } from '@ngrx/store'
 
-import { User, UserInfo } from '../entities/index'
+import { User, UserInfo, UserState } from '../entities/index'
+import  *  as actions from '../actions/index'
+import { AppStore } from '../reducers/index'
 import { AuthorizedHttpService } from '../services/authorized-http.service'
 import { getEntry, ENTRY_POINTS } from '../../app.config'
 
@@ -24,7 +27,13 @@ export class AuthService {
 
     private isAuthStream: ReplaySubject<boolean> = new ReplaySubject<boolean>()
 
-    constructor(private http: Http, private aHttp: AuthorizedHttpService) { }
+    constructor(
+        private http: Http, 
+        private aHttp: AuthorizedHttpService, 
+        private store: Store<AppStore>
+        ) {
+            if(this.isAuthenticated()) this.store.dispatch(new actions.LoginAction())
+         }
 
     getAuthStream(): Observable<boolean> {
         return this.isAuthStream.asObservable()
@@ -41,7 +50,9 @@ export class AuthService {
         return this.aHttp.request(request, opts)
             .map((response: Response) => {
                 let data = response.json()
-                return new UserInfo(data.user)
+                let userData =  new UserInfo(data.user)
+                this.store.dispatch(new actions.LoadUserDataSuccessAction(userData))
+                return userData
             }).catch(this.handleError)
     }
 
@@ -67,6 +78,7 @@ export class AuthService {
                 let data = <AppToken>response.json()
                 localStorage.setItem(User.tokenKey, JSON.stringify(data))
                 this.isAuthStream.next(Boolean(this.getToken()))
+                this.store.dispatch(new actions.LoginSuccessAction())
             }).catch(this.handleError)
     }
 
@@ -81,5 +93,6 @@ export class AuthService {
     logout() {
         localStorage.removeItem(User.tokenKey)
         this.isAuthStream.next(Boolean(this.getToken()))
+        this.store.dispatch(new actions.LogoutAction())
     }
 }

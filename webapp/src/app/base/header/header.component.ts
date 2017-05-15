@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs/Rx'
+import { Store } from '@ngrx/store'
 
-import { AuthService, User, UserInfo } from '../../common/index'
+import { AuthService, User, UserInfo, AppStore, UserState } from '../../common/index'
 
 @Component({
     selector: 'app-header',
@@ -13,29 +14,36 @@ import { AuthService, User, UserInfo } from '../../common/index'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    authSubscription: Subscription
     userInfoSubscription: Subscription
+    storeSubscription: Subscription
     userInfo: UserInfo = null
+    isAuthorized: boolean = null
 
-    constructor(private auth: AuthService, private router: Router, private cd: ChangeDetectorRef) { }
+    constructor(
+        private auth: AuthService, 
+        private router: Router, 
+        private cd: ChangeDetectorRef,
+        private store: Store<AppStore>
+        ) { }
 
     ngOnInit() {
-        this.authSubscription = this.auth.getAuthStream().subscribe(() => {
-            this.runCheck()
-        })
-        this.userInfoSubscription = this.auth.getUserInfo().subscribe((data) => {
-            this.userInfo = data
+        this.storeSubscription = this.store.select<UserState>('user').subscribe((userState)=> {
+            this.userInfo = userState.data
+            this.isAuthorized = userState.isAuthorized
+            if(userState.isAuthorized && !this.userInfo) {
+                this.userInfoSubscription = this.auth.getUserInfo().subscribe()
+            }
             this.runCheck()
         })
     }
 
     ngOnDestroy() {
-        this.authSubscription.unsubscribe()
+        this.storeSubscription.unsubscribe()
         this.userInfoSubscription.unsubscribe()
     }
 
     isUserInfoShoudBeShown(): boolean {
-        return this.auth.isAuthenticated() && !!this.userInfo
+        return this.isAuthorized && !!this.userInfo
     }
 
     logout() {

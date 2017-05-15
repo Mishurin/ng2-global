@@ -2,10 +2,17 @@ import { TestBed, inject, async } from '@angular/core/testing'
 import { Observable } from 'rxjs/Rx'
 import { HttpModule, Http, BaseRequestOptions, Response, ResponseOptions } from '@angular/http'
 import { MockBackend, MockConnection } from '@angular/http/testing'
+import { Store } from '@ngrx/store'
 
 import { AuthService } from '../services/auth.service'
 import { AuthorizedHttpService } from '../services/authorized-http.service'
-import { User } from '../entities/user.model'
+import { User } from '../entities/index'
+import { AppStore } from '../reducers/index'
+
+
+class MockStore {
+    dispatch() {}
+}
 
 declare var localStorage: any
 
@@ -27,6 +34,9 @@ describe('AuthService', () => {
                         return new Http(backend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
+                },
+                {
+                    provide: Store, useClass: MockStore
                 },
                 MockBackend,
                 BaseRequestOptions

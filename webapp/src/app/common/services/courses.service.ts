@@ -8,7 +8,7 @@ import { AuthorizedHttpService } from '../services/index'
 import { getEntry, ENTRY_POINTS } from '../../app.config'
 import { getIndexById } from '../../utils/collection.utils'
 import { AppStore } from '../reducers/index'
-import  *  as coursesActions from '../actions/index'
+import  *  as actions from '../actions/index'
 
 export interface Page<T> {
     items: T[]
@@ -35,7 +35,7 @@ export class CoursesService {
         let request = new Request(reqOptions)
         return this.aHttp.request(request).map((res: Response) => {
             let courseData = <CourseItem>res.json()
-            this.store.dispatch(new coursesActions.AddCourseSuccessAction(courseData))
+            this.store.dispatch(new actions.AddCourseSuccessAction(courseData))
             return courseData
         }).catch(this.handleError)
     }
@@ -96,7 +96,7 @@ export class CoursesService {
                     limit: limit
                 }
                 this.coursesStream.next(result)
-                this.store.dispatch(new coursesActions.LoadCoursesSuccessAction(result))
+                this.store.dispatch(new actions.LoadCoursesSuccessAction(result))
                 return result;
             }).catch(this.handleError)
     }
@@ -136,7 +136,7 @@ export class CoursesService {
         
         return this.aHttp.request(request).map((res: Response) => {
             let courseData = <CourseItem>res.json()
-            this.store.dispatch(new coursesActions.UpdateCourseActionSuccess(courseData))
+            this.store.dispatch(new actions.UpdateCourseActionSuccess(courseData))
             return courseData
         }).catch(this.handleError)
     }
@@ -151,7 +151,7 @@ export class CoursesService {
         let request = new Request(reqOptions)
         
         return this.aHttp.request(request).map((response: Response) => {
-            this.store.dispatch(new coursesActions.RemoveCourseSuccessAction(id))
+            this.store.dispatch(new actions.RemoveCourseSuccessAction(id))
         }).catch(this.handleError)
 
     }

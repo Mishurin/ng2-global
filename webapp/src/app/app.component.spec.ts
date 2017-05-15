@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { APP_BASE_HREF } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { HttpModule } from '@angular/http'
+import { StoreModule } from '@ngrx/store'
 
 import { BaseModule } from './base/index'
 import { AppCommonModule } from './common/index'
@@ -66,6 +67,7 @@ describe('AppComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterModule.forRoot(routes),
+                StoreModule.provideStore({}),
                 FormsModule,
                 AppCommonModule,
                 BaseModule,

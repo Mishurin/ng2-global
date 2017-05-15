@@ -5,6 +5,7 @@ import { Component } from '@angular/core'
 import { Subscription, Observable } from 'rxjs/Rx'
 import { CommonModule } from '@angular/common'
 import { RouterTestingModule } from '@angular/router/testing'
+import { Store } from '@ngrx/store'
 
 import { AppCommonModule } from '../../common/index'
 
@@ -44,6 +45,16 @@ class MockAuthService {
     }
 }
 
+class MockStore {
+    dispatch() {}
+    select() {
+        return Observable.of({
+            isAuthorized: true,
+            userInfo: {name: 'Dude'}
+        })
+    }
+}
+
 @Component({
     selector: 'blank',
     template: ''
@@ -80,6 +91,7 @@ describe('HeaderComponent', () => {
             declarations: [HeaderComponent, LogoComponent, BreadcrumbsComponent, BlankComponent],
             providers: [
                 { provide: AuthService, useClass: MockAuthService },
+                { provide: Store, useClass: MockStore },
                 BreadcrumbsService
             ]
         })
@@ -121,7 +133,7 @@ describe('HeaderComponent', () => {
     })
 
     it('should unsubscribe component from auth events', () => {
-        let unsubscribe1 = spyOn(component.authSubscription, 'unsubscribe')
+        let unsubscribe1 = spyOn(component.storeSubscription, 'unsubscribe')
         let unsubscribe2 = spyOn(component.userInfoSubscription, 'unsubscribe')
         component.ngOnDestroy()
         expect(unsubscribe1).toHaveBeenCalled()

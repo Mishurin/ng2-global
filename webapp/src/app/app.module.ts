@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
-import { AppCommonModule, coursesReducer } from './common/index'
+import { AppCommonModule, coursesReducer, userReducer } from './common/index'
 import { BaseModule } from './base/index'
 
 import { AppComponent } from './app.component'
@@ -39,7 +39,8 @@ import { AuthorsResolverService } from './common/components/details/authors-reso
     imports: [
         RouterModule.forRoot(routes),
         StoreModule.provideStore({
-            page: coursesReducer
+            page: coursesReducer,
+            user: userReducer
         }),
         StoreDevtoolsModule.instrumentOnlyWithExtension({
             maxAge: 5

@@ -2,6 +2,7 @@ import { TestBed, async, inject } from '@angular/core/testing'
 import { RouterTestingModule } from '@angular/router/testing'
 import { Router } from '@angular/router'
 import { HttpModule } from '@angular/http'
+import { StoreModule } from '@ngrx/store'
 
 import { AuthGuard } from './auth.guard'
 import { AuthService } from '../services/auth.service'
@@ -11,7 +12,7 @@ describe('AuthGuard', () => {
     let auth: AuthService
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, HttpModule],
+            imports: [RouterTestingModule, HttpModule, StoreModule.provideStore({})],
             providers: [AuthService, AuthGuard, AuthorizedHttpService]
         })
     })
