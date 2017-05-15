@@ -19,7 +19,7 @@ import {
 } from '../index'
 
 
-export const initialState: Page<CourseItem> = {
+const initialState: Page<CourseItem> = {
     items: [],
     count: null,
     limit: null
