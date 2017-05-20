@@ -8,7 +8,7 @@ import {
 } from '../index'
 
 
-const initialState: UserState = {
+export const initialState: UserState = {
     isAuthorized: false,
     data: null
 }
