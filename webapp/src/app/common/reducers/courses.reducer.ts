@@ -1,25 +1,14 @@
 import { CourseItem, CoursesActions, Page } from '../index'
 import { getIndexById } from '../../utils/collection.utils'
 import {
-    ADD_COURSE,
     ADD_COURSE_SUCCESS,
-    ADD_COURSE_FAIL,
-
-    LOAD_COURSES,
     LOAD_COURSES_SUCCESS,
-    LOAD_COURSES_FAIL,
-
-    REMOVE_COURSE,
     REMOVE_COURSE_SUCCESS,
-    REMOVE_COURSE_FAIL,
-
-    UPDATE_COURSE,
     UPDATE_COURSE_SUCCESS,
-    UPDATE_COURSE_FAIL
 } from '../index'
 
 
-const initialState: Page<CourseItem> = {
+export const initialState: Page<CourseItem> = {
     items: [],
     count: null,
     limit: null
@@ -50,7 +39,7 @@ export function coursesReducer(state:Page<CourseItem> = initialState, action: Co
                 limit: state.limit
             }
         }
-        case UPDATE_COURSE: {
+        case UPDATE_COURSE_SUCCESS: {
             let itemsCopy = [...state.items]
             let updatedItemIndex = getIndexById(action.payload.id, itemsCopy)
             itemsCopy[updatedItemIndex] = {... action.payload }
