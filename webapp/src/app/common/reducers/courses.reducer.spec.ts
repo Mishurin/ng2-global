@@ -1,4 +1,4 @@
-import { coursesReducer, initialState } from './courses.reducer'
+import { coursesReducer, coursesInitialState } from './courses.reducer'
 import { Page, CourseItem } from '../index'
 
 import * as actions from '../actions/courses.actions'
@@ -41,23 +41,23 @@ describe('CoursesReducer', () => {
         const action: any = {}
         const undefinedState = undefined
         const result = coursesReducer(undefinedState, action)
-        expect(result).toBe(initialState)
+        expect(result).toBe(coursesInitialState)
     })
 
     it('LOAD_COURSES_SUCCESS action', () => {
         const page = PAGE_MOCK
         const action = new actions.LoadCoursesSuccessAction(page)
-        const result = coursesReducer(initialState, action)
+        const result = coursesReducer(coursesInitialState, action)
         expect(result).toEqual(PAGE_MOCK)
     })
 
     it('ADD_COURSE_SUCCESS action', () => {
         const course = PAGE_MOCK.items[0]
         const action = new actions.AddCourseSuccessAction(course)
-        const result = coursesReducer(initialState, action)
+        const result = coursesReducer(coursesInitialState, action)
         expect(result.items).toEqual([course])
-        expect(result.count).toEqual(initialState.count + 1)
-        expect(result.limit).toEqual(initialState.limit)
+        expect(result.count).toEqual(coursesInitialState.count + 1)
+        expect(result.limit).toEqual(coursesInitialState.limit)
     })
 
     it('REMOVE_COURSE_SUCCESS action', () => {

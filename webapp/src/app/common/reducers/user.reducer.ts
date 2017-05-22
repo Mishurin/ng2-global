@@ -8,12 +8,12 @@ import {
 } from '../index'
 
 
-export const initialState: UserState = {
+export const userInitialState: UserState = {
     isAuthorized: false,
     data: null
 }
 
-export function userReducer(state:UserState = initialState, action: UserActions): UserState {
+export function userReducer(state:UserState = userInitialState, action: UserActions): UserState {
     switch(action.type) {
         case LOGIN: {
             return {

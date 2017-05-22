@@ -4,13 +4,47 @@ import { MockBackend, MockConnection } from '@angular/http/testing'
 import { Observable } from 'rxjs/Rx'
 import { Store } from '@ngrx/store'
 
-import { Course, CourseItem, CoursesListMock } from '../entities/index'
+import { Course, CourseItem, CoursesListMock, Author } from '../entities/index'
 import { AuthorizedHttpService, CoursesService } from '../services/index'
+import * as actions from '../actions/courses.actions'
 import { AppStore } from '../index'
 
 class MockStore {
     dispatch() {}
 }
+
+const COURSE_ITEMS_MOCK: CourseItem[] = [
+    {
+        id: 1,
+        name: 'name1',
+        date: new Date(),
+        duration: 100,
+        description: 'description1',
+        authors: [
+            {
+                id: 1,
+                firstName: 'fname1',
+                lastName: 'lname1'
+            }
+        ],
+        isTopRated: false
+    },
+    {
+        id: 2,
+        name: 'name2',
+        date: new Date(),
+        duration: 200,
+        description: 'description2',
+        authors: [
+            {
+                id: 2,
+                firstName: 'fname2',
+                lastName: 'lname2'
+            }
+        ],
+        isTopRated: false
+    }
+]
 
 describe('CoursesService', () => {
     beforeEach(() => {
@@ -20,7 +54,7 @@ describe('CoursesService', () => {
                 CoursesService,
                 {
                     provide: AuthorizedHttpService, useFactory: (backend, options) => {
-                        return new AuthorizedHttpService(backend, options);
+                        return new AuthorizedHttpService(backend, options)
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 },
@@ -38,76 +72,93 @@ describe('CoursesService', () => {
     }))
 
     it('shoud respond with new item', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
-        // TODO: probably CourseItem should be passed
-        let id = 9999
-        let name = 'video'
-        let date = new Date()
-        let duration = 30
-        let description = 'Description...'
-        let isTopRated = false
-        let course = new Course(null, name, date, duration, description, isTopRated)
-
         let dispatch = spyOn(store, 'dispatch')
 
         backend.connections.subscribe((connection: MockConnection) => {
             {
-                let opts = new ResponseOptions();
-                opts.body = new Course(id, name, date, duration, description, isTopRated)
-                connection.mockRespond(new Response(opts));
+                let opts = new ResponseOptions()
+                opts.body = COURSE_ITEMS_MOCK[0]
+                connection.mockRespond(new Response(opts))
             }
         })
 
-        service.createCourse(course).subscribe(response => {
-            expect(response).toEqual(new Course(id, name, date, duration, description, isTopRated))
-            expect(dispatch).toHaveBeenCalled()
+        service.createCourse(COURSE_ITEMS_MOCK[0]).subscribe(response => {
+            expect(response).toEqual(COURSE_ITEMS_MOCK[0])
+            expect(dispatch).toHaveBeenCalledWith(new actions.AddCourseSuccessAction(COURSE_ITEMS_MOCK[0]))
         })
 
     }))
 
-    it('shoud respond with updated item', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
-        let id = 9999
-        let name = 'video'
-        let date = new Date()
-        let duration = 30
-        let description = 'Description...'
-        let isTopRated = false
-        let authors = []
-        let course: CourseItem = {
-            id: id,
-            name: name,
-            date: date,
-            duration: duration,
-            description: description,
-            isTopRated: isTopRated,
-            authors: authors
-        }
-        
+    it('shoud respond with collection of authors', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
 
-        let dispatch = spyOn(store, 'dispatch')
+        const AUTHORS_MOCK: Author[] = [
+            {
+                id: 1,
+                firstName: 'fname1',
+                lastName: 'lname1'
+            },
+            {
+                id: 2,
+                firstName: 'fname2',
+                lastName: 'lname2'
+            }
+        ]
 
         backend.connections.subscribe((connection: MockConnection) => {
             {
-                let opts = new ResponseOptions();
-                opts.body = course
-                connection.mockRespond(new Response(opts));
+                let opts = new ResponseOptions()
+                opts.body = AUTHORS_MOCK
+                connection.mockRespond(new Response(opts))
             }
         })
 
-        service.updateItem(course).subscribe(response => {
-            expect(response).toEqual(course)
-            expect(dispatch).toHaveBeenCalled()
+        service.getAuthors().subscribe(response => {
+            expect(response).toEqual(AUTHORS_MOCK)
         })
 
     }))
 
+    it('shoud respond with standalone course item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
 
-    it('should return observable stream', inject([CoursesService], (service: CoursesService) => {
-        let course = new Course(9999, 'video', new Date(), 10, "Description...", true)
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let opts = new ResponseOptions()
+                opts.body = COURSE_ITEMS_MOCK[0]
+                connection.mockRespond(new Response(opts))
+            }
+        })
+
+        service.getCourse(1).subscribe(response => {
+            expect(response).toEqual(COURSE_ITEMS_MOCK[0])
+        })
+
+    }))
+
+    it('should return observable stream', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+        // Since coursesStream is private there is no direct way to emit event for it. That is 
+        // why getPage used.
+        let getPage = spyOn(service, 'getPage').and.callThrough()
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let opts = new ResponseOptions({ body: CoursesListMock })
+                let headers = new Headers()
+                headers.append('x-total-count', '10')
+                opts.headers = headers
+                connection.mockRespond(new Response(opts))
+            }
+        })
+
         let coursesStream = service.getCoursesStream()
-        expect(coursesStream instanceof Observable).toBeTruthy()
 
-        coursesStream.subscribe((e) => {
-            expect(e).toEqual([course])
+        expect(coursesStream instanceof Observable).toBeTruthy()
+        expect(getPage).toHaveBeenCalledWith(0)
+        
+        coursesStream.subscribe((payload) => {
+            expect(payload).toEqual({
+                items: CoursesListMock,
+                count: 10,
+                limit: 5
+            })
         })
 
     }))
@@ -115,11 +166,11 @@ describe('CoursesService', () => {
     it('should return list of courses per page', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
         backend.connections.subscribe((connection: MockConnection) => {
             {
-                let opts = new ResponseOptions({ body: CoursesListMock });
+                let opts = new ResponseOptions({ body: CoursesListMock })
                 let headers = new Headers()
                 headers.append('x-total-count', '10')
                 opts.headers = headers
-                connection.mockRespond(new Response(opts));
+                connection.mockRespond(new Response(opts))
             }
         })
 
@@ -132,14 +183,33 @@ describe('CoursesService', () => {
         })
     }))
 
+    it('shoud respond with updated item', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
+        
+        let dispatch = spyOn(store, 'dispatch')
+
+        backend.connections.subscribe((connection: MockConnection) => {
+            {
+                let opts = new ResponseOptions()
+                opts.body = COURSE_ITEMS_MOCK[0]
+                connection.mockRespond(new Response(opts))
+            }
+        })
+
+        service.updateItem(COURSE_ITEMS_MOCK[0]).subscribe(response => {
+            expect(response).toEqual(COURSE_ITEMS_MOCK[0])
+            expect(dispatch).toHaveBeenCalled()
+        })
+
+    }))
+
     it('should remove item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
         let courseId = 9999
         let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
 
         backend.connections.subscribe((connection: MockConnection) => {
             {
-                let opts = new ResponseOptions();
-                connection.mockRespond(new Response(opts));
+                let opts = new ResponseOptions()
+                connection.mockRespond(new Response(opts))
             }
         })
 

@@ -8,13 +8,13 @@ import {
 } from '../index'
 
 
-export const initialState: Page<CourseItem> = {
+export const coursesInitialState: Page<CourseItem> = {
     items: [],
     count: null,
     limit: null
 }
 
-export function coursesReducer(state:Page<CourseItem> = initialState, action: CoursesActions): Page<CourseItem> {
+export function coursesReducer(state:Page<CourseItem> = coursesInitialState, action: CoursesActions): Page<CourseItem> {
     switch(action.type) {
         case LOAD_COURSES_SUCCESS: {
             return {
