@@ -163,7 +163,8 @@ describe('CoursesService', () => {
 
     }))
 
-    it('should return list of courses per page', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+    it('should return list of courses per page', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
+        let dispatch = spyOn(store, 'dispatch')
         backend.connections.subscribe((connection: MockConnection) => {
             {
                 let opts = new ResponseOptions({ body: CoursesListMock })
@@ -175,11 +176,14 @@ describe('CoursesService', () => {
         })
 
         service.getPage(0).subscribe(response => {
-            expect(response).toEqual({
+            let expectedResult = {
                 items: CoursesListMock,
                 count: 10,
                 limit: 5
-            })
+            }
+            
+            expect(response).toEqual(expectedResult)
+            expect(dispatch).toHaveBeenCalledWith(new actions.LoadCoursesSuccessAction(expectedResult))
         })
     }))
 
@@ -197,14 +201,15 @@ describe('CoursesService', () => {
 
         service.updateItem(COURSE_ITEMS_MOCK[0]).subscribe(response => {
             expect(response).toEqual(COURSE_ITEMS_MOCK[0])
-            expect(dispatch).toHaveBeenCalled()
+            expect(dispatch).toHaveBeenCalledWith(new actions.UpdateCourseActionSuccess(COURSE_ITEMS_MOCK[0]))
         })
 
     }))
 
-    it('should remove item', inject([MockBackend, CoursesService], (backend: MockBackend, service: CoursesService) => {
+    it('should remove item', inject([MockBackend, CoursesService, Store], (backend: MockBackend, service: CoursesService, store: Store<AppStore>) => {
         let courseId = 9999
         let course = new Course(courseId, 'video', new Date(), 10, "Description...", true)
+        let dispatch = spyOn(store, 'dispatch')
 
         backend.connections.subscribe((connection: MockConnection) => {
             {
@@ -218,6 +223,7 @@ describe('CoursesService', () => {
         service.removeItem(courseId).subscribe(() => {
             requestFinished = true
             expect(requestFinished).toBeTruthy()
+            expect(dispatch).toHaveBeenCalledWith(new actions.RemoveCourseSuccessAction(courseId))
         })
 
     }))
