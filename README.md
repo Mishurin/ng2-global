@@ -26,4 +26,4 @@ Homework
 ng test --code-coverage
 `
 
-Note: coverage could be found then in the followind directory of the project: `/ng2-global/webapp/coverage/index.html`
+Note: coverage could be found then in the following directory of the project: `/ng2-global/webapp/coverage/index.html`
